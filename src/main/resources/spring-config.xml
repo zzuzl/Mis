@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 加载配置文件 -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:jdbc.properties</value>
+                <value>classpath:important.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 引入其他模块配置文件 -->
+    <import resource="classpath:spring/spring-base.xml"/>
+    <import resource="classpath:spring/spring-datasource.xml"/>
+    <import resource="classpath:spring/spring-mvc.xml"/>
+    <import resource="classpath:spring/spring-worker.xml"/>
+</beans>
