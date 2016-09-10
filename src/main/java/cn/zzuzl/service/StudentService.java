@@ -18,4 +18,6 @@ public interface StudentService {
     Result<Student> searchStudent(StudentQuery query);
 
     void insertLoginRecord(LoginRecord record);
+
+    Result updateInvalid(String schoolNum);
 }

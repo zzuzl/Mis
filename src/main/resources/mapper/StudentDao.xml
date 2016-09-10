@@ -6,7 +6,7 @@
 
     <sql id="_listWhere">
         <where>
-            and valid=1
+            and valid='1'
             <if test="schoolNum != null and schoolNum != ''">
                 and schoolNum=#{schoolNum}
             </if>
@@ -22,7 +22,23 @@
         grade,
         `name`,
         sex,
-        classCode
+        classCode,
+        birthday,
+        nation,
+        politicalStatus,
+        idNo,
+        accountNo,
+        originAddress,
+        homeAddress,
+        entranceDate,
+        schoolYear,
+        residence,
+        phone,
+        qq,
+        email,
+        parentPhone,
+        dormNo,
+        direction
         from student
         where schoolNum=#{schoolNum}
     </select>
@@ -56,11 +72,11 @@
         classCode
         from student
         <include refid="_listWhere"/>
-        <if test="_sortField != null and _sortField != '' and _sortDir != null and _sortDir != ''">
-            order by #{_sortField} #{_sortDir}
+        <if test="sortField != null and sortField != '' and sortDir != null and sortDir != ''">
+            order by #{sortField} #{sortDir}
         </if>
-        <if test="_perPage != null and _perPage &gt; 0">
-            limit #{(#{_page}-1)*#{_perPage}},#{_perPage}
+        <if test="perPage != null and perPage &gt; 0">
+            limit #{start},#{perPage}
         </if>
     </select>
 
@@ -71,36 +87,14 @@
         <include refid="_listWhere"/>
     </select>
 
+    <update id="updateInvalid">
+        update student
+        set valid='0'
+        where schoolNum=#{schoolNum}
+    </update>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <insert id="insertLoginRecord" >
+    <insert id="insertLoginRecord">
         insert ignore into loginRecord(
         schoolNum,
         loginTime,

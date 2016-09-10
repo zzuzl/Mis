@@ -4,43 +4,61 @@ package cn.zzuzl.model.query;
  * Created by Administrator on 2016/9/10.
  */
 public class StudentQuery {
-    private String _page;
-    private String _perPage;
-    private String _sortDir;
-    private String _sortField;
+    private Integer page;
+    private Integer perPage;
+    private Integer start;
+    private String sortDir;
+    private String sortField;
     private String schoolNum;
     private String name;
 
-    public String get_page() {
-        return _page;
+    public void adjust() {
+        if (perPage != null) {
+            if (page == null) {
+                page = 1;
+            }
+            start = (page - 1) * perPage;
+        }
     }
 
-    public void set_page(String _page) {
-        this._page = _page;
+    public Integer getPage() {
+        return page;
     }
 
-    public String get_perPage() {
-        return _perPage;
+    public void setPage(Integer page) {
+        this.page = page;
     }
 
-    public void set_perPage(String _perPage) {
-        this._perPage = _perPage;
+    public Integer getPerPage() {
+        return perPage;
     }
 
-    public String get_sortDir() {
-        return _sortDir;
+    public void setPerPage(Integer perPage) {
+        this.perPage = perPage;
     }
 
-    public void set_sortDir(String _sortDir) {
-        this._sortDir = _sortDir;
+    public Integer getStart() {
+        return start;
     }
 
-    public String get_sortField() {
-        return _sortField;
+    public void setStart(Integer start) {
+        this.start = start;
     }
 
-    public void set_sortField(String _sortField) {
-        this._sortField = _sortField;
+    public String getSortDir() {
+        return sortDir;
+    }
+
+    public void setSortDir(String sortDir) {
+        this.sortDir = sortDir;
+    }
+
+    public String getSortField() {
+        return sortField;
+    }
+
+    public void setSortField(String sortField) {
+        this.sortField = sortField;
     }
 
     public String getSchoolNum() {

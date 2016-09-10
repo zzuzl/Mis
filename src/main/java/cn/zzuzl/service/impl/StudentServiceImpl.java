@@ -40,7 +40,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     public Result<Student> searchStudent(StudentQuery query) {
-        Result<Student> result = new Result<Student>(Integer.parseInt(query.get_page()), Integer.parseInt(query.get_perPage()));
+        Result<Student> result = new Result<Student>(query.getPage(), query.getPerPage());
+        query.adjust();
         result.setList(studentDao.searchStudent(query));
         result.setTotalItem(studentDao.getStudentCount(query));
         return result;
@@ -48,5 +49,14 @@ public class StudentServiceImpl implements StudentService {
 
     public void insertLoginRecord(LoginRecord record) {
         studentDao.insertLoginRecord(record);
+    }
+
+    public Result updateInvalid(String schoolNum) {
+        Result result = new Result(true);
+        if(studentDao.updateInvalid(schoolNum) < 1) {
+            result.setSuccess(false);
+            result.setError("删除失败");
+        }
+        return result;
     }
 }

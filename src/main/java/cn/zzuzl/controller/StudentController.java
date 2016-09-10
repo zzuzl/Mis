@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Controller
 @RequestMapping("students")
@@ -65,14 +62,34 @@ public class StudentController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public Result listStudent(StudentQuery query) {
-        return studentService.searchStudent(query);
+        Result result = new Result(true);
+        try {
+            result = studentService.searchStudent(query);
+        } catch (Exception e) {
+            logger.error(e);
+            result.setSuccess(false);
+            result.setError(e.getMessage());
+        }
+        return result;
     }
 
     @RequestMapping(value = "/{schoolNum}", method = RequestMethod.GET)
     @ResponseBody
-    public Result getById(@PathVariable("schoolNum") String schoolNum) {
+    public Student getById(@PathVariable("schoolNum") String schoolNum) {
+        return studentService.searchBySchoolNum(schoolNum);
+    }
+
+    @RequestMapping(value = "/{schoolNum}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Result deleteStudent(@PathVariable("schoolNum") String schoolNum) {
         Result result = new Result(true);
-        result.getData().put(Constants.STU, new Student());
+        try {
+            result = studentService.updateInvalid(schoolNum);
+        } catch (Exception e) {
+            logger.error(e);
+            result.setSuccess(false);
+            result.setError(e.getMessage());
+        }
         return result;
     }
 }

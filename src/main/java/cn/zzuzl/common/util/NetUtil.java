@@ -48,7 +48,7 @@ public class NetUtil {
                 String classCode = document.body().select("tr").eq(8).select("td").eq(0).text();
                 student.setName(name.substring(name.indexOf('：') + 1));
                 student.setSex(sex.substring(sex.indexOf('：') + 1));
-                student.setClassCode(classCode.substring(classCode.indexOf('：') + 1));
+                student.setClassCode(schoolNum.substring(4, 9));
 
                 result.getData().put(Constants.STU, student);
             } else {
@@ -94,8 +94,8 @@ public class NetUtil {
 
     public static void main(String[] args) {
         NetUtil netUtil = new NetUtil();
-        System.out.println(netUtil.getRemoteLocation("139.129.10.226"));
-
+        // System.out.println(netUtil.getRemoteLocation("139.129.10.226"));
+        System.out.println("20133410139".substring(4,9));
         // System.out.println(StringEscapeUtils.unescapeJava("\\u4e2d\\u56fd"));
     }
 }

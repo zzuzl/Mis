@@ -4,7 +4,6 @@ import cn.zzuzl.model.LoginRecord;
 import cn.zzuzl.model.Student;
 import cn.zzuzl.model.query.StudentQuery;
 import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 
 public interface StudentDao {
@@ -17,4 +16,6 @@ public interface StudentDao {
     int getStudentCount(StudentQuery query);
 
     int insertLoginRecord(LoginRecord record);
+
+    int updateInvalid(@Param("schoolNum") String schoolNum);
 }
