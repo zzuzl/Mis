@@ -2,12 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>主页</title>
+    <title>主页 - Mis</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="/resources/ng-admin/build/ng-admin.min.css">
 </head>
 <body ng-app="myApp">
 <div ui-view></div>
+
+<script type="text/javascript">
+    var username = window.localStorage.getItem('student');
+    if (!username) {
+        window.location.href = "/login";
+    }
+    function logout() {
+        window.localStorage.removeItem('student');
+        window.location.href = "/login";
+    }
+</script>
+<!--<script src="/resources/js/plugins/require.js"></script>
+<script src="/resources/js/plugins/text.js"></script>-->
 <script src="/resources/ng-admin/build/ng-admin.min.js"></script>
 <script src="/resources/js/app.js"></script>
 </body>

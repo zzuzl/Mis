@@ -57,4 +57,9 @@
         <param-value>classpath:log4j2.xml</param-value>
     </context-param>
 
+    <!-- 处理401页面 -->
+    <error-page>
+        <error-code>401</error-code>
+        <location>/WEB-INF/templates/errors/401.html</location>
+    </error-page>
 </web-app>

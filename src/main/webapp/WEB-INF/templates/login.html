@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录 - Mis</title>
+    <link href="/resources/css/login.css" rel='stylesheet' type='text/css'/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- ZUI 标准版压缩后的 CSS 文件 -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/zui/1.5.0/css/zui.min.css">
+    <!-- ZUI Javascript 依赖 jQuery -->
+    <script src="//cdn.bootcss.com/zui/1.5.0/lib/jquery/jquery.js"></script>
+    <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
+    <script src="//cdn.bootcss.com/zui/1.5.0/js/zui.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="schoolNum" class="col-sm-2 required">学号</label>
+                    <div class="col-md-6 col-sm-10">
+                        <input type="text" class="form-control" id="schoolNum" placeholder="学号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-2 required">密码</label>
+                    <div class="col-md-6 col-sm-10">
+                        <input type="password" class="form-control" id="password" placeholder="密码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> 记住我
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" onclick="login()" id="loginBtn" class="btn btn-default">登录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- start-copyright -->
+    <div class="copy-right">
+        <p>Template by <a href="mailto:672399171@qq.com">672399171@qq.com</a></p>
+    </div>
+    <!-- end-copyright -->
+</div>
+<script type="application/x-javascript">
+    window.addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    }
+
+
+    function login(e) {
+        if (e) {
+            e.prevenDefault();
+        }
+        $('#loginBtn').attr('disabled', true);
+        $.post('/students/login', {
+            schoolNum: $('#schoolNum').val(),
+            password: $('#password').val()
+        }, function (data) {
+            if (data.success) {
+                window.localStorage.setItem('student', $('#schoolNum').val());
+                window.location = '/';
+            } else {
+                $('#loginBtn').removeAttr('disabled');
+                new $.zui.Messager(data.error, {
+                    icon: 'danger',
+                    placement: 'center'
+                }).show();
+            }
+        }, 'JSON');
+
+        return false;
+    }
+</script>
+</body>
+</html>

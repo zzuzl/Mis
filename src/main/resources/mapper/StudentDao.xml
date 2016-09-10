@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.zzuzl.dao.StudentDao">
+
+    <sql id="_listWhere">
+        <where>
+            and valid=1
+            <if test="schoolNum != null and schoolNum != ''">
+                and schoolNum=#{schoolNum}
+            </if>
+            <if test="name != null and name != ''">
+                and `name`=#{name}
+            </if>
+        </where>
+    </sql>
+
+    <select id="searchBySchoolNum" resultType="cn.zzuzl.model.Student">
+        select
+        schoolNum,
+        grade,
+        `name`,
+        sex,
+        classCode
+        from student
+        where schoolNum=#{schoolNum}
+    </select>
+
+    <insert id="insertStudent" parameterType="cn.zzuzl.model.Student">
+        insert ignore into student(
+        schoolNum,
+        grade,
+        `name`,
+        sex,
+        classCode,
+        createTime,
+        updateTime
+        ) values(
+        #{schoolNum},
+        #{grade},
+        #{name},
+        #{sex},
+        #{classCode},
+        now(),
+        now()
+        )
+    </insert>
+
+    <select id="searchStudent" resultType="cn.zzuzl.model.Student">
+        select
+        schoolNum,
+        grade,
+        `name`,
+        sex,
+        classCode
+        from student
+        <include refid="_listWhere"/>
+        <if test="_sortField != null and _sortField != '' and _sortDir != null and _sortDir != ''">
+            order by #{_sortField} #{_sortDir}
+        </if>
+        <if test="_perPage != null and _perPage &gt; 0">
+            limit #{(#{_page}-1)*#{_perPage}},#{_perPage}
+        </if>
+    </select>
+
+    <select id="getStudentCount" resultType="int">
+        select
+        count(1) as num
+        from student
+        <include refid="_listWhere"/>
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <insert id="insertLoginRecord" >
+        insert ignore into loginRecord(
+        schoolNum,
+        loginTime,
+        ip,
+        location
+        ) values (
+        #{schoolNum},
+        now(),
+        #{ip},
+        #{location}
+        )
+    </insert>
+</mapper>

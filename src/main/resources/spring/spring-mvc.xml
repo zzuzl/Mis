@@ -12,6 +12,15 @@
     <!-- 注解驱动 -->
     <mvc:annotation-driven/>
 
+    <mvc:interceptors>
+        <!-- 登录权限认证拦截器 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <mvc:exclude-mapping path="/resources/**"/>
+            <bean class="cn.zzuzl.common.interceptor.AuthorizationInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <!-- thymeleaf template config -->
     <bean id="templateResolver"
           class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
