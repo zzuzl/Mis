@@ -10,7 +10,12 @@
        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- 注解驱动 -->
-    <mvc:annotation-driven/>
+    <!-- 处理result，error code -->
+    <mvc:annotation-driven>
+        <!--<mvc:return-value-handlers>
+            <bean class="cn.zzuzl.common.handler.ResultConvertHandler"/>
+        </mvc:return-value-handlers>-->
+    </mvc:annotation-driven>
 
     <mvc:interceptors>
         <!-- 登录权限认证拦截器 -->

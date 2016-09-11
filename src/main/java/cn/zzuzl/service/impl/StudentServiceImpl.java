@@ -51,9 +51,18 @@ public class StudentServiceImpl implements StudentService {
         studentDao.insertLoginRecord(record);
     }
 
+    public Result updateStudent(Student student) {
+        Result result = new Result(true);
+        if (studentDao.updateStudent(student) < 1) {
+            result.setSuccess(false);
+            result.setError("修改失败");
+        }
+        return result;
+    }
+
     public Result updateInvalid(String schoolNum) {
         Result result = new Result(true);
-        if(studentDao.updateInvalid(schoolNum) < 1) {
+        if (studentDao.updateInvalid(schoolNum) < 1) {
             result.setSuccess(false);
             result.setError("删除失败");
         }

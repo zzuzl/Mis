@@ -19,5 +19,7 @@ public interface StudentService {
 
     void insertLoginRecord(LoginRecord record);
 
+    Result updateStudent(Student student);
+
     Result updateInvalid(String schoolNum);
 }

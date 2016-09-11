@@ -1,6 +1,7 @@
 package cn.zzuzl.controller;
 
 import cn.zzuzl.common.Constants;
+import cn.zzuzl.common.annotation.Authorization;
 import cn.zzuzl.common.util.NetUtil;
 import cn.zzuzl.dto.Result;
 import cn.zzuzl.model.LoginRecord;
@@ -26,6 +27,7 @@ public class StudentController {
     private NetUtil netUtil;
     private Logger logger = LogManager.getLogger(getClass());
 
+    // 学生登录
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Result login(String schoolNum, String password, HttpSession session, HttpServletRequest request) {
@@ -59,6 +61,8 @@ public class StudentController {
         return result;
     }
 
+    // 查询
+    @Authorization
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public Result listStudent(StudentQuery query) {
@@ -73,12 +77,36 @@ public class StudentController {
         return result;
     }
 
+    // 查看详细
+    @Authorization
     @RequestMapping(value = "/{schoolNum}", method = RequestMethod.GET)
     @ResponseBody
     public Student getById(@PathVariable("schoolNum") String schoolNum) {
         return studentService.searchBySchoolNum(schoolNum);
     }
 
+    // 修改
+    @RequestMapping(value = "/{schoolNum}", method = RequestMethod.PUT, consumes = "application/json")
+    @ResponseBody
+    public Result updateStudent(@PathVariable("schoolNum") String schoolNum, @RequestBody Student student) {
+        Result result = new Result(true);
+        try {
+            if (!schoolNum.equals(student.getSchoolNum())) {
+                result.setSuccess(false);
+                result.setError("数据不一致");
+            } else {
+                result = studentService.updateStudent(student);
+            }
+        } catch (Exception e) {
+            logger.error(e);
+            result.setSuccess(false);
+            result.setError(e.getMessage());
+        }
+        return result;
+    }
+
+    // 删除
+    @Authorization
     @RequestMapping(value = "/{schoolNum}", method = RequestMethod.DELETE)
     @ResponseBody
     public Result deleteStudent(@PathVariable("schoolNum") String schoolNum) {

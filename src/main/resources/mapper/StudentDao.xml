@@ -87,6 +87,28 @@
         <include refid="_listWhere"/>
     </select>
 
+    <update id="updateStudent">
+        update student set
+        birthday=#{birthday},
+        nation=#{nation},
+        politicalStatus=#{politicalStatus},
+        idNo=#{idNo},
+        accountNo=#{accountNo},
+        originAddress=#{originAddress},
+        homeAddress=#{homeAddress},
+        entranceDate=#{entranceDate},
+        schoolYear=#{schoolYear},
+        residence=#{residence},
+        phone=#{phone},
+        qq=#{qq},
+        email=#{email},
+        parentPhone=#{parentPhone},
+        dormNo=#{dormNo},
+        direction=#{direction},
+        updateTime=now()
+        where schoolNum=#{schoolNum}
+    </update>
+
     <update id="updateInvalid">
         update student
         set valid='0'

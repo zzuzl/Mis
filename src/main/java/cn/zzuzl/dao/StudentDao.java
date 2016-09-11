@@ -17,5 +17,7 @@ public interface StudentDao {
 
     int insertLoginRecord(LoginRecord record);
 
+    int updateStudent(Student student);
+
     int updateInvalid(@Param("schoolNum") String schoolNum);
 }
