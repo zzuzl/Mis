@@ -7,12 +7,15 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         .baseApiUrl('http://mis.zzuzl.cn/'); // main API endpoint
     var student = nga.entity('students')
         .identifier(nga.field('schoolNum'));
-    admin.addEntity(student);
+    var project = nga.entity('projects');
+    var item = nga.entity('items');
+    admin.addEntity(student)
+        .addEntity(project)
+        .addEntity(item);
 
     /********************* student配置 **********************/
     student.listView()
         .title('学生列表')
-        .description('所有学生列表')
         .infinitePagination(false) // 下拉刷新
         .fields([
             nga.field('schoolNum').label('学号'),
@@ -110,6 +113,53 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
                 .attributes({placeholder: '选择专业方向'})
         ]);
 
+    /********************* project配置 **********************/
+    project.listView()
+        .title('项目列表')
+        .infinitePagination(true)
+        .fields([
+            nga.field('id').label('id'),
+            nga.field('title').label('标题'),
+            nga.field('majorCode').label('专业'),
+            nga.field('grade').label('年级'),
+            nga.field('year').label('年份'),
+            nga.field('maxScore').label('最大分值'),
+            nga.field('minScore').label('最小分值')
+        ])
+        .sortField('year')
+        .sortDir('DESC')
+        .listActions(['show', 'edit', 'delete']);
+
+    project.creationView()
+        .title('新建项目')
+        .fields([
+            nga.field('title').label('标题')
+                .attributes({placeholder: '标题'})
+                .validation({required: true, minlength: 3, maxlength: 20}),
+            nga.field('minScore', 'float').label('最小分值')
+                .format('0.00')
+                .defaultValue(0)
+                .attributes({placeholder: '最小分值'})
+                .validation({required: true}),
+            nga.field('maxScore', 'float').label('最大分值')
+                .format('0.00')
+                .defaultValue(0)
+                .attributes({placeholder: '最大分值'})
+                .validation({required: true}),
+            nga.field('desc').label('描述')
+                .attributes({placeholder: '描述'})
+                .validation({maxlength: 100}),
+            // 以下为item字段
+            nga.field('itemList', 'referenced_list').label('子项目')
+                .attributes({placeholder: '描述'})
+                .targetEntity(item)
+                .targetReferenceField('projectId')
+                .targetFields([
+                    nga.field('id').label('id'),
+                    nga.field('title').label('名称')
+                ])
+        ]);
+
     /********************* 主页配置 **********************/
     admin.dashboard(nga.dashboard()
         .template('dashboard.html')
@@ -117,8 +167,9 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 
     /********************* 菜单配置 **********************/
     admin.menu(nga.menu()
-        .addChild(nga.menu(student)
-            .title('学生管理'))
+        .addChild(nga.menu(student).title('学生管理'))
+        .icon('<span class="glyphicon glyphicon-tags"></span>')
+        .addChild(nga.menu(project).title('项目管理'))
         .icon('<span class="glyphicon glyphicon-tags"></span>')
     );
 

@@ -37,7 +37,7 @@ public class PutFilter extends OncePerRequestFilter {
     protected void doFilterInternal(final HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         logger.debug("method is " + request.getMethod() + "contentType is " + request.getContentType());
 
-        if (("PUT".equals(request.getMethod()) || "PATCH".equals(request.getMethod())) && this.isJsonContentType(request)) {
+        if (("PUT".equals(request.getMethod()) || "POST".equals(request.getMethod())) && this.isJsonContentType(request)) {
             ServletServerHttpRequest inputMessage = new ServletServerHttpRequest(request) {
                 public InputStream getBody() throws IOException {
                     return request.getInputStream();

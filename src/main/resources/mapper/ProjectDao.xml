@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.zzuzl.dao.ProjectDao">
+
+    <sql id="_listWhere">
+        <where>
+            and valid='1'
+            <if test="majorCode != null and majorCode != ''">
+                and majorCode=#{majorCode}
+            </if>
+            <if test="grade != null and grade != ''">
+                and grade=#{grade}
+            </if>
+            <if test="year != null">
+                and `year`=#{year}
+            </if>
+        </where>
+    </sql>
+
+    <select id="getById" resultType="cn.zzuzl.model.Project">
+        select
+        id,
+        title,
+        majorCode,
+        grade,
+        `year`,
+        `desc`,
+        maxScore,
+        minScore,
+        operator,
+        createTime,
+        updateTime
+        from project
+        where id=#{id}
+    </select>
+
+    <insert id="insertProject" parameterType="cn.zzuzl.model.Project">
+        insert ignore into project(
+        title,
+        majorCode,
+        grade,
+        `year`,
+        `desc`,
+        maxScore,
+        minScore,
+        operator,
+        createTime,
+        updateTime
+        ) values(
+        #{title},
+        #{majorCode},
+        #{grade},
+        #{year},
+        #{desc},
+        #{maxScore},
+        #{minScore},
+        #{operator},
+        now(),
+        now()
+        )
+    </insert>
+
+    <select id="searchProject" resultType="cn.zzuzl.model.Project">
+        select
+        id,
+        title,
+        majorCode,
+        grade,
+        `year`,
+        `desc`,
+        maxScore,
+        minScore,
+        operator,
+        createTime,
+        updateTime
+        from project
+        <include refid="_listWhere"/>
+        <if test="sortField != null and sortField != '' and sortDir != null and sortDir != ''">
+            order by #{sortField} #{sortDir}
+        </if>
+    </select>
+
+    <update id="updateProject">
+        update project set
+        title=#{title},
+        majorCode=#{majorCode},
+        grade=#{grade},
+        `year`=#{year},
+        `desc`=#{desc},
+        maxScore=#{maxScore},
+        minScore=#{minScore},
+        operator=#{operator},
+        updateTime=now()
+        where id=#{id}
+    </update>
+
+    <update id="updateInvalid">
+        update project
+        set valid='0'
+        where id=#{id}
+    </update>
+</mapper>

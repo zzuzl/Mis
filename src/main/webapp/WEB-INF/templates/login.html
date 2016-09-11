@@ -67,6 +67,7 @@
             e.prevenDefault();
         }
         $('#loginBtn').attr('disabled', true);
+        $('#loginBtn').text('登录中');
         $.post('/students/login', {
             schoolNum: $('#schoolNum').val(),
             password: $('#password').val()
@@ -76,6 +77,7 @@
                 window.location = '/';
             } else {
                 $('#loginBtn').removeAttr('disabled');
+                $('#loginBtn').text('登录');
                 new $.zui.Messager(data.error, {
                     icon: 'danger',
                     placement: 'center'

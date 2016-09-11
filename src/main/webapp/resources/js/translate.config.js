@@ -34,7 +34,7 @@ angular.module('myApp')
             'EDITION_SUCCESS': '修改成功',
             'ACTIONS': '操作',
             'PAGINATION': '<strong>{{ begin }}</strong> - <strong>{{ end }}</strong> 共 <strong>{{ total }}</strong>',
-            'NO_PAGINATION': '无分页',
+            'NO_PAGINATION': '未找到数据',
             'PREVIOUS': '上一页',
             'NEXT': '下一页',
             'DETAIL': '详细',
