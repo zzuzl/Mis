@@ -1,9 +1,11 @@
 package cn.zzuzl.dao;
 
+import cn.zzuzl.model.Item;
 import cn.zzuzl.model.Project;
 import cn.zzuzl.model.query.ProjectQuery;
 import org.apache.ibatis.annotations.Param;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -19,4 +21,11 @@ public interface ProjectDao {
     int updateProject(Project project);
 
     int updateInvalid(@Param("id") Integer id);
+
+    int batchInsertItem(@NotNull @Param("items") List<Item> items);
+
+    int updateItemInvalid(@Param("ids") List<Integer> ids,
+                          @Param("projectId") Integer projectId);
+
+    int updateItem(Item item);
 }

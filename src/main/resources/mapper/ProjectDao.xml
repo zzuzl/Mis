@@ -36,7 +36,7 @@
         where id=#{id}
     </select>
 
-    <insert id="insertProject" parameterType="cn.zzuzl.model.Project">
+    <insert id="insertProject" parameterType="cn.zzuzl.model.Project" useGeneratedKeys="true" keyProperty="id">
         insert ignore into project(
         title,
         majorCode,
@@ -101,4 +101,50 @@
         set valid='0'
         where id=#{id}
     </update>
+
+    <insert id="batchInsertItem" keyProperty="id" useGeneratedKeys="true">
+        insert ignore into item(
+        projectId,
+        title,
+        minScore,
+        maxScore,
+        operator,
+        createTime,
+        updateTime
+        ) values
+        <foreach collection="items" item="item" open="(" close=")" separator=",">
+            #{item.project.id},
+            #{item.title},
+            #{item.minScore},
+            #{item.maxScore},
+            #{item.operator},
+            now(),
+            now()
+        </foreach>
+    </insert>
+
+    <insert id="updateItem">
+        update item set
+        title=#{title},
+        minScore=#{minScore},
+        maxScore=#{maxScore},
+        operator=#{operator},
+        updateTime=#{updateTime}
+        where id=#{id} and projectId=#{project.id}
+    </insert>
+
+    <delete id="updateItemInvalid">
+        update item
+        set valid='0'
+        <where>
+            and projectId=#{projectId}
+            <if test="ids != null">
+                and id in
+                <foreach collection="ids" item="item" open="(" close=")" separator=",">
+                    #item
+                </foreach>
+            </if>
+        </where>
+
+    </delete>
 </mapper>

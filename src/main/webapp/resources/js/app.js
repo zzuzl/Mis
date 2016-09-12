@@ -150,15 +150,38 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
                 .attributes({placeholder: '描述'})
                 .validation({maxlength: 100}),
             // 以下为item字段
-            nga.field('itemList', 'referenced_list').label('子项目')
-                .attributes({placeholder: '描述'})
-                .targetEntity(item)
-                .targetReferenceField('projectId')
+            nga.field('itemList', 'embedded_list').label('子项目')
                 .targetFields([
-                    nga.field('id').label('id'),
-                    nga.field('title').label('名称')
+                    nga.field('title').label('子项标题')
+                        .validation({required: true, minlength: 3, maxlength: 20}),
+                    nga.field('minScore', 'float')
+                        .format('0.00')
+                        .defaultValue(0)
+                        .label('最小分值')
+                        .validation({required: true}),
+                    nga.field('maxScore', 'float')
+                        .format('0.00')
+                        .defaultValue(0)
+                        .label('最大分值')
+                        .validation({required: true})
                 ])
         ]);
+
+    project.editionView()
+        .title('修改信息')
+        .fields(project.creationView().fields());
+
+    /*item.listView()
+     .title('小项目列表')
+     .infinitePagination(true)
+     .fields([
+     nga.field('id').label('id'),
+     nga.field('projectId').label('项目id'),
+     nga.field('title').label('标题'),
+     nga.field('minScore').label('最小分值'),
+     nga.field('maxScore').label('最大分值')
+     ])
+     .listActions(['show', 'edit', 'delete']);*/
 
     /********************* 主页配置 **********************/
     admin.dashboard(nga.dashboard()

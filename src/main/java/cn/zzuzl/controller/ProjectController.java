@@ -86,13 +86,15 @@ public class ProjectController {
     @Authorization
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     @ResponseBody
-    public Result updateStudent(@PathVariable("id") Integer id, @RequestBody Project project) {
+    public Result updateStudent(@PathVariable("id") Integer id, @RequestBody Project project, HttpSession session) {
         Result result = new Result(true);
         try {
             if (!id.equals(project.getId())) {
                 result.setSuccess(false);
                 result.setError("数据不一致");
             } else {
+                Student student = (Student) session.getAttribute(Constants.STU);
+                project.setOperator(student.getSchoolNum());
                 result = projectService.updateProject(project);
             }
         } catch (Exception e) {
