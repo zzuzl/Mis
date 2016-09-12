@@ -102,7 +102,19 @@
         where id=#{id}
     </update>
 
-    <insert id="batchInsertItem" keyProperty="id" useGeneratedKeys="true">
+    <select id="getItems" resultType="cn.zzuzl.model.Item">
+        select
+        id,
+        projectId as "project.id",
+        title,
+        minScore,
+        maxScore
+        from item
+        where projectId=#{projectId}
+        and valid='1'
+    </select>
+
+    <insert id="batchInsertItem">
         insert ignore into item(
         projectId,
         title,
@@ -112,7 +124,8 @@
         createTime,
         updateTime
         ) values
-        <foreach collection="items" item="item" open="(" close=")" separator=",">
+        <foreach collection="items" item="item" separator=",">
+            (
             #{item.project.id},
             #{item.title},
             #{item.minScore},
@@ -120,6 +133,7 @@
             #{item.operator},
             now(),
             now()
+            )
         </foreach>
     </insert>
 
@@ -129,22 +143,21 @@
         minScore=#{minScore},
         maxScore=#{maxScore},
         operator=#{operator},
-        updateTime=#{updateTime}
+        updateTime=now()
         where id=#{id} and projectId=#{project.id}
     </insert>
 
-    <delete id="updateItemInvalid">
+    <update id="updateItemInvalid">
         update item
         set valid='0'
         <where>
             and projectId=#{projectId}
             <if test="ids != null">
-                and id in
+                and id not in
                 <foreach collection="ids" item="item" open="(" close=")" separator=",">
-                    #item
+                    #{item}
                 </foreach>
             </if>
         </where>
-
-    </delete>
+    </update>
 </mapper>

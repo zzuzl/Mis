@@ -32,7 +32,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public Project getById(Integer id) {
-        return projectDao.getById(id);
+        Project project = projectDao.getById(id);
+        if (project != null) {
+            project.setItemList(projectDao.getItems(project.getId()));
+        }
+        return project;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -65,6 +69,7 @@ public class ProjectServiceImpl implements ProjectService {
         return result;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public Result updateProject(Project project) {
         Result result = new Result(true);
 
@@ -89,7 +94,7 @@ public class ProjectServiceImpl implements ProjectService {
                     }
                     item.setProject(project);
                     item.setOperator(project.getOperator());
-                    if (item.getId() != null) {
+                    if (item.getId() == null) {
                         insertList.add(item);
                     } else if (projectDao.updateItem(item) != 1) {
                         throw new RuntimeException("更新失败");
@@ -102,7 +107,7 @@ public class ProjectServiceImpl implements ProjectService {
             }
 
             // 删除不存在的item
-            projectDao.updateItemInvalid(ids,project.getId());
+            projectDao.updateItemInvalid(ids, project.getId());
         }
         return result;
     }

@@ -171,17 +171,13 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         .title('修改信息')
         .fields(project.creationView().fields());
 
-    /*item.listView()
-     .title('小项目列表')
-     .infinitePagination(true)
-     .fields([
-     nga.field('id').label('id'),
-     nga.field('projectId').label('项目id'),
-     nga.field('title').label('标题'),
-     nga.field('minScore').label('最小分值'),
-     nga.field('maxScore').label('最大分值')
-     ])
-     .listActions(['show', 'edit', 'delete']);*/
+    project.showView()
+        .title('详细信息')
+        .fields(project.creationView().fields());
+
+    // todo list
+    // 1、小项目超出5个报错，notifitation not found
+    // 2、列表点击标题不能排序的问题
 
     /********************* 主页配置 **********************/
     admin.dashboard(nga.dashboard()

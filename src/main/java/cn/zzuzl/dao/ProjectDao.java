@@ -22,6 +22,8 @@ public interface ProjectDao {
 
     int updateInvalid(@Param("id") Integer id);
 
+    List<Item> getItems(@Param("projectId") Integer projectId);
+
     int batchInsertItem(@NotNull @Param("items") List<Item> items);
 
     int updateItemInvalid(@Param("ids") List<Integer> ids,

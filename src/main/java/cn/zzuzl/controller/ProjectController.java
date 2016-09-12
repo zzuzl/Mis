@@ -1,6 +1,5 @@
 package cn.zzuzl.controller;
 
-import cn.zzuzl.common.Constants;
 import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
 import cn.zzuzl.dto.Result;
@@ -13,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 import java.util.Calendar;
 
 @Controller
@@ -55,7 +53,7 @@ public class ProjectController {
     @Authorization
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public Result updateStudent(@RequestBody Project project) {
+    public Result addProject(@RequestBody Project project) {
         Result result = new Result(true);
         try {
             Student student = LoginContext.getLoginContext().getStudent();
@@ -76,7 +74,7 @@ public class ProjectController {
     @Authorization
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     @ResponseBody
-    public Result updateStudent(@PathVariable("id") Integer id, @RequestBody Project project) {
+    public Result updateProject(@PathVariable("id") Integer id, @RequestBody Project project) {
         Result result = new Result(true);
         try {
             if (!id.equals(project.getId())) {
@@ -99,7 +97,7 @@ public class ProjectController {
     @Authorization
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public Result deleteStudent(@PathVariable("id") Integer id) {
+    public Result deleteProject(@PathVariable("id") Integer id) {
         Result result = new Result(true);
         try {
             result = projectService.updateInvalid(id);
@@ -110,4 +108,8 @@ public class ProjectController {
         }
         return result;
     }
+
+    /************** 分数 ************/
+
+
 }
