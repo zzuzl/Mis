@@ -1,27 +1,18 @@
 package cn.zzuzl.controller;
 
 import cn.zzuzl.common.Constants;
+import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
-import cn.zzuzl.common.util.NetUtil;
 import cn.zzuzl.dto.Result;
-import cn.zzuzl.model.LoginRecord;
 import cn.zzuzl.model.Project;
 import cn.zzuzl.model.Student;
-import cn.zzuzl.model.query.BaseQuery;
 import cn.zzuzl.model.query.ProjectQuery;
-import cn.zzuzl.model.query.StudentQuery;
 import cn.zzuzl.service.ProjectService;
-import cn.zzuzl.service.StudentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
-import javax.security.auth.login.LoginContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Calendar;
 
@@ -36,14 +27,13 @@ public class ProjectController {
     @Authorization
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    public Result listProject(ProjectQuery query, HttpSession session) {
+    public Result listProject(ProjectQuery query) {
         Result result = new Result(true);
         try {
-            Student student = (Student) session.getAttribute(Constants.STU);
+            Student student = LoginContext.getLoginContext().getStudent();
             query.setMajorCode(student.getClassCode().substring(0, 4));
             query.setGrade(student.getGrade());
             query.setYear(Calendar.getInstance().get(Calendar.YEAR));
-            // todo 改为 LoginContext,spring securate
             result = projectService.searchProject(query);
         } catch (Exception e) {
             logger.error(e);
@@ -65,10 +55,10 @@ public class ProjectController {
     @Authorization
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public Result updateStudent(@RequestBody Project project, HttpSession session) {
+    public Result updateStudent(@RequestBody Project project) {
         Result result = new Result(true);
         try {
-            Student student = (Student) session.getAttribute(Constants.STU);
+            Student student = LoginContext.getLoginContext().getStudent();
             project.setMajorCode(student.getClassCode().substring(0, 4));
             project.setGrade(student.getGrade());
             project.setYear(Calendar.getInstance().get(Calendar.YEAR));
@@ -86,14 +76,14 @@ public class ProjectController {
     @Authorization
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     @ResponseBody
-    public Result updateStudent(@PathVariable("id") Integer id, @RequestBody Project project, HttpSession session) {
+    public Result updateStudent(@PathVariable("id") Integer id, @RequestBody Project project) {
         Result result = new Result(true);
         try {
             if (!id.equals(project.getId())) {
                 result.setSuccess(false);
                 result.setError("数据不一致");
             } else {
-                Student student = (Student) session.getAttribute(Constants.STU);
+                Student student = LoginContext.getLoginContext().getStudent();
                 project.setOperator(student.getSchoolNum());
                 result = projectService.updateProject(project);
             }

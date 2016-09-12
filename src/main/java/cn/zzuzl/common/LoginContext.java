@@ -15,17 +15,36 @@ import java.util.Map;
  * 登录上下文
  */
 public final class LoginContext {
-    private static Map<String, HttpSession> map = Collections.synchronizedMap(new HashMap<String, HttpSession>());
+    private static ThreadLocal<LoginContext> holders = new ThreadLocal<LoginContext>();
 
-    public static Student getCurrentLoginInfo() {
-        return new Student();
+    private Student student;
+
+    private LoginContext(Student student) {
+        this.student = student;
     }
 
-    public static String getCurrentLoginSchoolNum() {
-        return getCurrentLoginInfo().getSchoolNum();
+    public static LoginContext getLoginContext() {
+        return holders.get();
     }
 
-    public static Map<String, HttpSession> getMap() {
-        return map;
+    public static String getCurrentSchoolNum() {
+        return holders.get().getStudent().getSchoolNum();
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public static void setLoginContext(Student student) {
+        LoginContext context = new LoginContext(student);
+        holders.set(context);
+    }
+
+    public static void removeLoginContext() {
+        holders.remove();
     }
 }
