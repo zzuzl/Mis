@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-lg-12">
+        <ma-view-actions>
+            <ma-back-button></ma-back-button>
+        </ma-view-actions>
+        <div class="page-header">
+            <h1>我的成绩单</h1>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <h3 align="center">{{vm.firstTermScore.title}}</h3>
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>科目</th>
+                <th>学分</th>
+                <th>成绩</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in vm.firstTermScore.scores">
+                <td>{{item.title}}</td>
+                <td>{{item.stuScore}}</td>
+                <td>{{item.score}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-6">
+        <h3 align="center">{{vm.secondTermScore.title}}</h3>
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>科目</th>
+                <th>学分</th>
+                <th>成绩</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in vm.secondTermScore.scores">
+                <td>{{item.title}}</td>
+                <td>{{item.stuScore}}</td>
+                <td>{{item.score}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -18,9 +18,11 @@ public final class LoginContext {
     private static ThreadLocal<LoginContext> holders = new ThreadLocal<LoginContext>();
 
     private Student student;
+    private String password;
 
-    private LoginContext(Student student) {
+    private LoginContext(Student student, String password) {
         this.student = student;
+        this.password = password;
     }
 
     public static LoginContext getLoginContext() {
@@ -39,8 +41,22 @@ public final class LoginContext {
         this.student = student;
     }
 
-    public static void setLoginContext(Student student) {
-        LoginContext context = new LoginContext(student);
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public static void setLoginContext(Student student, String password) {
+        LoginContext context = holders.get();
+        if (context != null) {
+            context.setStudent(student);
+            context.setPassword(password);
+        } else {
+            context = new LoginContext(student, password);
+        }
         holders.set(context);
     }
 

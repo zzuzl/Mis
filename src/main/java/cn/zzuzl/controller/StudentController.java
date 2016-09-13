@@ -1,6 +1,7 @@
 package cn.zzuzl.controller;
 
 import cn.zzuzl.common.Constants;
+import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
 import cn.zzuzl.common.util.NetUtil;
 import cn.zzuzl.dto.Result;
@@ -13,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -40,6 +42,7 @@ public class StudentController {
                 if (result.isSuccess()) {
                     Student student = (Student) result.getData().get(Constants.STU);
                     session.setAttribute(Constants.STU, student);
+                    session.setAttribute(Constants.PASS, password);
                     // 如果第一次登陆，则添加到数据库
                     if (studentService.searchBySchoolNum(schoolNum) == null) {
                         result = studentService.insert(student);
@@ -112,6 +115,23 @@ public class StudentController {
         Result result = new Result(true);
         try {
             result = studentService.updateInvalid(schoolNum);
+        } catch (Exception e) {
+            logger.error(e);
+            result.setSuccess(false);
+            result.setError(e.getMessage());
+        }
+        return result;
+    }
+
+    // 查询登录人的成绩单
+    @Authorization
+    @RequestMapping(value = "/myScore", method = RequestMethod.GET)
+    @ResponseBody
+    public Result myScore() {
+        Result result = new Result(true);
+        try {
+            result = netUtil.searchScore(LoginContext.getLoginContext().getStudent().getSchoolNum(),
+                    LoginContext.getLoginContext().getPassword());
         } catch (Exception e) {
             logger.error(e);
             result.setSuccess(false);

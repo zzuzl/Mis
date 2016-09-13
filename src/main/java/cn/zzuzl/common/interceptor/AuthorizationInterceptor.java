@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,7 +23,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
         Student student = (Student) session.getAttribute(Constants.STU);
         if (student != null) {
-            LoginContext.setLoginContext(student);
+            LoginContext.setLoginContext(student, (String) session.getAttribute(Constants.PASS));
         }
 
         if (handler instanceof HandlerMethod) {

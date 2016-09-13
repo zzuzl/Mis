@@ -31,6 +31,19 @@ public class ProjectServiceImpl implements ProjectService {
         return result;
     }
 
+    public Result<Project> searchProjectWithItems(ProjectQuery query) {
+        Result<Project> result = new Result<Project>(0, 0);
+        List<Project> list = projectDao.searchProject(query);
+        result.setList(list);
+        if (list != null) {
+            for (Project project : list) {
+                project.setItemList(projectDao.getItems(project.getId()));
+            }
+            result.setTotalItem(list.size());
+        }
+        return result;
+    }
+
     public Project getById(Integer id) {
         Project project = projectDao.getById(id);
         if (project != null) {

@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import java.util.Calendar;
 
@@ -33,6 +34,27 @@ public class ProjectController {
             query.setGrade(student.getGrade());
             query.setYear(Calendar.getInstance().get(Calendar.YEAR));
             result = projectService.searchProject(query);
+        } catch (Exception e) {
+            logger.error(e);
+            result.setSuccess(false);
+            result.setError(e.getMessage());
+        }
+        return result;
+    }
+
+    // 查询(带有子项目)
+    @Authorization
+    @RequestMapping(value = "/items", method = RequestMethod.GET)
+    @ResponseBody
+    public Result listProjectWithItems() {
+        Result result = new Result(true);
+        try {
+            ProjectQuery query = new ProjectQuery();
+            Student student = LoginContext.getLoginContext().getStudent();
+            query.setMajorCode(student.getClassCode().substring(0, 4));
+            query.setGrade(student.getGrade());
+            query.setYear(Calendar.getInstance().get(Calendar.YEAR));
+            result = projectService.searchProjectWithItems(query);
         } catch (Exception e) {
             logger.error(e);
             result.setSuccess(false);

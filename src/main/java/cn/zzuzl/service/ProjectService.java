@@ -10,6 +10,8 @@ import cn.zzuzl.model.query.ProjectQuery;
 public interface ProjectService {
     Result<Project> searchProject(ProjectQuery query);
 
+    Result<Project> searchProjectWithItems(ProjectQuery query);
+
     Project getById(Integer id);
 
     Result insertProject(Project project);

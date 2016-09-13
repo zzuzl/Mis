@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.zzuzl.dao.ActivityDao">
+
+    <sql id="_listWhere">
+        <where>
+            and valid='1'
+            <if test="schoolNum != null and schoolNum != ''">
+                and schoolNum=#{schoolNum}
+            </if>
+            <if test="name != null and name != ''">
+                and `name`=#{name}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="cn.zzuzl.model.Activity">
+        insert ignore into activity(
+        itemId,
+        title,
+        score,
+        `desc`,
+        operator,
+        createTime,
+        updateTime
+        ) values(
+        #{itemId},
+        #{title},
+        #{score},
+        #{desc},
+        #{operator},
+        now(),
+        now()
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="cn.zzuzl.model.Activity">
+        insert ignore into activity(
+        itemId,
+        title,
+        score,
+        `desc`,
+        operator,
+        createTime,
+        updateTime
+        ) values
+        <foreach collection="activityList" item="item" open="" close="" separator=",">
+            (
+            #{itemId},
+            #{title},
+            #{score},
+            #{desc},
+            #{operator},
+            now(),
+            now()
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateStudent">
+        update student set
+        birthday=#{birthday},
+        nation=#{nation},
+        politicalStatus=#{politicalStatus},
+        idNo=#{idNo},
+        accountNo=#{accountNo},
+        originAddress=#{originAddress},
+        homeAddress=#{homeAddress},
+        entranceDate=#{entranceDate},
+        schoolYear=#{schoolYear},
+        residence=#{residence},
+        phone=#{phone},
+        qq=#{qq},
+        email=#{email},
+        parentPhone=#{parentPhone},
+        dormNo=#{dormNo},
+        direction=#{direction},
+        updateTime=now()
+        where schoolNum=#{schoolNum}
+    </update>
+
+    <update id="updateInvalid">
+        update student
+        set valid='0'
+        where schoolNum=#{schoolNum}
+    </update>
+
+    <insert id="insertLoginRecord">
+        insert ignore into loginRecord(
+        schoolNum,
+        loginTime,
+        ip,
+        location
+        ) values (
+        #{schoolNum},
+        now(),
+        #{ip},
+        #{location}
+        )
+    </insert>
+</mapper>

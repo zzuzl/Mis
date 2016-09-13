@@ -15,7 +15,6 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
@@ -115,7 +114,7 @@ public class NetUtil {
         if (document != null) {
             Elements elements = document.body().select("p font a");
             if (elements != null) {
-                Map<String, List<ScoreVO>> map = new LinkedHashMap<String, List<ScoreVO>>();
+                Map<String, List<ScoreVO>> map = new HashMap<String, List<ScoreVO>>();
                 boolean flag = false;
                 for (int i = 0; i < elements.size(); i++) {
                     Element a = elements.get(i);
@@ -129,7 +128,18 @@ public class NetUtil {
                         }
                     }
                 }
-                result.getData().put("scores", map);
+
+                // 只取最后两学期的成绩
+                List<Map.Entry<String, List<ScoreVO>>> list = new ArrayList<Map.Entry<String, List<ScoreVO>>>();
+                list.addAll(map.entrySet());
+                Collections.sort(list, new Comparator<Map.Entry<String, List<ScoreVO>>>() {
+                    public int compare(Map.Entry<String, List<ScoreVO>> o1, Map.Entry<String, List<ScoreVO>> o2) {
+                        return o1.getKey().compareTo(o2.getKey());
+                    }
+                });
+
+                int fromIndex = list.size() - 2 > 0 ? list.size() - 2 : 0;
+                result.getData().put("scores", list.subList(fromIndex, list.size()));
             } else {
                 result.setSuccess(false);
                 result.setError("学号或密码错误");
