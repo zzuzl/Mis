@@ -1,18 +1,17 @@
 package cn.zzuzl.controller;
 
-import cn.zzuzl.common.annotation.Authorization;
+import cn.zzuzl.common.util.StringUtil;
+import cn.zzuzl.dto.ParameterBean;
 import cn.zzuzl.dto.Result;
 import cn.zzuzl.model.Activity;
 import cn.zzuzl.service.ActivityService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Controller
 @RequestMapping("activities")
@@ -22,14 +21,13 @@ public class ActivityController {
     private Logger logger = LogManager.getLogger(getClass());
 
     // 添加素质得分
-    @Authorization
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public Result addActivity(String json) {
-        logger.info(json);
+    public Result addActivity(@RequestBody ParameterBean bean) {
         Result result = new Result(true);
         try {
-            // result = activityService.addActivities();
+            List<Activity> activityList = StringUtil.parseActivities(bean.getJson());
+            result = activityService.addActivities(activityList);
         } catch (Exception e) {
             logger.error(e);
             result.setSuccess(false);

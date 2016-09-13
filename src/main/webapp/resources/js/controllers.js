@@ -46,7 +46,9 @@ function QualityController($http, notification, progression) {
         if (vm.currentProjectId > 0 && vm.currentItemId > 0) {
             vm.myItems.push({
                 row: index++,
-                itemId: vm.currentItemId
+                item: {
+                    id:vm.currentItemId
+                }
             });
         } else {
             notification.log('先选择要添加的类目', {addnCls: 'humane-flatty-error'});
@@ -77,10 +79,9 @@ function QualityController($http, notification, progression) {
         progression.start();
         $http.post('/activities', {
             json: JSON.stringify(vm.myItems)
-        })
-            .then(function (response) {
-                progression.done();
-            });
+        }).then(function (response) {
+            progression.done();
+        });
     };
 }
 QualityController.inject = ['$http', 'notification', 'progression'];

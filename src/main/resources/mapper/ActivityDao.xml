@@ -26,7 +26,7 @@
         createTime,
         updateTime
         ) values(
-        #{itemId},
+        #{item.id},
         #{title},
         #{score},
         #{desc},

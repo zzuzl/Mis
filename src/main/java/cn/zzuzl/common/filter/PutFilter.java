@@ -1,5 +1,6 @@
 package cn.zzuzl.common.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.MediaType;
@@ -35,7 +36,7 @@ public class PutFilter extends OncePerRequestFilter {
     }
 
     protected void doFilterInternal(final HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        logger.debug("method is " + request.getMethod() + "contentType is " + request.getContentType());
+        logger.debug("method is " + request.getMethod() + " contentType is " + request.getContentType());
 
         if (("PUT".equals(request.getMethod()) || "POST".equals(request.getMethod())) && this.isJsonContentType(request)) {
             ServletServerHttpRequest inputMessage = new ServletServerHttpRequest(request) {
@@ -44,6 +45,18 @@ public class PutFilter extends OncePerRequestFilter {
                 }
             };
             MultiValueMap parameters = this.formConverter.read((Class) null, inputMessage);
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            /*Set<String> set = parameters.keySet();
+            for (String key : set) {
+                Map map = objectMapper.readValue(key, Map.class);
+                if(map != null) {
+                    parameters.setAll(map);
+                    set.remove(key);
+                }
+            }*/
+            System.out.println(parameters.toSingleValueMap());
+
             HttpPutContentRequestWrapper wrapper = new HttpPutContentRequestWrapper(request, parameters);
             filterChain.doFilter(wrapper, response);
         } else {
@@ -74,12 +87,14 @@ public class PutFilter extends OncePerRequestFilter {
         }
 
         public String getParameter(String name) {
+            System.out.println("getParameter");
             String queryStringValue = super.getParameter(name);
             String formValue = (String) this.parameters.getFirst(name);
             return queryStringValue != null ? queryStringValue : formValue;
         }
 
         public Map<String, String[]> getParameterMap() {
+            System.out.println("getParameterMap");
             LinkedHashMap result = new LinkedHashMap();
             Enumeration names = this.getParameterNames();
 
@@ -92,6 +107,7 @@ public class PutFilter extends OncePerRequestFilter {
         }
 
         public Enumeration<String> getParameterNames() {
+            System.out.println("getParameterNames");
             LinkedHashSet names = new LinkedHashSet();
             names.addAll(Collections.list(super.getParameterNames()));
             names.addAll(this.parameters.keySet());
@@ -99,6 +115,7 @@ public class PutFilter extends OncePerRequestFilter {
         }
 
         public String[] getParameterValues(String name) {
+            System.out.println("getParameterValues");
             String[] queryStringValues = super.getParameterValues(name);
             List formValues = (List) this.parameters.get(name);
             if (formValues == null) {

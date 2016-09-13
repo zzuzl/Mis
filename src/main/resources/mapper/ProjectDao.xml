@@ -160,4 +160,20 @@
             </if>
         </where>
     </update>
+
+    <select id="getItemById" resultType="cn.zzuzl.model.Item">
+        select
+        i.id,
+        i.title,
+        i.minScore,
+        i.maxScore,
+        p.id as "project.id",
+        p.title as "project.title",
+        p.minScore as "project.minScore",
+        p.maxScore as "project.maxScore"
+        from
+        item i,project p
+        where i.projectId=p.id
+        and i.id=#{id}
+    </select>
 </mapper>

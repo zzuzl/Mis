@@ -30,4 +30,6 @@ public interface ProjectDao {
                           @Param("projectId") Integer projectId);
 
     int updateItem(Item item);
+
+    Item getItemById(@Param("id") Integer id);
 }
