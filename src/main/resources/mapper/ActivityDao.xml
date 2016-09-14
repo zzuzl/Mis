@@ -6,15 +6,36 @@
 
     <sql id="_listWhere">
         <where>
-            and valid='1'
+            and a.valid='1'
             <if test="schoolNum != null and schoolNum != ''">
-                and schoolNum=#{schoolNum}
+                and a.schoolNum=#{schoolNum}
             </if>
-            <if test="name != null and name != ''">
-                and `name`=#{name}
+            <if test="year != null">
+                and p.`year`=#{year}
             </if>
         </where>
     </sql>
+
+    <select id="listActivities" resultType="cn.zzuzl.model.Activity">
+        select
+        a.id,
+        a.itemId as "item.id",
+        a.title,
+        a.score,
+        a.`desc`,
+        a.schoolNum as "student.schoolNum",
+        a.createTime,
+        a.updateTime,
+        i.title as "item.title",
+        p.id as "item.project.id",
+        p.title as "item.project.title"
+        from
+        activity a
+        left join item i on a.itemId=i.id
+        left join project p on i.projectId=p.id
+        <include refid="_listWhere"/>
+        order by a.updateTime
+    </select>
 
     <insert id="insert" parameterType="cn.zzuzl.model.Activity">
         insert ignore into activity(
@@ -22,7 +43,7 @@
         title,
         score,
         `desc`,
-        operator,
+        schoolNum,
         createTime,
         updateTime
         ) values(
@@ -30,74 +51,51 @@
         #{title},
         #{score},
         #{desc},
-        #{operator},
+        #{student.schoolNum},
         now(),
         now()
         )
     </insert>
 
     <insert id="batchInsert" parameterType="cn.zzuzl.model.Activity">
-        insert ignore into activity(
+        insert into activity(
+        id,
         itemId,
         title,
         score,
         `desc`,
-        operator,
+        schoolNum,
         createTime,
         updateTime
         ) values
         <foreach collection="activityList" item="item" open="" close="" separator=",">
             (
-            #{itemId},
-            #{title},
-            #{score},
-            #{desc},
-            #{operator},
+            #{item.id},
+            #{item.item.id},
+            #{item.title},
+            #{item.score},
+            #{item.desc},
+            #{item.student.schoolNum},
             now(),
             now()
             )
         </foreach>
-    </insert>
-
-    <update id="updateStudent">
-        update student set
-        birthday=#{birthday},
-        nation=#{nation},
-        politicalStatus=#{politicalStatus},
-        idNo=#{idNo},
-        accountNo=#{accountNo},
-        originAddress=#{originAddress},
-        homeAddress=#{homeAddress},
-        entranceDate=#{entranceDate},
-        schoolYear=#{schoolYear},
-        residence=#{residence},
-        phone=#{phone},
-        qq=#{qq},
-        email=#{email},
-        parentPhone=#{parentPhone},
-        dormNo=#{dormNo},
-        direction=#{direction},
+        on duplicate key update
+        itemId=VALUES (itemId),
+        title=VALUES (title),
+        score=VALUES (score),
+        `desc`=VALUES (`desc`),
         updateTime=now()
-        where schoolNum=#{schoolNum}
-    </update>
+    </insert>
 
     <update id="updateInvalid">
-        update student
+        update activity
         set valid='0'
         where schoolNum=#{schoolNum}
+        and itemId in (select i.id from item i left join project p on i.projectId=p.id where p.year=#{year})
+        and id not in
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
     </update>
-
-    <insert id="insertLoginRecord">
-        insert ignore into loginRecord(
-        schoolNum,
-        loginTime,
-        ip,
-        location
-        ) values (
-        #{schoolNum},
-        now(),
-        #{ip},
-        #{location}
-        )
-    </insert>
 </mapper>

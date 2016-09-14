@@ -9,7 +9,7 @@ public class Activity implements Serializable {
     private String title;
     private Double score;
     private String desc;
-    private String operator;
+    private Student student;
     private Date createTime;
     private Date updateTime;
 
@@ -56,12 +56,12 @@ public class Activity implements Serializable {
         this.desc = desc;
     }
 
-    public String getOperator() {
-        return operator;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setOperator(String operator) {
-        this.operator = operator;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public Date getCreateTime() {

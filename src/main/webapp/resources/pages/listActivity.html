@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-lg-12">
+        <ma-view-actions>
+            <ma-back-button></ma-back-button>
+        </ma-view-actions>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>标题</th>
+                <th>分数</th>
+                <th>一级分类</th>
+                <th>二级分类</th>
+                <th>创建时间</th>
+                <th>更新时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in vm.activities">
+                <td>{{item.title}}</td>
+                <td>{{item.score}}</td>
+                <td>{{item.item.project.title}}</td>
+                <td>{{item.item.title}}</td>
+                <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

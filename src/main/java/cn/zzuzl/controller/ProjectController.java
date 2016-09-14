@@ -2,6 +2,7 @@ package cn.zzuzl.controller;
 
 import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
+import cn.zzuzl.common.util.StringUtil;
 import cn.zzuzl.dto.Result;
 import cn.zzuzl.model.Project;
 import cn.zzuzl.model.Student;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Calendar;
 
 @Controller
 @RequestMapping("projects")
@@ -32,7 +32,7 @@ public class ProjectController {
             Student student = LoginContext.getLoginContext().getStudent();
             query.setMajorCode(student.getClassCode().substring(0, 4));
             query.setGrade(student.getGrade());
-            query.setYear(Calendar.getInstance().get(Calendar.YEAR));
+            query.setYear(StringUtil.getCurrentYear());
             result = projectService.searchProject(query);
         } catch (Exception e) {
             logger.error(e);
@@ -46,14 +46,13 @@ public class ProjectController {
     @Authorization
     @RequestMapping(value = "/items", method = RequestMethod.GET)
     @ResponseBody
-    public Result listProjectWithItems() {
+    public Result listProjectWithItems(ProjectQuery query) {
         Result result = new Result(true);
         try {
-            ProjectQuery query = new ProjectQuery();
             Student student = LoginContext.getLoginContext().getStudent();
             query.setMajorCode(student.getClassCode().substring(0, 4));
             query.setGrade(student.getGrade());
-            query.setYear(Calendar.getInstance().get(Calendar.YEAR));
+            query.setYear(StringUtil.getCurrentYear());
             result = projectService.searchProjectWithItems(query);
         } catch (Exception e) {
             logger.error(e);
@@ -81,7 +80,7 @@ public class ProjectController {
             Student student = LoginContext.getLoginContext().getStudent();
             project.setMajorCode(student.getClassCode().substring(0, 4));
             project.setGrade(student.getGrade());
-            project.setYear(Calendar.getInstance().get(Calendar.YEAR));
+            project.setYear(StringUtil.getCurrentYear());
             project.setOperator(student.getSchoolNum());
             result = projectService.insertProject(project);
         } catch (Exception e) {
@@ -130,8 +129,5 @@ public class ProjectController {
         }
         return result;
     }
-
-    /************** 分数 ************/
-
 
 }

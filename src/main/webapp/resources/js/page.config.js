@@ -9,8 +9,20 @@ angular.module('myApp')
         }).state('qualityEdit', {
             parent: 'main',
             url: '/qualityEdit',
-            controller: QualityController,
+            controller: QualityEditController,
             controllerAs: 'vm',
             templateUrl: '/resources/pages/qualityEdit.html'
+        }).state('listActivity', {
+            parent: 'main',
+            url: '/listActivity',
+            controller: ActivityController,
+            controllerAs: 'vm',
+            templateUrl: '/resources/pages/listActivity.html'
+        }).state('myQuality', {
+            parent: 'main',
+            url: '/myQuality',
+            controller: QualityController,
+            controllerAs: 'vm',
+            templateUrl: '/resources/pages/myQuality.html'
         });
     });
