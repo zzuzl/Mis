@@ -4,18 +4,14 @@ function myScoreController($http, notification, progression) {
     progression.start();
     $http.get('/students/myScore').then(function (response) {
         if (response && response.data) {
-            for (item in response.data.data.scores[0]) {
-                vm.firstTermScore = {
-                    title: item,
-                    scores: response.data.data.scores[0][item]
-                };
-            }
-            for (item in response.data.data.scores[1]) {
-                vm.secondTermScore = {
-                    title: item,
-                    scores: response.data.data.scores[1][item]
-                };
-            }
+            vm.firstTermScore = {
+                title: response.data.data.scores[0].term,
+                scores: response.data.data.scores[0].scores
+            };
+            vm.secondTermScore = {
+                title: response.data.data.scores[1].term,
+                scores: response.data.data.scores[1].scores
+            };
             progression.done();
         }
     });
@@ -139,18 +135,14 @@ function QualityController($http, notification, progression) {
     progression.start();
     $http.get('/students/myScore').then(function (response) {
         if (response && response.data) {
-            for (item in response.data.data.scores[0]) {
-                vm.firstTermScore = {
-                    title: item,
-                    scores: response.data.data.scores[0][item]
-                };
-            }
-            for (item in response.data.data.scores[1]) {
-                vm.secondTermScore = {
-                    title: item,
-                    scores: response.data.data.scores[1][item]
-                };
-            }
+            vm.firstTermScore = {
+                title: response.data.data.scores[0].term,
+                scores: response.data.data.scores[0].scores
+            };
+            vm.secondTermScore = {
+                title: response.data.data.scores[1].term,
+                scores: response.data.data.scores[1].scores
+            };
             progression.done();
         }
     });

@@ -4,6 +4,7 @@ import cn.zzuzl.common.Constants;
 import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
 import cn.zzuzl.common.util.NetUtil;
+import cn.zzuzl.dao.RedisDao;
 import cn.zzuzl.dto.Result;
 import cn.zzuzl.model.LoginRecord;
 import cn.zzuzl.model.Student;
@@ -26,6 +27,8 @@ public class StudentController {
     private StudentService studentService;
     @Resource
     private NetUtil netUtil;
+    @Resource
+    private RedisDao redisDao;
     private Logger logger = LogManager.getLogger(getClass());
 
     // 学生登录
@@ -132,6 +135,10 @@ public class StudentController {
         try {
             result = netUtil.searchScore(LoginContext.getLoginContext().getStudent().getSchoolNum(),
                     LoginContext.getLoginContext().getPassword());
+            if (result.isSuccess()) {
+                // 刷新成绩单到redis
+                redisDao.updateScore(LoginContext.getCurrentSchoolNum(), result.getData().get("scores"));
+            }
         } catch (Exception e) {
             logger.error(e);
             result.setSuccess(false);
