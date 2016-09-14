@@ -2,11 +2,17 @@ package cn.zzuzl.controller;
 
 import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
+import cn.zzuzl.common.enums.SortDirEnum;
 import cn.zzuzl.common.util.StringUtil;
+import cn.zzuzl.dao.RedisDao;
 import cn.zzuzl.dto.ParameterBean;
+import cn.zzuzl.dto.QualityJsonBean;
 import cn.zzuzl.dto.Result;
 import cn.zzuzl.model.Activity;
+import cn.zzuzl.model.Student;
+import cn.zzuzl.model.query.StudentQuery;
 import cn.zzuzl.service.ActivityService;
+import cn.zzuzl.service.StudentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -16,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,6 +30,10 @@ import java.util.List;
 public class ActivityController {
     @Resource
     private ActivityService activityService;
+    @Resource
+    private RedisDao redisDao;
+    @Resource
+    private StudentService studentService;
     private Logger logger = LogManager.getLogger(getClass());
 
     // 添加素质得分
@@ -51,6 +62,42 @@ public class ActivityController {
         Result<Activity> result = new Result<Activity>(true);
         try {
             result = activityService.listActivities(LoginContext.getCurrentSchoolNum(), StringUtil.getCurrentYear());
+        } catch (Exception e) {
+            logger.error(e);
+            result.setSuccess(false);
+            result.setError(e.getMessage());
+        }
+
+        return result;
+    }
+
+    // 获取本专业学生综测列表
+    @Authorization
+    @RequestMapping(value = "/qualities", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<QualityJsonBean> listQuality() {
+        Result<QualityJsonBean> result = new Result<QualityJsonBean>(true);
+        try {
+            Student student = LoginContext.getLoginContext().getStudent();
+            StudentQuery query = new StudentQuery();
+            query.setMajorCode(student.getClassCode());
+            query.setGrade(student.getClassCode().substring(0, 4));
+            query.setSortField("schoolNum");
+            query.setSortDir(SortDirEnum.ASC.getTitle());
+
+            Result<Student> studentResult = studentService.searchStudent(query);
+            List<QualityJsonBean> list = new ArrayList<QualityJsonBean>();
+            if (result.isSuccess()) {
+                for (Student s : studentResult.getList()) {
+                    String json = redisDao.getJsonScores(s.getSchoolNum());
+                    QualityJsonBean bean = new QualityJsonBean();
+                    bean.setSchoolNum(s.getSchoolNum());
+                    bean.setName(s.getName());
+                    bean.setJson(json);
+                    list.add(bean);
+                }
+            }
+            result.setList(list);
         } catch (Exception e) {
             logger.error(e);
             result.setSuccess(false);

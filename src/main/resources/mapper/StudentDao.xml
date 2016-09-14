@@ -13,6 +13,12 @@
             <if test="name != null and name != ''">
                 and `name`=#{name}
             </if>
+            <if test="majorCode != null and majorCode != ''">
+                and majorCode=#{majorCode}
+            </if>
+            <if test="grade != null and grade != ''">
+                and grade=#{grade}
+            </if>
         </where>
     </sql>
 

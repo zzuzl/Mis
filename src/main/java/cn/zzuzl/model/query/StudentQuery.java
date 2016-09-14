@@ -6,6 +6,8 @@ package cn.zzuzl.model.query;
 public class StudentQuery extends BaseQuery {
     private String schoolNum;
     private String name;
+    private String majorCode;
+    private String grade;
 
     public String getSchoolNum() {
         return schoolNum;
@@ -21,5 +23,21 @@ public class StudentQuery extends BaseQuery {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMajorCode() {
+        return majorCode;
+    }
+
+    public void setMajorCode(String majorCode) {
+        this.majorCode = majorCode;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 }
