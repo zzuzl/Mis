@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-lg-12">
+        <ma-view-actions>
+            <ma-back-button></ma-back-button>
+        </ma-view-actions>
+    </div>
+</div>
+<table border="1">
+    <thead>
+    <tr>
+        <th rowspan="2">学号</th>
+        <th rowspan="2">姓名</th>
+        <th colspan="{{vm.firstSet.length}}">上学期成绩</th>
+        <th colspan="{{vm.secondSet.length}}">下学期成绩</th>
+        <th colspan="{{project.itemList.length}}" ng-repeat="project in vm.projects">{{project.title}}</th>
+    </tr>
+    <tr>
+        <th ng-repeat="item in vm.firstSet">{{item}}</th>
+        <th ng-repeat="item in vm.secondSet">{{item}}</th>
+        <th ng-repeat="item in vm.allItems">{{item.title}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in vm.qualities">
+        <td width="100">{{item.schoolNum}}</td>
+        <td width="100">{{item.name}}</td>
+        <td ng-repeat="title in vm.firstSet" width="150">
+            {{item.firstTerm.scores | scoreVoFilter:title }}
+        </td>
+        <td ng-repeat="title in vm.secondSet" width="150">
+            {{item.secondTerm.scores | scoreVoFilter:title }}
+        </td>
+        <!--<td ng-repeat="activityScore in vm.activityScores" width="100">
+            {{activityScore[item.schoolNum] | activityScoreFilter:''}}
+        </td>-->
+    </tr>
+    </tbody>
+</table>

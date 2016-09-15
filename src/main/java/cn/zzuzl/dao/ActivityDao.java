@@ -2,6 +2,7 @@ package cn.zzuzl.dao;
 
 import cn.zzuzl.model.Activity;
 import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface ActivityDao {
@@ -10,7 +11,8 @@ public interface ActivityDao {
     int insert(Activity activity);
 
     List<Activity> listActivities(@Param("schoolNum") String schoolNum,
-                                  @Param("year") Integer year);
+                                  @Param("year") Integer year,
+                                  @Param("majorCode") String majorCode);
 
     int updateInvalid(@Param("ids") List<Long> ids,
                       @Param("schoolNum") String schoolNum,

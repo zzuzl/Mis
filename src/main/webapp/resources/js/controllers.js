@@ -50,7 +50,7 @@ function QualityEditController($http, notification, progression) {
             vm.projects = response.data.list;
             vm.currentProjectId = vm.projects[0].id;
             vm.currentItems = vm.projects[0].itemList;
-            
+
             vm.allItems = [];
             vm.projects.forEach(function (e) {
                 e.itemList.forEach(function (i) {
@@ -148,4 +148,68 @@ function QualityController($http, notification, progression) {
     });
 }
 QualityController.inject = ['$http', 'notification', 'progression'];
+
+// 综测管理
+function QualityManageController($http, notification, progression) {
+    var vm = this;
+    progression.start();
+
+    // 获取当前登录人已填写的信息
+    $http.get('/activities/qualities').then(function (response) {
+        if (response && response.data) {
+            vm.qualities = response.data.list;
+            vm.firstSet = response.data.data.firstSet;
+            vm.secondSet = response.data.data.secondSet;
+            vm.qualities.forEach(function (e) {
+                e.firstTerm = e.list[0];
+                e.secondTerm = e.list[1];
+            });
+        }
+        progression.done();
+    });
+
+    // 获取分类信息
+    $http.get('/projects/items').then(function (response) {
+        if (response && response.data) {
+            var arr = response.data.list;
+            vm.allItems = [];
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].itemList.length < 1) {
+                    arr.splice(i--, 1);
+                } else {
+                    arr[i].itemList.forEach(function (e) {
+                        vm.allItems.push(e);
+                    });
+                }
+            }
+            vm.projects = arr;
+        }
+        progression.done();
+    });
+
+    // 获取本专业学生的活动分数
+    $http.get('/activities/majorActivities').then(function (response) {
+        if (response && response.data) {
+            var arr = response.data.list;
+            var obj = {};
+            vm.activityScores = [];
+            arr.forEach(function (e) {
+                var o = obj[e.student.schoolNum];
+                if (!o) {
+                    e = [];
+                }
+                o.push(e);
+            });
+
+            for (i in obj) {
+                vm.activityScores.push({
+                    schoolNum: i,
+                    scores: obj[i]
+                });
+            }
+        }
+        progression.done();
+    });
+}
+QualityManageController.inject = ['$http', 'notification', 'progression'];
 

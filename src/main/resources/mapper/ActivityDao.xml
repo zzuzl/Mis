@@ -13,6 +13,9 @@
             <if test="year != null">
                 and p.`year`=#{year}
             </if>
+            <if test="majorCode != null and majorCode != ''">
+                and p.majorCode = #{majorCode}
+            </if>
         </where>
     </sql>
 

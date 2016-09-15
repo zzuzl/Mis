@@ -8,10 +8,11 @@ import cn.zzuzl.dao.RedisDao;
 import cn.zzuzl.dto.ParameterBean;
 import cn.zzuzl.dto.QualityJsonBean;
 import cn.zzuzl.dto.Result;
-import cn.zzuzl.model.Activity;
-import cn.zzuzl.model.Student;
+import cn.zzuzl.model.*;
+import cn.zzuzl.model.query.ProjectQuery;
 import cn.zzuzl.model.query.StudentQuery;
 import cn.zzuzl.service.ActivityService;
+import cn.zzuzl.service.ProjectService;
 import cn.zzuzl.service.StudentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,8 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("activities")
@@ -34,6 +34,8 @@ public class ActivityController {
     private RedisDao redisDao;
     @Resource
     private StudentService studentService;
+    @Resource
+    private ProjectService projectService;
     private Logger logger = LogManager.getLogger(getClass());
 
     // 添加素质得分
@@ -61,7 +63,10 @@ public class ActivityController {
     public Result<Activity> listMyActivities() {
         Result<Activity> result = new Result<Activity>(true);
         try {
-            result = activityService.listActivities(LoginContext.getCurrentSchoolNum(), StringUtil.getCurrentYear());
+            result = activityService.listActivities(
+                    LoginContext.getCurrentSchoolNum(),
+                    StringUtil.getCurrentYear(),
+                    null);
         } catch (Exception e) {
             logger.error(e);
             result.setSuccess(false);
@@ -80,24 +85,63 @@ public class ActivityController {
         try {
             Student student = LoginContext.getLoginContext().getStudent();
             StudentQuery query = new StudentQuery();
-            query.setMajorCode(student.getClassCode());
-            query.setGrade(student.getClassCode().substring(0, 4));
+            query.setPage(0);
+            query.setPerPage(0);
+            query.setMajorCode(student.getClassCode().substring(0, 4));
+            query.setGrade(student.getGrade());
             query.setSortField("schoolNum");
             query.setSortDir(SortDirEnum.ASC.getTitle());
 
             Result<Student> studentResult = studentService.searchStudent(query);
             List<QualityJsonBean> list = new ArrayList<QualityJsonBean>();
+            Set<String> firstSet = new HashSet<String>();
+            Set<String> secondSet = new HashSet<String>();
             if (result.isSuccess()) {
                 for (Student s : studentResult.getList()) {
-                    String json = redisDao.getJsonScores(s.getSchoolNum());
+                    List<TermScore> termScoreList = redisDao.getScores(s.getSchoolNum());
+                    // 取出所有的课程名称
+                    if (termScoreList != null) {
+                        if (termScoreList.size() > 0) {
+                            for (ScoreVO scoreVO : termScoreList.get(0).getScores()) {
+                                firstSet.add(scoreVO.getTitle());
+                            }
+                        }
+                        if (termScoreList.size() > 1) {
+                            for (ScoreVO scoreVO : termScoreList.get(1).getScores()) {
+                                secondSet.add(scoreVO.getTitle());
+                            }
+                        }
+                    }
                     QualityJsonBean bean = new QualityJsonBean();
                     bean.setSchoolNum(s.getSchoolNum());
                     bean.setName(s.getName());
-                    bean.setJson(json);
+                    bean.setList(termScoreList);
                     list.add(bean);
                 }
             }
+            result.getData().put("firstSet", firstSet);
+            result.getData().put("secondSet", secondSet);
             result.setList(list);
+        } catch (Exception e) {
+            logger.error(e);
+            result.setSuccess(false);
+            result.setError(e.getMessage());
+        }
+
+        return result;
+    }
+
+    // 获取本专业已填写的activity
+    @Authorization
+    @RequestMapping(value = "/majorActivities", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<Activity> listMajorActivities() {
+        Result<Activity> result = new Result<Activity>(true);
+        try {
+            result = activityService.listActivities(
+                    LoginContext.getCurrentSchoolNum(),
+                    StringUtil.getCurrentYear(),
+                    LoginContext.getLoginContext().getStudent().getClassCode().substring(0, 4));
         } catch (Exception e) {
             logger.error(e);
             result.setSuccess(false);

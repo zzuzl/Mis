@@ -191,6 +191,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         .icon('<span class="glyphicon glyphicon-tags"></span>')
         .addChild(nga.menu(project).title('项目管理'))
         .icon('<span class="glyphicon glyphicon-tags"></span>')
+        .addChild(nga.menu().title('综测管理').link('/qualityManage')
+            .active(function (path) {
+                return path.indexOf('/qualityManage') === 0;
+            }))
+        .icon('<span class="glyphicon glyphicon-tags"></span>')
         .addChild(nga.menu().title('我的成绩单').link('/myScore')
             .active(function (path) {
                 return path.indexOf('/myScore') === 0;

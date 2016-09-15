@@ -1,9 +1,13 @@
 package cn.zzuzl.dto;
 
+import cn.zzuzl.model.TermScore;
+
+import java.util.List;
+
 public class QualityJsonBean {
     private String schoolNum;
     private String name;
-    private String json;
+    private List<TermScore> list;
 
     public String getSchoolNum() {
         return schoolNum;
@@ -21,11 +25,11 @@ public class QualityJsonBean {
         this.name = name;
     }
 
-    public String getJson() {
-        return json;
+    public List<TermScore> getList() {
+        return list;
     }
 
-    public void setJson(String json) {
-        this.json = json;
+    public void setList(List<TermScore> list) {
+        this.list = list;
     }
 }

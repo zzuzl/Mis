@@ -8,5 +8,5 @@ import java.util.List;
 public interface ActivityService {
     Result addActivities(List<Activity> activityList);
 
-    Result<Activity> listActivities(String schoolNum,Integer year);
+    Result<Activity> listActivities(String schoolNum, Integer year, String majorCode);
 }

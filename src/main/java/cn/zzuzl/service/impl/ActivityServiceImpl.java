@@ -38,9 +38,9 @@ public class ActivityServiceImpl implements ActivityService {
         return result;
     }
 
-    public Result<Activity> listActivities(String schoolNum, Integer year) {
+    public Result<Activity> listActivities(String schoolNum, Integer year, String majorCode) {
         Result<Activity> result = new Result<Activity>(true);
-        List<Activity> activityList = activityDao.listActivities(schoolNum, year);
+        List<Activity> activityList = activityDao.listActivities(schoolNum, year, null);
         result.setList(activityList);
         result.setTotalItem(activityList.size());
         return result;

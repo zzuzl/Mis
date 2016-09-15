@@ -6,6 +6,12 @@ angular.module('myApp')
             controller: myScoreController,
             controllerAs: 'vm',
             templateUrl: '/resources/pages/myScore.html'
+        }).state('qualityManage', {
+            parent: 'main',
+            url: '/qualityManage',
+            controller: QualityManageController,
+            controllerAs: 'vm',
+            templateUrl: '/resources/pages/qualityManage.html'
         }).state('qualityEdit', {
             parent: 'main',
             url: '/qualityEdit',

@@ -14,7 +14,7 @@
                 and `name`=#{name}
             </if>
             <if test="majorCode != null and majorCode != ''">
-                and majorCode=#{majorCode}
+                and classCode like #{majorCode}"%"
             </if>
             <if test="grade != null and grade != ''">
                 and grade=#{grade}
