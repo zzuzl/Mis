@@ -8,7 +8,7 @@
     <Appenders>
         <!-- console log -->
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss} %-5level %logger{36} %M %L - %msg%n"/>
+            <PatternLayout pattern="%d{HH:mm:ss} %-5level %logger{36} %M - %msg%n"/>
         </Console>
         <!-- file log -->
         <!--<RollingRandomAccessFile name="running-log" fileName="${LOG_HOME}/${FILE_NAME}.log"

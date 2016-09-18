@@ -161,8 +161,12 @@ function QualityManageController($http, notification, progression) {
             vm.firstSet = response.data.data.firstSet;
             vm.secondSet = response.data.data.secondSet;
             vm.qualities.forEach(function (e) {
-                e.firstTerm = e.list[0];
-                e.secondTerm = e.list[1];
+                if (e.list && e.list.length > 0) {
+                    e.firstTerm = e.list[0];
+                }
+                if (e.list && e.list.length > 1) {
+                    e.secondTerm = e.list[1];
+                }
             });
         }
         progression.done();
@@ -170,46 +174,46 @@ function QualityManageController($http, notification, progression) {
 
     // 获取分类信息
     /*$http.get('/projects/items').then(function (response) {
-        if (response && response.data) {
-            var arr = response.data.list;
-            vm.allItems = [];
-            for (var i = 0; i < arr.length; i++) {
-                if (arr[i].itemList.length < 1) {
-                    arr.splice(i--, 1);
-                } else {
-                    arr[i].itemList.forEach(function (e) {
-                        vm.allItems.push(e);
-                    });
-                }
-            }
-            vm.projects = arr;
-        }
-        progression.done();
-    });*/
+     if (response && response.data) {
+     var arr = response.data.list;
+     vm.allItems = [];
+     for (var i = 0; i < arr.length; i++) {
+     if (arr[i].itemList.length < 1) {
+     arr.splice(i--, 1);
+     } else {
+     arr[i].itemList.forEach(function (e) {
+     vm.allItems.push(e);
+     });
+     }
+     }
+     vm.projects = arr;
+     }
+     progression.done();
+     });*/
 
     // 获取本专业学生的活动分数
     /*$http.get('/activities/majorActivities').then(function (response) {
-        if (response && response.data) {
-            var arr = response.data.list;
-            var obj = {};
-            vm.activityScores = [];
-            arr.forEach(function (e) {
-                var o = obj[e.student.schoolNum];
-                if (!o) {
-                    o = [];
-                }
-                o.push(e);
-            });
+     if (response && response.data) {
+     var arr = response.data.list;
+     var obj = {};
+     vm.activityScores = [];
+     arr.forEach(function (e) {
+     var o = obj[e.student.schoolNum];
+     if (!o) {
+     o = [];
+     }
+     o.push(e);
+     });
 
-            for (i in obj) {
-                vm.activityScores.push({
-                    schoolNum: i,
-                    scores: obj[i]
-                });
-            }
-        }
-        progression.done();
-    });*/
+     for (i in obj) {
+     vm.activityScores.push({
+     schoolNum: i,
+     scores: obj[i]
+     });
+     }
+     }
+     progression.done();
+     });*/
 }
 QualityManageController.inject = ['$http', 'notification', 'progression'];
 

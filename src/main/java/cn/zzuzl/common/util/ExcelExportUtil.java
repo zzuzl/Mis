@@ -45,15 +45,17 @@ public class ExcelExportUtil {
             scoreRow.createCell(_index++, HSSFCell.CELL_TYPE_STRING).setCellValue(bean.getSchoolNum());
             scoreRow.createCell(_index++, HSSFCell.CELL_TYPE_STRING).setCellValue(bean.getName());
 
-            for (TermScore termScore : bean.getList()) {
-                for (ScoreVO scoreVO : termScore.getScores()) {
-                    if (!flag) {
-                        row.createCell(index++, HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getTitle());
+            if(bean.getList() != null) {
+                for (TermScore termScore : bean.getList()) {
+                    for (ScoreVO scoreVO : termScore.getScores()) {
+                        if (!flag) {
+                            row.createCell(index++, HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getTitle());
+                        }
+                        scoreRow.createCell(_index++, HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getScore());
                     }
-                    scoreRow.createCell(_index++, HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getScore());
                 }
+                flag = true;
             }
-            flag = true;
         }
 
         return workbook;
