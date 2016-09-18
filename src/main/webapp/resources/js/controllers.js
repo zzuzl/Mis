@@ -154,7 +154,7 @@ function QualityManageController($http, notification, progression) {
     var vm = this;
     progression.start();
 
-    // 获取当前登录人已填写的信息
+    // 获取所有学生已填写的信息
     $http.get('/activities/qualities').then(function (response) {
         if (response && response.data) {
             vm.qualities = response.data.list;
@@ -169,7 +169,7 @@ function QualityManageController($http, notification, progression) {
     });
 
     // 获取分类信息
-    $http.get('/projects/items').then(function (response) {
+    /*$http.get('/projects/items').then(function (response) {
         if (response && response.data) {
             var arr = response.data.list;
             vm.allItems = [];
@@ -185,10 +185,10 @@ function QualityManageController($http, notification, progression) {
             vm.projects = arr;
         }
         progression.done();
-    });
+    });*/
 
     // 获取本专业学生的活动分数
-    $http.get('/activities/majorActivities').then(function (response) {
+    /*$http.get('/activities/majorActivities').then(function (response) {
         if (response && response.data) {
             var arr = response.data.list;
             var obj = {};
@@ -196,7 +196,7 @@ function QualityManageController($http, notification, progression) {
             arr.forEach(function (e) {
                 var o = obj[e.student.schoolNum];
                 if (!o) {
-                    e = [];
+                    o = [];
                 }
                 o.push(e);
             });
@@ -209,7 +209,7 @@ function QualityManageController($http, notification, progression) {
             }
         }
         progression.done();
-    });
+    });*/
 }
 QualityManageController.inject = ['$http', 'notification', 'progression'];
 

@@ -3,11 +3,11 @@
        xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="
-       http://www.springframework.org/schema/beans   
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/mvc   
-       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+       xmlns:util="http://www.springframework.org/schema/util">
 
     <!-- 注解驱动 -->
     <mvc:annotation-driven/>
@@ -29,6 +29,7 @@
         <property name="suffix" value=".html"/>
         <property name="templateMode" value="HTML5"/>
         <property name="characterEncoding" value="UTF-8"/>
+        <property name="order" value="1"/>
     </bean>
 
     <bean id="templateEngine"
@@ -43,4 +44,15 @@
 
     <!--处理静态资源请求-->
     <mvc:default-servlet-handler/>
+
+    <!-- 加载excel模板 -->
+    <util:map id="excelTemplates" value-type="org.springframework.core.io.Resource">
+        <entry key="scoreTpl" value="/WEB-INF/excelTpls/scoreTpl.xls"/>
+    </util:map>
+
+    <!-- export excel -->
+    <bean id="excelView" class="cn.zzuzl.controller.ExcelBuilder" />
+    <bean id="excelResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="0"/>
+    </bean>
 </beans>

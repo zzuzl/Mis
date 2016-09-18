@@ -3,6 +3,7 @@ package cn.zzuzl.controller;
 import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
 import cn.zzuzl.common.enums.SortDirEnum;
+import cn.zzuzl.common.util.ExcelExportUtil;
 import cn.zzuzl.common.util.StringUtil;
 import cn.zzuzl.dao.RedisDao;
 import cn.zzuzl.dto.ParameterBean;
@@ -16,13 +17,17 @@ import cn.zzuzl.service.ProjectService;
 import cn.zzuzl.service.StudentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Controller
@@ -36,6 +41,8 @@ public class ActivityController {
     private StudentService studentService;
     @Resource
     private ProjectService projectService;
+    @Resource
+    private ExcelExportUtil excelExportUtil;
     private Logger logger = LogManager.getLogger(getClass());
 
     // 添加素质得分
@@ -149,5 +156,20 @@ public class ActivityController {
         }
 
         return result;
+    }
+
+    // 导出成绩excel
+    @Authorization
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView export(HttpServletResponse response, Model model) {
+        Result<QualityJsonBean> result = listQuality();
+        HSSFWorkbook workbook = null;
+        if (result.isSuccess()) {
+            workbook = excelExportUtil.gen(result.getList(), response);
+            model.addAttribute("workbook", workbook);
+        }
+
+        return new ModelAndView("excelView", "workbook", workbook);
     }
 }

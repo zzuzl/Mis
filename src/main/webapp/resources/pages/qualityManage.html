@@ -3,6 +3,7 @@
         <ma-view-actions>
             <ma-back-button></ma-back-button>
         </ma-view-actions>
+        <a type="button" class="btn btn-success" href="/activities/export">导出为Excel</a>
     </div>
 </div>
 <table border="1">
@@ -12,12 +13,12 @@
         <th rowspan="2">姓名</th>
         <th colspan="{{vm.firstSet.length}}">上学期成绩</th>
         <th colspan="{{vm.secondSet.length}}">下学期成绩</th>
-        <th colspan="{{project.itemList.length}}" ng-repeat="project in vm.projects">{{project.title}}</th>
+        <!--<th colspan="{{project.itemList.length}}" ng-repeat="project in vm.projects">{{project.title}}</th>-->
     </tr>
     <tr>
         <th ng-repeat="item in vm.firstSet">{{item}}</th>
         <th ng-repeat="item in vm.secondSet">{{item}}</th>
-        <th ng-repeat="item in vm.allItems">{{item.title}}</th>
+        <!--<th ng-repeat="item in vm.allItems">{{item.title}}</th>-->
     </tr>
     </thead>
     <tbody>
