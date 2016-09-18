@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,10 +25,15 @@ public class RedisDao {
 
     public List<TermScore> getScores(String schoolNum) throws IOException {
         String json = getJsonScores(schoolNum);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        TermScore[] arr = objectMapper.readValue(json, TermScore[].class);
-        return Arrays.asList(arr);
+        List<TermScore> list = null;
+        if(json != null) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            TermScore[] arr = objectMapper.readValue(json, TermScore[].class);
+            list = Arrays.asList(arr);
+        }
+
+        return list;
     }
 
     public String getJsonScores(String schoolNum) {
