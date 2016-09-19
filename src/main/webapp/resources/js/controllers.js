@@ -1,3 +1,30 @@
+angular.module('myApp').controller('ModalInstanceCtrl', ModalInstanceCtrl);
+
+// 模态框
+function ModalInstanceCtrl($http, $uibModalInstance, items) {
+    var vm = this;
+    vm.items = items;
+    console.log(items);
+
+    /*// 获取当前登录人已填写的信息
+     $http.get('/activities/myActivities').then(function (response) {
+     if (response && response.data) {
+     vm.activities = response.data.list;
+     }
+     });*/
+
+    vm.ok = function () {
+        console.log("ok");
+        $uibModalInstance.close(vm.items);
+    };
+
+    vm.cancel = function () {
+        console.log("cancel");
+        $uibModalInstance.dismiss('cancel');
+    };
+}
+ModalInstanceCtrl.inject = ['$http', '$uibModalInstance', 'items'];
+
 // 我的成绩单
 function myScoreController($http, notification, progression) {
     var vm = this;
@@ -150,8 +177,12 @@ function QualityController($http, notification, progression) {
 QualityController.inject = ['$http', 'notification', 'progression'];
 
 // 综测管理
-function QualityManageController($http, notification, progression) {
+function QualityManageController($http, $uibModal, notification, progression) {
     var vm = this;
+    vm.btn = {
+        show: true,
+        text: "隐藏成绩"
+    };
     progression.start();
 
     // 获取所有学生已填写的信息
@@ -172,48 +203,91 @@ function QualityManageController($http, notification, progression) {
         progression.done();
     });
 
+    progression.start();
     // 获取分类信息
-    /*$http.get('/projects/items').then(function (response) {
-     if (response && response.data) {
-     var arr = response.data.list;
-     vm.allItems = [];
-     for (var i = 0; i < arr.length; i++) {
-     if (arr[i].itemList.length < 1) {
-     arr.splice(i--, 1);
-     } else {
-     arr[i].itemList.forEach(function (e) {
-     vm.allItems.push(e);
-     });
-     }
-     }
-     vm.projects = arr;
-     }
-     progression.done();
-     });*/
+    $http.get('/projects/items').then(function (response) {
+        if (response && response.data) {
+            var arr = response.data.list;
+            vm.allItems = [];
 
-    // 获取本专业学生的活动分数
-    /*$http.get('/activities/majorActivities').then(function (response) {
-     if (response && response.data) {
-     var arr = response.data.list;
-     var obj = {};
-     vm.activityScores = [];
-     arr.forEach(function (e) {
-     var o = obj[e.student.schoolNum];
-     if (!o) {
-     o = [];
-     }
-     o.push(e);
-     });
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].itemList.length < 1) {
+                    arr.splice(i--, 1);
+                } else {
+                    arr[i].itemList.forEach(function (e) {
+                        vm.allItems.push(e);
+                    });
+                }
+            }
+            vm.projects = arr;
 
-     for (i in obj) {
-     vm.activityScores.push({
-     schoolNum: i,
-     scores: obj[i]
-     });
-     }
-     }
-     progression.done();
-     });*/
+            // 按item分类显示
+            vm.groupWithItem();
+        }
+        progression.done();
+    });
+
+    vm.groupWithItem = function () {
+        // 获取本专业学生的活动分数
+        $http.get('/activities/majorActivities').then(function (response) {
+            if (response && response.data) {
+                var arr = response.data.list;
+                vm.allItems.forEach(function (item) {
+                    if (!item.scores) {
+                        item.scores = [];
+                    }
+                    arr.forEach(function (e) {
+                        if (e.item.id === item.id) {
+                            item.scores.push(e);
+                        }
+                    });
+                });
+            }
+        });
+    };
+
+    vm.showOrHide = function () {
+        if (vm.btn.show) {
+            vm.btn.show = false;
+            vm.btn.text = '显示成绩';
+        } else {
+            vm.btn.show = true;
+            vm.btn.text = '隐藏成绩';
+        }
+    };
+
+    vm.showModifyDlg = function (scores, quality) {
+        vm.items = [];
+        if (scores) {
+            scores.forEach(function (e) {
+                if (e.student.schoolNum === quality.schoolNum) {
+                    vm.items.push(e);
+                }
+            });
+        }
+
+        // 显示dlg
+        var modalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'model.html',
+            controller: 'ModalInstanceCtrl',
+            controllerAs: 'vm',
+            resolve: {
+                items: function () {
+                    return vm.items;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            // vm.selected = selectedItem;
+        }, function () {
+
+        });
+    };
 }
-QualityManageController.inject = ['$http', 'notification', 'progression'];
+QualityManageController.inject = ['$http', '$uibModal', 'notification', 'progression'];
+
 

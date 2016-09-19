@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ng-admin']);
+var myApp = angular.module('myApp', ['ng-admin', 'ui.bootstrap']);
 
 myApp.config(['NgAdminConfigurationProvider', function (nga) {
 
