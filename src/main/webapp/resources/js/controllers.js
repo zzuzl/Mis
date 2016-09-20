@@ -3,18 +3,38 @@ angular.module('myApp').controller('ModalInstanceCtrl', ModalInstanceCtrl);
 // 模态框
 function ModalInstanceCtrl($http, $uibModalInstance, item, quality, items) {
     var vm = this;
+    var row = 1;
     vm.items = items;
     vm.item = item;
     vm.quality = quality;
-
     vm._items = angular.copy(items);
 
-    /*// 获取当前登录人已填写的信息
-     $http.get('/activities/myActivities').then(function (response) {
-     if (response && response.data) {
-     vm.activities = response.data.list;
-     }
-     });*/
+    vm._items.forEach(function (e) {
+        e.row = row++;
+    });
+
+    vm.removeItem = function (index) {
+        for (var i = 0; i < vm._items.length; i++) {
+            if (vm._items[i].row === index) {
+                vm._items.splice(i, 1);
+                break;
+            }
+        }
+    };
+
+    vm.addItem = function () {
+        vm._items.push({
+            item: {
+                id: item.id
+            },
+            student: {
+                name: quality.name,
+                schoolNum: quality.schoolNum
+            },
+            score: 0,
+            row: row++
+        });
+    };
 
     vm.ok = function () {
         $uibModalInstance.close(vm._items);
@@ -288,8 +308,23 @@ function QualityManageController($http, $uibModal, notification, progression) {
             }
         });
 
-        modalInstance.result.then(function (selectedItem) {
-            // vm.selected = selectedItem;
+        modalInstance.result.then(function (_items) {
+            $http.post('/activities?flag=true', {
+                json: JSON.stringify(_items)
+            }).then(function (response) {
+                if (response.data && item.scores) {
+                    for (var i = 0; i < item.scores.length; i++) {
+                        if (item.scores[i].student.schoolNum === quality.schoolNum) {
+                            item.scores.splice(i, 1);
+                        }
+                    }
+                    if (response.data.list) {
+                        response.data.list.forEach(function (e) {
+                            item.scores.push(e);
+                        });
+                    }
+                }
+            });
         }, function () {
 
         });

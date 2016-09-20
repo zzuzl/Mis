@@ -61,6 +61,7 @@
             <tbody>
             <tr ng-repeat="item in vm._items">
                 <td>
+                    <input type="hidden" ng-model="item.id"/>
                     <input type="text" class="form-control" ng-model="item.title"/>
                 </td>
                 <td>
@@ -69,12 +70,17 @@
                 <td>
                     <input type="text" class="form-control" ng-model="item.desc"/>
                 </td>
-                <td></td>
+                <td>
+                    <button type="button" class="btn btn-default btn-md" ng-click="vm.removeItem(item.row)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="modal-footer">
+        <button class="btn btn-danger" ng-click="vm.addItem()">添加</button>
         <button class="btn btn-primary" ng-click="vm.ok()">保存</button>
         <button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
     </div>

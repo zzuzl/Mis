@@ -20,10 +20,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -40,20 +37,22 @@ public class ActivityController {
     @Resource
     private StudentService studentService;
     @Resource
-    private ProjectService projectService;
-    @Resource
     private ExcelExportUtil excelExportUtil;
     private Logger logger = LogManager.getLogger(getClass());
 
-    // 添加素质得分
+    // 添加素质得分(flag为true表示返回更新后的结果)
     @Authorization
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public Result addActivity(@RequestBody ParameterBean bean) {
+    public Result addActivity(@RequestBody ParameterBean bean,
+                              @RequestParam(value = "flag", required = false, defaultValue = "false") boolean flag) {
         Result result = new Result(true);
         try {
             List<Activity> activityList = StringUtil.json2Activity(bean.getJson());
             result = activityService.addActivities(activityList);
+            if (result.isSuccess() && flag) {
+                result.setList(activityList);
+            }
         } catch (Exception e) {
             logger.error(e);
             result.setSuccess(false);

@@ -40,7 +40,7 @@
         order by a.updateTime
     </select>
 
-    <insert id="insert" parameterType="cn.zzuzl.model.Activity">
+    <insert id="insert" parameterType="cn.zzuzl.model.Activity" keyProperty="id" useGeneratedKeys="true">
         insert ignore into activity(
         itemId,
         title,
@@ -60,7 +60,7 @@
         )
     </insert>
 
-    <insert id="batchInsert" parameterType="cn.zzuzl.model.Activity">
+    <insert id="batchInsert" parameterType="cn.zzuzl.model.Activity" keyProperty="id" useGeneratedKeys="true">
         insert into activity(
         id,
         itemId,
