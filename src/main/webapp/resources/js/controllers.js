@@ -1,10 +1,13 @@
 angular.module('myApp').controller('ModalInstanceCtrl', ModalInstanceCtrl);
 
 // 模态框
-function ModalInstanceCtrl($http, $uibModalInstance, items) {
+function ModalInstanceCtrl($http, $uibModalInstance, item, quality, items) {
     var vm = this;
     vm.items = items;
-    console.log(items);
+    vm.item = item;
+    vm.quality = quality;
+
+    vm._items = angular.copy(items);
 
     /*// 获取当前登录人已填写的信息
      $http.get('/activities/myActivities').then(function (response) {
@@ -14,12 +17,10 @@ function ModalInstanceCtrl($http, $uibModalInstance, items) {
      });*/
 
     vm.ok = function () {
-        console.log("ok");
-        $uibModalInstance.close(vm.items);
+        $uibModalInstance.close(vm._items);
     };
 
     vm.cancel = function () {
-        console.log("cancel");
         $uibModalInstance.dismiss('cancel');
     };
 }
@@ -256,10 +257,10 @@ function QualityManageController($http, $uibModal, notification, progression) {
         }
     };
 
-    vm.showModifyDlg = function (scores, quality) {
+    vm.showModifyDlg = function (item, quality) {
         vm.items = [];
-        if (scores) {
-            scores.forEach(function (e) {
+        if (item.scores) {
+            item.scores.forEach(function (e) {
                 if (e.student.schoolNum === quality.schoolNum) {
                     vm.items.push(e);
                 }
@@ -277,6 +278,12 @@ function QualityManageController($http, $uibModal, notification, progression) {
             resolve: {
                 items: function () {
                     return vm.items;
+                },
+                quality: function () {
+                    return quality;
+                },
+                item: function () {
+                    return item;
                 }
             }
         });

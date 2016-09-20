@@ -35,7 +35,7 @@
                     {{item.secondTerm.scores | scoreVoFilter:title }}
                 </td>
                 <td ng-repeat="i in vm.allItems" class="activity-td" title="点击修改/查看"
-                    ng-click="vm.showModifyDlg(i.scores, item)"
+                    ng-click="vm.showModifyDlg(i, item)"
                     ng-bind-html="i.scores | activityScoreFilter:item.schoolNum">
                 </td>
             </tr>
@@ -46,7 +46,7 @@
 
 <script type="text/ng-template" id="model.html">
     <div class="modal-header">
-        <h5></h5>
+        <h5>{{vm.quality.name}} {{vm.item.title}}</h5>
     </div>
     <div class="modal-body">
         <table class="table table-hover table-condensed">
@@ -59,10 +59,16 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="item in vm.items">
-                <td>{{item.title}}</td>
-                <td>{{item.score}}</td>
-                <td>{{item.desc}}</td>
+            <tr ng-repeat="item in vm._items">
+                <td>
+                    <input type="text" class="form-control" ng-model="item.title"/>
+                </td>
+                <td>
+                    <input type="number" class="form-control" ng-model="item.score"/>
+                </td>
+                <td>
+                    <input type="text" class="form-control" ng-model="item.desc"/>
+                </td>
                 <td></td>
             </tr>
             </tbody>

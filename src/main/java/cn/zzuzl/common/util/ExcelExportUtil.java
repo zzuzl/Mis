@@ -9,9 +9,11 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,28 +35,26 @@ public class ExcelExportUtil {
         HSSFCell cell = null;
         HSSFRow scoreRow = null;
         int rowIndex = 1;
+        Map<String, Integer> titleMap = new HashMap<String, Integer>();
 
-        boolean flag = false;
+        row.createCell(0, HSSFCell.CELL_TYPE_STRING).setCellValue("学号");
+        row.createCell(1, HSSFCell.CELL_TYPE_STRING).setCellValue("姓名");
         for (QualityJsonBean bean : list) {
             scoreRow = sheet.createRow((short) rowIndex++);
-            int index = 0, _index = 0;
-            if (!flag) {
-                row.createCell(index++, HSSFCell.CELL_TYPE_STRING).setCellValue("学号");
-                row.createCell(index++, HSSFCell.CELL_TYPE_STRING).setCellValue("姓名");
-            }
-            scoreRow.createCell(_index++, HSSFCell.CELL_TYPE_STRING).setCellValue(bean.getSchoolNum());
-            scoreRow.createCell(_index++, HSSFCell.CELL_TYPE_STRING).setCellValue(bean.getName());
+            int index = 2;
+            scoreRow.createCell(0, HSSFCell.CELL_TYPE_STRING).setCellValue(bean.getSchoolNum());
+            scoreRow.createCell(1, HSSFCell.CELL_TYPE_STRING).setCellValue(bean.getName());
 
-            if(bean.getList() != null) {
+            if (bean.getList() != null) {
                 for (TermScore termScore : bean.getList()) {
                     for (ScoreVO scoreVO : termScore.getScores()) {
-                        if (!flag) {
-                            row.createCell(index++, HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getTitle());
+                        if (!titleMap.containsKey(scoreVO.getTitle())) {
+                            row.createCell(index, HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getTitle());
+                            titleMap.put(scoreVO.getTitle(), index++);
                         }
-                        scoreRow.createCell(_index++, HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getScore());
+                        scoreRow.createCell(titleMap.get(scoreVO.getTitle()), HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getScore());
                     }
                 }
-                flag = true;
             }
         }
 
