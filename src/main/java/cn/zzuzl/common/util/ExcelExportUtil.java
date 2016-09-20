@@ -35,13 +35,13 @@ public class ExcelExportUtil {
         HSSFCell cell = null;
         HSSFRow scoreRow = null;
         int rowIndex = 1;
+        int index = 2;
         Map<String, Integer> titleMap = new HashMap<String, Integer>();
 
         row.createCell(0, HSSFCell.CELL_TYPE_STRING).setCellValue("学号");
         row.createCell(1, HSSFCell.CELL_TYPE_STRING).setCellValue("姓名");
         for (QualityJsonBean bean : list) {
             scoreRow = sheet.createRow((short) rowIndex++);
-            int index = 2;
             scoreRow.createCell(0, HSSFCell.CELL_TYPE_STRING).setCellValue(bean.getSchoolNum());
             scoreRow.createCell(1, HSSFCell.CELL_TYPE_STRING).setCellValue(bean.getName());
 
@@ -50,7 +50,8 @@ public class ExcelExportUtil {
                     for (ScoreVO scoreVO : termScore.getScores()) {
                         if (!titleMap.containsKey(scoreVO.getTitle())) {
                             row.createCell(index, HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getTitle());
-                            titleMap.put(scoreVO.getTitle(), index++);
+                            titleMap.put(scoreVO.getTitle(), index);
+                            index++;
                         }
                         scoreRow.createCell(titleMap.get(scoreVO.getTitle()), HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getScore());
                     }
