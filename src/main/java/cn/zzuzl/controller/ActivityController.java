@@ -1,5 +1,6 @@
 package cn.zzuzl.controller;
 
+import cn.zzuzl.common.Constants;
 import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
 import cn.zzuzl.common.enums.SortDirEnum;
@@ -61,7 +62,7 @@ public class ActivityController {
     }
 
     // 管理员修改activity
-    @Authorization
+    @Authorization({Constants.AUTH_QUA_MANAGE})
     @RequestMapping(value = "/manage", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
     public Result<Activity> manageActivity(@RequestBody ParameterBean bean) {
@@ -106,7 +107,7 @@ public class ActivityController {
     }
 
     // 获取本专业学生综测列表
-    @Authorization
+    @Authorization({Constants.AUTH_QUA_MANAGE})
     @RequestMapping(value = "/qualities", method = RequestMethod.GET)
     @ResponseBody
     public Result<QualityJsonBean> listQuality() {
@@ -161,7 +162,7 @@ public class ActivityController {
     }
 
     // 获取本专业已填写的activity
-    @Authorization
+    @Authorization({Constants.AUTH_QUA_MANAGE})
     @RequestMapping(value = "/majorActivities", method = RequestMethod.GET)
     @ResponseBody
     public Result<Activity> listMajorActivities() {
@@ -182,7 +183,7 @@ public class ActivityController {
     }
 
     // 导出综测excel
-    @Authorization
+    @Authorization({Constants.AUTH_QUA_MANAGE})
     @RequestMapping(value = "/export", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView export(@RequestParam(value = "showScore", required = false, defaultValue = "true") boolean showScore,

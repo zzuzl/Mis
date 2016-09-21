@@ -1,5 +1,6 @@
 package cn.zzuzl.controller;
 
+import cn.zzuzl.common.Constants;
 import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
 import cn.zzuzl.common.util.StringUtil;
@@ -23,7 +24,7 @@ public class ProjectController {
     private Logger logger = LogManager.getLogger(getClass());
 
     // 查询
-    @Authorization
+    @Authorization({Constants.AUTH_PRO_MANAGE})
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public Result listProject(ProjectQuery query) {
@@ -43,7 +44,7 @@ public class ProjectController {
     }
 
     // 查询(带有子项目)
-    @Authorization
+    @Authorization({Constants.AUTH_PRO_MANAGE, Constants.AUTH_QUA_MANAGE})
     @RequestMapping(value = "/items", method = RequestMethod.GET)
     @ResponseBody
     public Result listProjectWithItems(ProjectQuery query) {
@@ -63,7 +64,7 @@ public class ProjectController {
     }
 
     // 查看详细
-    @Authorization
+    @Authorization({Constants.AUTH_PRO_MANAGE})
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Project getById(@PathVariable("id") Integer id) {
@@ -71,7 +72,7 @@ public class ProjectController {
     }
 
     // 新建
-    @Authorization
+    @Authorization({Constants.AUTH_PRO_MANAGE})
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
     public Result addProject(@RequestBody Project project) {
@@ -92,7 +93,7 @@ public class ProjectController {
     }
 
     // 修改
-    @Authorization
+    @Authorization({Constants.AUTH_PRO_MANAGE})
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     @ResponseBody
     public Result updateProject(@PathVariable("id") Integer id, @RequestBody Project project) {
@@ -115,7 +116,7 @@ public class ProjectController {
     }
 
     // 删除
-    @Authorization
+    @Authorization({Constants.AUTH_PRO_MANAGE})
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public Result deleteProject(@PathVariable("id") Integer id) {

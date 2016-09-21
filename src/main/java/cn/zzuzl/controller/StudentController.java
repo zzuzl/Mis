@@ -67,7 +67,7 @@ public class StudentController {
     }
 
     // 查询
-    @Authorization
+    @Authorization({Constants.AUTH_STU_MANAGE})
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public Result listStudent(StudentQuery query) {
@@ -83,7 +83,7 @@ public class StudentController {
     }
 
     // 查看详细
-    @Authorization
+    @Authorization({Constants.AUTH_STU_MANAGE})
     @RequestMapping(value = "/{schoolNum}", method = RequestMethod.GET)
     @ResponseBody
     public Student getById(@PathVariable("schoolNum") String schoolNum) {
@@ -91,6 +91,7 @@ public class StudentController {
     }
 
     // 修改
+    @Authorization({Constants.AUTH_STU_MANAGE})
     @RequestMapping(value = "/{schoolNum}", method = RequestMethod.PUT, consumes = "application/json")
     @ResponseBody
     public Result updateStudent(@PathVariable("schoolNum") String schoolNum, @RequestBody Student student) {
@@ -111,7 +112,7 @@ public class StudentController {
     }
 
     // 删除
-    @Authorization
+    @Authorization({Constants.AUTH_STU_MANAGE})
     @RequestMapping(value = "/{schoolNum}", method = RequestMethod.DELETE)
     @ResponseBody
     public Result deleteStudent(@PathVariable("schoolNum") String schoolNum) {

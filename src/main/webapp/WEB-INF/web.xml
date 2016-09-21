@@ -77,9 +77,15 @@
         <param-value>classpath:log4j2.xml</param-value>
     </context-param>
 
-    <!-- 处理401页面 -->
+    <!-- 处理401页面(未登录) -->
     <error-page>
         <error-code>401</error-code>
-        <location>/WEB-INF/templates/errors/401.html</location>
+        <location>/WEB-INF/templates/login.html</location>
+    </error-page>
+
+    <!-- 处理403页面(权限不足) -->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/templates/errors/403.html</location>
     </error-page>
 </web-app>

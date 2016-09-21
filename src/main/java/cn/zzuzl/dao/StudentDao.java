@@ -21,4 +21,6 @@ public interface StudentDao {
     int updateStudent(Student student);
 
     int updateInvalid(@Param("schoolNum") String schoolNum);
+
+    List<String> getResourcesBySchoolNum(@Param("schoolNum") String schoolNum);
 }

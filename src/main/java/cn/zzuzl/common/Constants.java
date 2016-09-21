@@ -5,4 +5,11 @@ public final class Constants {
 
     public static final String STU = "student";
     public static final String PASS = "password";
+
+    public static final String RESOURCES = "resources";
+
+    // auth code
+    public static final String AUTH_STU_MANAGE = "student_manage";
+    public static final String AUTH_PRO_MANAGE = "project_manage";
+    public static final String AUTH_QUA_MANAGE = "quality_manage";
 }

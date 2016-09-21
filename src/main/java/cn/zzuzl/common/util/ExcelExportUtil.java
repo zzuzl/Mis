@@ -2,13 +2,12 @@ package cn.zzuzl.common.util;
 
 import cn.zzuzl.dto.QualityJsonBean;
 import cn.zzuzl.model.*;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
@@ -48,6 +47,7 @@ public class ExcelExportUtil {
         sheet.addMergedRegion(new CellRangeAddress(0, 1, 1, 1));
         row.createCell(0, HSSFCell.CELL_TYPE_STRING).setCellValue("学号");
         row.createCell(1, HSSFCell.CELL_TYPE_STRING).setCellValue("姓名");
+        row = sheet.createRow(1);
         // 填写成绩部分
         if (showScore) {
             for (QualityJsonBean bean : scoreList) {
@@ -72,21 +72,26 @@ public class ExcelExportUtil {
             }
         }
 
+        int firstIndex = colIndex;
+        int secondIndex = colIndex;
         // 填充活动标题部分
         if (projectList != null) {
-            int firstIndex = colIndex;
-            int secondIndex = colIndex;
             for (Project project : projectList) {
                 List<Item> items = project.getItemList();
-                sheet.addMergedRegion(new CellRangeAddress(0, 0, firstIndex, firstIndex + (items == null ? 0 : items.size())));
-                if (items != null) {
-                    for (Item item : items) {
-                        colMap.put(item.getTitle(), secondIndex);
-                        sheet.getRow(1).createCell(secondIndex, HSSFCell.CELL_TYPE_STRING).setCellValue(item.getTitle());
-                        secondIndex++;
-                    }
+                if (items == null || items.size() <= 0) {
+                    continue;
                 }
-                firstIndex++;
+                sheet.addMergedRegion(new CellRangeAddress(0, 0, firstIndex, firstIndex + items.size() - 1));
+                sheet.getRow(0).createCell(firstIndex, HSSFCell.CELL_TYPE_STRING).setCellValue(project.getTitle());
+                for (Item item : items) {
+                    colMap.put(item.getTitle(), secondIndex);
+                    if (sheet.getRow(1) == null) {
+                        sheet.createRow(1);
+                    }
+                    sheet.getRow(1).createCell(secondIndex, HSSFCell.CELL_TYPE_STRING).setCellValue(item.getTitle());
+                    secondIndex++;
+                }
+                firstIndex += items.size();
             }
         }
 
@@ -107,19 +112,27 @@ public class ExcelExportUtil {
                     if (c == null) {
                         // 如果需要显示明细，则使用string，否则使用数字
                         if (showDetail) {
-                            row.createCell(col, HSSFCell.CELL_TYPE_STRING).setCellValue(activity.getTitle() + " " + activity.getScore());
+                            c = row.createCell(col, HSSFCell.CELL_TYPE_STRING);
+                            c.getCellStyle().setWrapText(true);
+                            c.setCellValue(activity.getTitle() + " " + activity.getScore());
                         } else {
                             row.createCell(col, HSSFCell.CELL_TYPE_NUMERIC).setCellValue(activity.getScore());
                         }
                     } else {
                         if (showDetail) {
-                            c.setCellValue(c.getStringCellValue() + "\r\n" + activity.getTitle() + " " + activity.getScore());
+                            c.getCellStyle().setWrapText(true);
+                            c.setCellValue(new HSSFRichTextString(c.getStringCellValue() + "\r\n" + activity.getTitle() + " " + activity.getScore()));
                         } else {
                             c.setCellValue(c.getNumericCellValue() + activity.getScore());
                         }
                     }
                 }
             }
+        }
+
+        for (int i = 0; i < Math.max(colIndex, secondIndex); i++) {
+            // 设置单元格宽度
+            sheet.setColumnWidth(i, 4000);
         }
 
         return workbook;

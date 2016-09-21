@@ -182,7 +182,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 
     /********************* 主页配置 **********************/
     admin.dashboard(nga.dashboard()
-        .template('dashboard.html')
+        .template('欢迎使用!')
     );
 
     /********************* 菜单配置 **********************/

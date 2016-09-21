@@ -41,7 +41,7 @@ angular.module('myApp')
         });
 
         // 添加自定义拦截器
-        $httpProvider.interceptors.push(function (notification, progression) {
+        $httpProvider.interceptors.push(function ($q, notification, progression) {
             return {
                 'response': function (response) {
                     if (response.data.success === false) {
@@ -50,6 +50,14 @@ angular.module('myApp')
                     } else {
                         return response;
                     }
+                },
+                'responseError': function (rejection) {
+                    if (rejection.status == 403) {
+                        notification.log('对不起，您没有权限访问此内容', {addnCls: 'humane-flatty-error'});
+                        progression.done();
+                        return;
+                    }
+                    return $q.reject(rejection);
                 }
             };
         });
