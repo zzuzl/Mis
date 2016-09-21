@@ -24,3 +24,9 @@
 .activity-td:hover {
     cursor: pointer;
 }
+
+.inline-div {
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
+}

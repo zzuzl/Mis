@@ -4,7 +4,16 @@
             <ma-back-button></ma-back-button>
         </ma-view-actions>
         <a type="button" class="btn btn-success" href="/activities/export">导出为Excel</a>
-        <button type="button" class="btn btn-default" ng-click="vm.showOrHide()">{{vm.btn.text}}</button>
+        <div class="checkbox inline-div">
+            <label>
+                <input type="checkbox" ng-model="vm.conf.showScore"> 显示成绩
+            </label>
+        </div>
+        <div class="checkbox inline-div">
+            <label>
+                <input type="checkbox" ng-model="vm.conf.showDetail"> 显示活动明细
+            </label>
+        </div>
     </div>
 </div>
 <div class="row">
@@ -14,13 +23,13 @@
             <tr>
                 <th rowspan="2" class="sm-width">学号</th>
                 <th rowspan="2" class="sm-width">姓名</th>
-                <th colspan="{{vm.firstSet.length}}" ng-show="vm.btn.show">上学期成绩</th>
-                <th colspan="{{vm.secondSet.length}}" ng-show="vm.btn.show">下学期成绩</th>
+                <th colspan="{{vm.firstSet.length}}" ng-show="vm.conf.showScore">上学期成绩</th>
+                <th colspan="{{vm.secondSet.length}}" ng-show="vm.conf.showScore">下学期成绩</th>
                 <th colspan="{{project.itemList.length}}" ng-repeat="project in vm.projects">{{project.title}}</th>
             </tr>
             <tr>
-                <th ng-repeat="item in vm.firstSet" class="sm-width" ng-show="vm.btn.show">{{item}}</th>
-                <th ng-repeat="item in vm.secondSet" class="sm-width" ng-show="vm.btn.show">{{item}}</th>
+                <th ng-repeat="item in vm.firstSet" class="sm-width" ng-show="vm.conf.showScore">{{item}}</th>
+                <th ng-repeat="item in vm.secondSet" class="sm-width" ng-show="vm.conf.showScore">{{item}}</th>
                 <th ng-repeat="item in vm.allItems" class="md-width">{{item.title}}</th>
             </tr>
             </thead>
@@ -28,15 +37,15 @@
             <tr ng-repeat="item in vm.qualities">
                 <td>{{item.schoolNum}}</td>
                 <td>{{item.name}}</td>
-                <td ng-repeat="title in vm.firstSet" ng-show="vm.btn.show">
+                <td ng-repeat="title in vm.firstSet" ng-show="vm.conf.showScore">
                     {{item.firstTerm.scores | scoreVoFilter:title }}
                 </td>
-                <td ng-repeat="title in vm.secondSet" ng-show="vm.btn.show">
+                <td ng-repeat="title in vm.secondSet" ng-show="vm.conf.showScore">
                     {{item.secondTerm.scores | scoreVoFilter:title }}
                 </td>
                 <td ng-repeat="i in vm.allItems" class="activity-td" title="点击修改/查看"
                     ng-click="vm.showModifyDlg(i, item)"
-                    ng-bind-html="i.scores | activityScoreFilter:item.schoolNum">
+                    ng-bind-html="i.scores | activityScoreFilter:item.schoolNum:vm.conf.showDetail">
                 </td>
             </tr>
             </tbody>

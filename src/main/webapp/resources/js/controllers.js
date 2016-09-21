@@ -200,9 +200,9 @@ QualityController.inject = ['$http', 'notification', 'progression'];
 // 综测管理
 function QualityManageController($http, $uibModal, notification, progression) {
     var vm = this;
-    vm.btn = {
-        show: true,
-        text: "隐藏成绩"
+    vm.conf = {
+        showScore: true,
+        showDetail: true
     };
     progression.start();
 
