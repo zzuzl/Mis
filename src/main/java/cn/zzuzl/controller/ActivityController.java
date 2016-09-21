@@ -38,6 +38,8 @@ public class ActivityController {
     private StudentService studentService;
     @Resource
     private ExcelExportUtil excelExportUtil;
+    @Resource
+    private ProjectService projectService;
     private Logger logger = LogManager.getLogger(getClass());
 
     // 添加素质得分
@@ -179,15 +181,33 @@ public class ActivityController {
         return result;
     }
 
-    // 导出成绩excel
+    // 导出综测excel
     @Authorization
     @RequestMapping(value = "/export", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView export(HttpServletResponse response, Model model) {
+    public ModelAndView export(@RequestParam(value = "showScore", required = false, defaultValue = "true") boolean showScore,
+                               @RequestParam(value = "showDetail", required = false, defaultValue = "true") boolean showDetail,
+                               HttpServletResponse response, Model model) {
         Result<QualityJsonBean> result = listQuality();
+        Result<Activity> activityResult = listMajorActivities();
+
+
+        ProjectQuery query = new ProjectQuery();
+        query.setYear(StringUtil.getCurrentYear());
+        query.setMajorCode(LoginContext.getLoginContext().getStudent().majorCode());
+        query.setGrade(LoginContext.getLoginContext().getStudent().getGrade());
+        Result<Project> projectResult = projectService.searchProjectWithItems(query);
+
         HSSFWorkbook workbook = null;
         if (result.isSuccess()) {
-            workbook = excelExportUtil.gen(result.getList(), response);
+            workbook = excelExportUtil.genQualityXls(
+                    result.getList(),
+                    activityResult.getList(),
+                    projectResult.getList(),
+                    response,
+                    showScore,
+                    showDetail
+            );
             model.addAttribute("workbook", workbook);
         }
 

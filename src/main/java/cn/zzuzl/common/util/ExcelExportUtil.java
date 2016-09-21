@@ -1,15 +1,14 @@
 package cn.zzuzl.common.util;
 
 import cn.zzuzl.dto.QualityJsonBean;
-import cn.zzuzl.model.ScoreVO;
-import cn.zzuzl.model.TermScore;
+import cn.zzuzl.model.*;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
@@ -23,37 +22,101 @@ public class ExcelExportUtil {
     @javax.annotation.Resource
     Map<String, Resource> excelTemplates;
 
-    public HSSFWorkbook gen(List<QualityJsonBean> list, HttpServletResponse response) {
+    public HSSFWorkbook genQualityXls(List<QualityJsonBean> scoreList,
+                                      List<Activity> activityList,
+                                      List<Project> projectList,
+                                      HttpServletResponse response,
+                                      boolean showScore,
+                                      boolean showDetail) {
         try {
             response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("成绩单", "UTF-8") + ".xls");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("成绩单");
-        HSSFRow row = sheet.createRow((short) 0);
+        HSSFSheet sheet = workbook.createSheet("综测表");
+        HSSFRow row = sheet.createRow(0);
         HSSFCell cell = null;
         HSSFRow scoreRow = null;
-        int rowIndex = 1;
-        int index = 2;
-        Map<String, Integer> titleMap = new HashMap<String, Integer>();
+        int rowIndex = 2;
+        int colIndex = 2;
+        Map<String, Integer> colMap = new HashMap<String, Integer>();
+        Map<String, Integer> rowMap = new HashMap<String, Integer>();
 
+        // 合并单元格
+        sheet.addMergedRegion(new CellRangeAddress(0, 1, 0, 0));
+        sheet.addMergedRegion(new CellRangeAddress(0, 1, 1, 1));
         row.createCell(0, HSSFCell.CELL_TYPE_STRING).setCellValue("学号");
         row.createCell(1, HSSFCell.CELL_TYPE_STRING).setCellValue("姓名");
-        for (QualityJsonBean bean : list) {
-            scoreRow = sheet.createRow((short) rowIndex++);
-            scoreRow.createCell(0, HSSFCell.CELL_TYPE_STRING).setCellValue(bean.getSchoolNum());
-            scoreRow.createCell(1, HSSFCell.CELL_TYPE_STRING).setCellValue(bean.getName());
+        // 填写成绩部分
+        if (showScore) {
+            for (QualityJsonBean bean : scoreList) {
+                // 记录学号对应的行
+                rowMap.put(bean.getSchoolNum(), rowIndex);
+                scoreRow = sheet.createRow(rowIndex++);
+                scoreRow.createCell(0, HSSFCell.CELL_TYPE_STRING).setCellValue(bean.getSchoolNum());
+                scoreRow.createCell(1, HSSFCell.CELL_TYPE_STRING).setCellValue(bean.getName());
 
-            if (bean.getList() != null) {
-                for (TermScore termScore : bean.getList()) {
-                    for (ScoreVO scoreVO : termScore.getScores()) {
-                        if (!titleMap.containsKey(scoreVO.getTitle())) {
-                            row.createCell(index, HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getTitle());
-                            titleMap.put(scoreVO.getTitle(), index);
-                            index++;
+                if (bean.getList() != null) {
+                    for (TermScore termScore : bean.getList()) {
+                        for (ScoreVO scoreVO : termScore.getScores()) {
+                            if (!colMap.containsKey(scoreVO.getTitle())) {
+                                row.createCell(colIndex, HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getTitle());
+                                colMap.put(scoreVO.getTitle(), colIndex);
+                                colIndex++;
+                            }
+                            scoreRow.createCell(colMap.get(scoreVO.getTitle()), HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getScore());
                         }
-                        scoreRow.createCell(titleMap.get(scoreVO.getTitle()), HSSFCell.CELL_TYPE_STRING).setCellValue(scoreVO.getScore());
+                    }
+                }
+            }
+        }
+
+        // 填充活动标题部分
+        if (projectList != null) {
+            int firstIndex = colIndex;
+            int secondIndex = colIndex;
+            for (Project project : projectList) {
+                List<Item> items = project.getItemList();
+                sheet.addMergedRegion(new CellRangeAddress(0, 0, firstIndex, firstIndex + (items == null ? 0 : items.size())));
+                if (items != null) {
+                    for (Item item : items) {
+                        colMap.put(item.getTitle(), secondIndex);
+                        sheet.getRow(1).createCell(secondIndex, HSSFCell.CELL_TYPE_STRING).setCellValue(item.getTitle());
+                        secondIndex++;
+                    }
+                }
+                firstIndex++;
+            }
+        }
+
+        // 填充活动分数
+        if (activityList != null) {
+            for (Activity activity : activityList) {
+                String schoolNum = activity.getStudent().getSchoolNum();
+                if (!rowMap.containsKey(schoolNum)) {
+                    rowMap.put(schoolNum, rowIndex);
+                    sheet.createRow(rowIndex++);
+                }
+                row = sheet.getRow(rowMap.get(schoolNum));
+
+                if (activity.getItem() != null && activity.getItem().getTitle() != null) {
+                    int col = colMap.get(activity.getItem().getTitle());
+                    HSSFCell c = row.getCell(col);
+                    // 如果不存在该表格则创建一个
+                    if (c == null) {
+                        // 如果需要显示明细，则使用string，否则使用数字
+                        if (showDetail) {
+                            row.createCell(col, HSSFCell.CELL_TYPE_STRING).setCellValue(activity.getTitle() + " " + activity.getScore());
+                        } else {
+                            row.createCell(col, HSSFCell.CELL_TYPE_NUMERIC).setCellValue(activity.getScore());
+                        }
+                    } else {
+                        if (showDetail) {
+                            c.setCellValue(c.getStringCellValue() + "\r\n" + activity.getTitle() + " " + activity.getScore());
+                        } else {
+                            c.setCellValue(c.getNumericCellValue() + activity.getScore());
+                        }
                     }
                 }
             }

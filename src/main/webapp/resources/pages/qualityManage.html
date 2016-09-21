@@ -3,7 +3,7 @@
         <ma-view-actions>
             <ma-back-button></ma-back-button>
         </ma-view-actions>
-        <a type="button" class="btn btn-success" href="/activities/export">导出为Excel</a>
+        <a type="button" class="btn btn-success" href="/activities/export?showScore={{vm.conf.showScore}}&showDetail={{vm.conf.showDetail}}">导出为Excel</a>
         <div class="checkbox inline-div">
             <label>
                 <input type="checkbox" ng-model="vm.conf.showScore"> 显示成绩
