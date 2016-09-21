@@ -40,18 +40,38 @@ public class ActivityController {
     private ExcelExportUtil excelExportUtil;
     private Logger logger = LogManager.getLogger(getClass());
 
-    // 添加素质得分(flag为true表示返回更新后的结果)
+    // 添加素质得分
     @Authorization
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public Result addActivity(@RequestBody ParameterBean bean,
-                              @RequestParam(value = "flag", required = false, defaultValue = "false") boolean flag) {
+    public Result addActivity(@RequestBody ParameterBean bean) {
         Result result = new Result(true);
         try {
             List<Activity> activityList = StringUtil.json2Activity(bean.getJson());
             result = activityService.addActivities(activityList);
-            if (result.isSuccess() && flag) {
-                result.setList(activityList);
+        } catch (Exception e) {
+            logger.error(e);
+            result.setSuccess(false);
+            result.setError(e.getMessage());
+        }
+
+        return result;
+    }
+
+    // 管理员修改activity
+    @Authorization
+    @RequestMapping(value = "/manage", method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    public Result<Activity> manageActivity(@RequestBody ParameterBean bean) {
+        Result<Activity> result = new Result<Activity>(true);
+        try {
+            List<Activity> activityList = StringUtil.json2Activity(bean.getJson());
+            result = activityService.manageActivities(activityList, bean.getSchoolNum(), bean.getItemId());
+            if (result.isSuccess()) {
+                Result<Activity> activityResult = activityService.listActivities(bean.getSchoolNum(), null, null, bean.getItemId());
+                if (activityResult.isSuccess()) {
+                    result.setList(activityResult.getList());
+                }
             }
         } catch (Exception e) {
             logger.error(e);
@@ -72,6 +92,7 @@ public class ActivityController {
             result = activityService.listActivities(
                     LoginContext.getCurrentSchoolNum(),
                     StringUtil.getCurrentYear(),
+                    null,
                     null);
         } catch (Exception e) {
             logger.error(e);
@@ -93,7 +114,7 @@ public class ActivityController {
             StudentQuery query = new StudentQuery();
             query.setPage(0);
             query.setPerPage(0);
-            query.setMajorCode(student.getClassCode().substring(0, 4));
+            query.setMajorCode(student.majorCode());
             query.setGrade(student.getGrade());
             query.setSortField("schoolNum");
             query.setSortDir(SortDirEnum.ASC.getTitle());
@@ -147,7 +168,8 @@ public class ActivityController {
             result = activityService.listActivities(
                     LoginContext.getCurrentSchoolNum(),
                     StringUtil.getCurrentYear(),
-                    LoginContext.getLoginContext().getStudent().getClassCode().substring(0, 4));
+                    LoginContext.getLoginContext().getStudent().majorCode(),
+                    null);
         } catch (Exception e) {
             logger.error(e);
             result.setSuccess(false);

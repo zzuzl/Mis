@@ -2,6 +2,7 @@ package cn.zzuzl.dao;
 
 import cn.zzuzl.model.Item;
 import cn.zzuzl.model.Project;
+import cn.zzuzl.model.query.ItemQuery;
 import cn.zzuzl.model.query.ProjectQuery;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,7 +23,7 @@ public interface ProjectDao {
 
     int updateInvalid(@Param("id") Integer id);
 
-    List<Item> getItems(@Param("projectId") Integer projectId);
+    List<Item> searchItems(ItemQuery query);
 
     int batchInsertItem(@NotNull @Param("items") List<Item> items);
 

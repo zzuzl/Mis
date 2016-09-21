@@ -12,9 +12,11 @@ public interface ActivityDao {
 
     List<Activity> listActivities(@Param("schoolNum") String schoolNum,
                                   @Param("year") Integer year,
-                                  @Param("majorCode") String majorCode);
+                                  @Param("majorCode") String majorCode,
+                                  @Param("itemId") Integer itemId);
 
     int updateInvalid(@Param("ids") List<Long> ids,
                       @Param("schoolNum") String schoolNum,
-                      @Param("year") Integer year);
+                      @Param("year") Integer year,
+                      @Param("itemIds") List<Integer> itemIds);
 }

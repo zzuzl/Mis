@@ -30,7 +30,7 @@ public class ProjectController {
         Result result = new Result(true);
         try {
             Student student = LoginContext.getLoginContext().getStudent();
-            query.setMajorCode(student.getClassCode().substring(0, 4));
+            query.setMajorCode(student.majorCode());
             query.setGrade(student.getGrade());
             query.setYear(StringUtil.getCurrentYear());
             result = projectService.searchProject(query);
@@ -50,7 +50,7 @@ public class ProjectController {
         Result result = new Result(true);
         try {
             Student student = LoginContext.getLoginContext().getStudent();
-            query.setMajorCode(student.getClassCode().substring(0, 4));
+            query.setMajorCode(student.majorCode());
             query.setGrade(student.getGrade());
             query.setYear(StringUtil.getCurrentYear());
             result = projectService.searchProjectWithItems(query);
@@ -78,7 +78,7 @@ public class ProjectController {
         Result result = new Result(true);
         try {
             Student student = LoginContext.getLoginContext().getStudent();
-            project.setMajorCode(student.getClassCode().substring(0, 4));
+            project.setMajorCode(student.majorCode());
             project.setGrade(student.getGrade());
             project.setYear(StringUtil.getCurrentYear());
             project.setOperator(student.getSchoolNum());

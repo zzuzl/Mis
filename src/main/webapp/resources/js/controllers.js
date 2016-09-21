@@ -309,13 +309,16 @@ function QualityManageController($http, $uibModal, notification, progression) {
         });
 
         modalInstance.result.then(function (_items) {
-            $http.post('/activities?flag=true', {
-                json: JSON.stringify(_items)
+            $http.post('/activities/manage', {
+                json: JSON.stringify(_items),
+                schoolNum: quality.schoolNum,
+                itemId: item.id
             }).then(function (response) {
                 if (response.data && item.scores) {
                     for (var i = 0; i < item.scores.length; i++) {
                         if (item.scores[i].student.schoolNum === quality.schoolNum) {
                             item.scores.splice(i, 1);
+                            i--;
                         }
                     }
                     if (response.data.list) {

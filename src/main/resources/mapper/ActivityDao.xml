@@ -16,6 +16,9 @@
             <if test="majorCode != null and majorCode != ''">
                 and p.majorCode = #{majorCode}
             </if>
+            <if test="itemId != null">
+                and a.itemId=#{itemId}
+            </if>
         </where>
     </sql>
 
@@ -60,7 +63,7 @@
         )
     </insert>
 
-    <insert id="batchInsert" parameterType="cn.zzuzl.model.Activity" keyProperty="id" useGeneratedKeys="true">
+    <insert id="batchInsert">
         insert into activity(
         id,
         itemId,
@@ -95,7 +98,10 @@
         update activity
         set valid='0'
         where schoolNum=#{schoolNum}
-        and itemId in (select i.id from item i left join project p on i.projectId=p.id where p.year=#{year})
+        and itemId in
+        <foreach collection="itemIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
         and id not in
         <foreach collection="ids" item="item" open="(" close=")" separator=",">
             #{item}
