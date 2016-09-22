@@ -181,9 +181,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     // 3、添加分数时防止分数超出范围
 
     /********************* 主页配置 **********************/
-    admin.dashboard(nga.dashboard()
-        .template('欢迎使用!')
-    );
+    require(['text!/resources/pages/dashboard.html'], function (html) {
+        admin.dashboard(nga.dashboard()
+            .template(html)
+        );
+    });
 
     /********************* 菜单配置 **********************/
     admin.menu(nga.menu()

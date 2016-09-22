@@ -10,6 +10,7 @@
 <body ng-app="myApp">
 <div ui-view></div>
 
+<script src="/resources/js/plugins/require.js"></script>
 <script type="text/javascript">
     var username = window.localStorage.getItem('student');
     if (!username) {
@@ -19,9 +20,14 @@
         window.localStorage.removeItem('student');
         window.location.href = "/login";
     }
+
+    // 配置text.js路径
+    require.config({
+        paths: {
+            text: "/resources/js/plugins/text"
+        }
+    });
 </script>
-<!--<script src="/resources/js/plugins/require.js"></script>
-<script src="/resources/js/plugins/text.js"></script>-->
 <script src="/resources/ng-admin/ng-admin.min.js"></script>
 <script src="/resources/js/app.js"></script>
 <script src="/resources/js/http.config.js"></script>
