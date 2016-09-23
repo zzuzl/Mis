@@ -23,6 +23,25 @@ function MenuController($location) {
 }
 MenuController.$inject = ['$location'];
 
+// 学生管理
+function StudentController($http, progression) {
+    var vm = this;
+    vm.params = {
+        page: 1,
+        perPage: 30
+    };
+    progression.start();
+    $http.get('/students', {
+        params: vm.params
+    }).then(function (response) {
+        if (response && response.data) {
+            vm.students = response.data.list;
+            progression.done();
+        }
+    });
+}
+StudentController.inject = ['$http', 'progression'];
+
 /*
  angular.module('myApp').controller('ModalInstanceCtrl', ModalInstanceCtrl);
 
@@ -368,6 +387,7 @@ angular.module('myApp')
     .controller('MyScoreController', MyScoreController)
     .controller('ActivityController', ActivityController)
     .controller('QualityEditController', QualityEditController)
-    .controller('QualityController', QualityController);
+    .controller('QualityController', QualityController)
+    .controller('StudentController', StudentController);
 
 

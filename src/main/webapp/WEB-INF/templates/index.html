@@ -45,7 +45,7 @@
             <a href="index.html" class="navbar-brand">
                 <small>
                     <i class="fa fa-leaf"></i>
-                    Ace Admin
+                    Mis Admin
                 </small>
             </a>
         </div>
@@ -125,6 +125,13 @@
                 </a>
                 <b class="arrow"></b>
             </li>
+            <li ng-class="{active:vm.active('/students')}">
+                <a ui-sref="students.list">
+                    <i class="menu-icon fa fa-desktop"></i>
+                    <span class="menu-text"> 学生管理 </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
             <li ng-class="{active:vm.active('/myScore')}">
                 <a ui-sref="myScore">
                     <i class="menu-icon fa fa-desktop"></i>
@@ -179,8 +186,8 @@
         <div class="footer-inner">
             <div class="footer-content">
                 <span class="bigger-120">
-                    <span class="blue bolder">Ace</span>
-                    Application &copy; 2016-2020
+                    <span class="blue bolder">Mis</span>
+                     &copy; 2016-2020
                 </span>
             </div>
         </div>

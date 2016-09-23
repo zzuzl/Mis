@@ -1,42 +1,6 @@
-/*
- var myApp = angular.module('myApp', ['ng-admin', 'ui.bootstrap']);
+/*var myApp = angular.module('myApp', ['ng-admin', 'ui.bootstrap']);
 
  myApp.config(['NgAdminConfigurationProvider', function (nga) {
-
- /!********************* 主配置 **********************!/
- var admin = nga.application('Mis')
- .baseApiUrl('http://mis.zzuzl.cn/'); // main API endpoint
- var student = nga.entity('students')
- .identifier(nga.field('schoolNum'));
- var project = nga.entity('projects');
- var item = nga.entity('items');
- admin.addEntity(student)
- .addEntity(project)
- .addEntity(item);
-
- /!********************* student配置 **********************!/
- student.listView()
- .title('学生列表')
- .infinitePagination(false) // 下拉刷新
- .fields([
- nga.field('schoolNum').label('学号'),
- nga.field('name').label('姓名'),
- nga.field('grade').label('年级'),
- nga.field('sex').label('性别'),
- nga.field('classCode').label('班号')
- ])
- .sortField('schoolNum')
- .sortDir('ASC')
- .listActions(['show', 'edit', 'delete'])
- .filters([
- nga.field('schoolNum')
- .label('学号')
- .pinned(true),
- nga.field('name')
- .label('姓名')
- .pinned(true)
- ]);
-
  student.showView()
  .title('详细信息')
  .fields([
@@ -114,7 +78,6 @@
  .attributes({placeholder: '选择专业方向'})
  ]);
 
- /!********************* project配置 **********************!/
  project.listView()
  .title('项目列表')
  .infinitePagination(true)
@@ -168,73 +131,12 @@
  ])
  ]);
 
- project.editionView()
- .title('修改信息')
- .fields(project.creationView().fields());
-
- project.showView()
- .title('详细信息')
- .fields(project.creationView().fields());
-
- // todo list
- // 1、小项目超出5个报错，notifitation not found
- // 2、列表点击标题不能排序的问题
- // 3、添加分数时防止分数超出范围
-
- /!********************* 主页配置 **********************!/
- require(['text!/resources/pages/dashboard.html'], function (html) {
- admin.dashboard(nga.dashboard()
- .template(html)
- );
- });
-
- /!********************* 菜单配置 **********************!/
- admin.menu(nga.menu()
- .addChild(nga.menu(student).title('学生管理'))
- .icon('<span class="glyphicon glyphicon-tags"></span>')
- .addChild(nga.menu(project).title('项目管理'))
- .icon('<span class="glyphicon glyphicon-tags"></span>')
- .addChild(nga.menu().title('综测管理').link('/qualityManage')
- .active(function (path) {
- return path.indexOf('/qualityManage') === 0;
- }))
- .icon('<span class="glyphicon glyphicon-tags"></span>')
- .addChild(nga.menu().title('我的成绩单').link('/myScore')
- .active(function (path) {
- return path.indexOf('/myScore') === 0;
- }))
- .icon('<span class="glyphicon glyphicon-tags"></span>')
- .addChild(nga.menu().title('我的综测')
- .addChild(nga.menu().title('查看').link('/listActivity')
- .active(function (path) {
- return path.indexOf('/listActivity') === 0;
- }))
- .addChild(nga.menu().title('修改').link('/qualityEdit')
- .active(function (path) {
- return path.indexOf('/qualityEdit') === 0;
- }))
- .addChild(nga.menu().title('汇总').link('/myQuality')
- .active(function (path) {
- return path.indexOf('/myQuality') === 0;
- }))
- )
- .icon('<span class="glyphicon glyphicon-tags"></span>')
- );
-
- nga.configure(admin);
  }]);*/
+// todo list
+// 1、添加分数时防止分数超出范围
+// 2、编写数据表格指令，封装列表请求
 
 angular.module('myApp', ['ui.router', 'ui-notification'])
-    /*.config(['$rootScope', '$window', function ($rootScope, $window) {
-        // state change event
-        $rootScope.$on('$stateChangeStart',
-            function (event, toState, toParams, fromState, fromParams, options) {
-                var username = $window.localStorage.getItem('student');
-                if (!username) {
-                    $window.location.href = "/login";
-                }
-            })
-    }])*/
     .config(function (NotificationProvider) {
         // notification config
         NotificationProvider.setOptions({
@@ -272,6 +174,14 @@ angular.module('myApp', ['ui.router', 'ui-notification'])
             url: '/hz',
             templateUrl: '/resources/pages/myQuality.html',
             controller: 'QualityController as vm'
+        }).state('students', {
+            url: '/students',
+            template: '<ui-view/>',
+            abstract: true
+        }).state('students.list', {
+            url: '/list',
+            templateUrl: '/resources/pages/students/list.html',
+            controller: 'StudentController as vm'
         });
 
         $urlRouterProvider.otherwise('/dashboard');
