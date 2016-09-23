@@ -1,33 +1,43 @@
-<div class="row">
-    <div class="col-lg-12">
-        <ma-view-actions>
-            <ma-back-button></ma-back-button>
-        </ma-view-actions>
+<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a ui-sref="dashboard">主页</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">我的综测</a>
+            </li>
+            <li class="active">查看</li>
+        </ul>
     </div>
-</div>
-<div class="row">
-    <div class="col-lg-12">
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr>
-                <th>标题</th>
-                <th>分数</th>
-                <th>一级分类</th>
-                <th>二级分类</th>
-                <th>创建时间</th>
-                <th>更新时间</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="item in vm.activities">
-                <td>{{item.title}}</td>
-                <td>{{item.score}}</td>
-                <td>{{item.item.project.title}}</td>
-                <td>{{item.item.title}}</td>
-                <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                <td>{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-            </tr>
-            </tbody>
-        </table>
+
+    <div class="page-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>标题</th>
+                        <th>分数</th>
+                        <th>一级分类</th>
+                        <th>二级分类</th>
+                        <th>创建时间</th>
+                        <th>更新时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in vm.activities">
+                        <td>{{item.title}}</td>
+                        <td>{{item.score}}</td>
+                        <td>{{item.item.project.title}}</td>
+                        <td>{{item.item.title}}</td>
+                        <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

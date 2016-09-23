@@ -66,6 +66,17 @@ public class StudentController {
         return result;
     }
 
+    // 退出
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ResponseBody
+    public Result logout(HttpSession session) {
+        Result result = new Result(true);
+        session.removeAttribute(Constants.PASS);
+        session.removeAttribute(Constants.RESOURCES);
+        session.removeAttribute(Constants.STU);
+        return result;
+    }
+
     // 查询
     @Authorization({Constants.AUTH_STU_MANAGE})
     @RequestMapping(value = "", method = RequestMethod.GET)
