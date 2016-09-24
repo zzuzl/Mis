@@ -27,6 +27,16 @@ angular.module('myApp')
                         callback(response.data);
                     }
                 });
+            },
+            detail: function (schoolNum, callback) {
+                if (schoolNum) {
+                    $http.get('/students/' + schoolNum)
+                        .then(function (response) {
+                            if (response && response.data) {
+                                callback(response.data);
+                            }
+                        });
+                }
             }
         }
     }]);

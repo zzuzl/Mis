@@ -1,40 +1,4 @@
 /*var myApp = angular.module('myApp', ['ng-admin', 'ui.bootstrap']);
-
- myApp.config(['NgAdminConfigurationProvider', function (nga) {
- student.showView()
- .title('详细信息')
- .fields([
- nga.field('schoolNum').label('学号'),
- nga.field('name').label('姓名'),
- nga.field('grade').label('年级'),
- nga.field('sex', 'choice').label('性别')
- .choices([
- {label: '男', value: '男'},
- {label: '女', value: '女'}
- ]),
- nga.field('classCode').label('班号'),
- nga.field('birthday', 'date').label('出生日期'),
- nga.field('nation').label('民族'),
- nga.field('politicalStatus').label('政治面貌'),
- nga.field('idNo').label('身份证号'),
- nga.field('accountNo').label('光大卡号'),
- nga.field('originAddress').label('生源地'),
- nga.field('homeAddress').label('家庭住址'),
- nga.field('entranceDate', 'date').label('入学日期'),
- nga.field('schoolYear', 'number').label('学制'),
- nga.field('residence', 'choice').label('户口')
- .choices([
- {label: '农村户口', value: '农村户口'},
- {label: '城市户口', value: '城市户口'}
- ]),
- nga.field('phone', 'number').label('手机号'),
- nga.field('qq', 'number').label('QQ号'),
- nga.field('email', 'email').label('邮箱'),
- nga.field('parentPhone', 'number').label('家庭电话'),
- nga.field('dormNo').label('宿舍号'),
- nga.field('direction').label('专业方向')
- ]);
-
  student.editionView()
  .title('修改信息')
  .fields([
@@ -134,7 +98,6 @@
  }]);*/
 // todo list
 // 1、添加分数时防止分数超出范围
-// 2、编写数据表格指令，封装列表请求
 
 angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.js'])
 // chart.js config
@@ -191,6 +154,14 @@ angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.
             url: '/list',
             templateUrl: '/resources/pages/students/list.html',
             controller: 'StudentListController as vm'
+        }).state('students.show', {
+            url: '/show/:schoolNum',
+            templateUrl: '/resources/pages/students/show.html',
+            controller: 'StudentDetailController as vm'
+        }).state('students.edit', {
+            url: '/edit/:schoolNum',
+            templateUrl: '/resources/pages/students/edit.html',
+            controller: 'StudentDetailController as vm'
         }).state('projects', {
             url: '/projects',
             template: '<ui-view/>',

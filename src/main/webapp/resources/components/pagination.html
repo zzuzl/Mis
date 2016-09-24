@@ -1,29 +1,23 @@
 <div class="row">
     <div class="col-xs-6">
         <label>
-            <select class="form-control input-sm" ng-model="vm.params.perPage">
+            <select class="form-control input-sm" ng-model="params.perPage" ng-change="loadData()">
                 <option ng-repeat="item in [10,30,50,100]" value="{{item}}">{{item}}</option>
             </select>
         </label>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-6" ng-show="res.totalPage > 1">
         <ul class="pagination pull-right no-margin">
-            <li class="prev disabled">
-                <a href="#">
+            <li ng-class="{prev:true,disabled:params.page <= 1}">
+                <a href="javascript:void(0)" ng-click="addPage(-1)">
                     <i class="ace-icon fa fa-angle-double-left"></i>
                 </a>
             </li>
-            <li class="active">
-                <a href="#">1</a>
+            <li ng-class="{active:p == params.page}" ng-repeat="p in pageArr">
+                <a href="javascript:void(0)" ng-click="changePage(p)">{{p}}</a>
             </li>
-            <li>
-                <a href="#">2</a>
-            </li>
-            <li>
-                <a href="#">3</a>
-            </li>
-            <li class="next">
-                <a href="#">
+            <li ng-class="{next:true,disabled:params.page >= res.totalPage}">
+                <a href="javascript:void(0)" ng-click="addPage(1)">
                     <i class="ace-icon fa fa-angle-double-right"></i>
                 </a>
             </li>

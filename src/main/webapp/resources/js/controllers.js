@@ -61,25 +61,49 @@ function DashboardController($http, $timeout) {
 }
 DashboardController.$inject = ['$http', '$timeout'];
 
-// 学生管理
+// 学生列表
 function StudentListController(progression, studentService) {
     var vm = this;
     vm.params = {
         page: 1,
-        perPage: 30
+        perPage: 10
     };
 
-    vm.list = function () {
+    // 为了在controller中调用指令的方法
+    vm.control = function (func) {
+        vm.callback = func;
+    };
+
+    vm.list = function (_params, callback) {
         progression.start();
+        if (_params) {
+            vm.params.page = _params.page;
+            vm.params.perPage = _params.perPage;
+        }
         studentService.list(vm.params, function (res) {
             vm.students = res.list;
+            progression.done();
+            if (callback) {
+                callback(res);
+            }
+        });
+    };
+}
+StudentListController.inject = ['progression', 'studentService'];
+
+// 学生详细
+function StudentDetailController(progression, studentService, $stateParams, Notification) {
+    var vm = this;
+
+    vm.detail = function (schoolNum) {
+        progression.start();
+        studentService.detail(schoolNum, function (res) {
+            vm.student = res;
             progression.done();
         });
     };
 
-    vm.detail = function (schoolNum) {
-
-    };
+    vm.detail($stateParams.schoolNum);
 
     vm.save = function () {
 
@@ -88,10 +112,8 @@ function StudentListController(progression, studentService) {
     vm.delete = function () {
 
     };
-
-    vm.list();
 }
-StudentListController.inject = ['progression', 'studentService'];
+StudentDetailController.inject = ['progression', 'studentService', ' $stateParams', 'Notification'];
 
 // 模态框
 function ModalInstanceCtrl($uibModalInstance, item, quality, items) {
@@ -440,5 +462,6 @@ angular.module('myApp')
     .controller('QualityEditController', QualityEditController)
     .controller('QualityController', QualityController)
     .controller('StudentListController', StudentListController)
+    .controller('StudentDetailController', StudentDetailController)
     .controller('QualityManageController', QualityManageController)
     .controller('ModalInstanceCtrl', ModalInstanceCtrl);

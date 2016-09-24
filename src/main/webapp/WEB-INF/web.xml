@@ -88,4 +88,16 @@
         <error-code>403</error-code>
         <location>/WEB-INF/templates/errors/403.html</location>
     </error-page>
+
+    <!-- 处理404页面(未找到) -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/templates/errors/404.html</location>
+    </error-page>
+
+    <!-- 处理500页面(服务器错误) -->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/templates/errors/500.html</location>
+    </error-page>
 </web-app>
