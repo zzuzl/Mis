@@ -1,7 +1,100 @@
-angular.module('myApp').controller('ModalInstanceCtrl', ModalInstanceCtrl);
+// 导航栏controller
+function NavController($http, $window) {
+    var vm = this;
+
+    vm.student = $window.localStorage.getItem('student');
+    vm.logout = function () {
+        $http.post('/students/logout')
+            .then(function (response) {
+                $window.localStorage.removeItem('student');
+                $window.location.href = "/login";
+            });
+    };
+}
+NavController.$inject = ['$http', '$window'];
+
+// 菜单controller
+function MenuController($location) {
+    var vm = this;
+
+    vm.active = function (text) {
+        return $location.url().indexOf(text) === 0;
+    };
+}
+MenuController.$inject = ['$location'];
+
+// 主页controller
+function DashboardController($http, $timeout) {
+    var vm = this;
+    // 获取最近30天的登录记录
+    vm.series = ['人次', '人数'];
+    vm.labels = [];
+    vm.loginData = [[], []];
+
+    vm.load = function () {
+        $http.get('/students/loginRecords/30').then(function (response) {
+            if (response.data && response.data.data) {
+                vm.labels = [];
+                vm.loginData = [[], []];
+                for (key in response.data.data.map) {
+                    var obj = response.data.data.map[key];
+                    vm.labels.push(key);
+                    vm.loginData[0].push(obj.recordCount);
+                    vm.loginData[1].push(obj.personCount);
+                }
+            }
+        });
+    };
+
+    vm.load();
+
+    vm.onClick = function (points, evt) {
+        console.log(points, evt);
+    };
+
+    var gap = 10 * 60 * 1000;
+
+    // 每10秒更新一次数据
+    $timeout(function () {
+        vm.load();
+    }, gap);
+}
+DashboardController.$inject = ['$http', '$timeout'];
+
+// 学生管理
+function StudentListController(progression, studentService) {
+    var vm = this;
+    vm.params = {
+        page: 1,
+        perPage: 30
+    };
+
+    vm.list = function () {
+        progression.start();
+        studentService.list(vm.params, function (res) {
+            vm.students = res.list;
+            progression.done();
+        });
+    };
+
+    vm.detail = function (schoolNum) {
+
+    };
+
+    vm.save = function () {
+
+    };
+
+    vm.delete = function () {
+
+    };
+
+    vm.list();
+}
+StudentListController.inject = ['progression', 'studentService'];
 
 // 模态框
-function ModalInstanceCtrl($http, $uibModalInstance, item, quality, items) {
+function ModalInstanceCtrl($uibModalInstance, item, quality, items) {
     var vm = this;
     var row = 1;
     vm.items = items;
@@ -44,10 +137,11 @@ function ModalInstanceCtrl($http, $uibModalInstance, item, quality, items) {
         $uibModalInstance.dismiss('cancel');
     };
 }
-ModalInstanceCtrl.inject = ['$http', '$uibModalInstance', 'items'];
+ModalInstanceCtrl.inject = ['$uibModalInstance', 'items'];
+
 
 // 我的成绩单
-function myScoreController($http, notification, progression) {
+function MyScoreController($http, progression) {
     var vm = this;
     progression.start();
     $http.get('/students/myScore').then(function (response) {
@@ -63,12 +157,11 @@ function myScoreController($http, notification, progression) {
             progression.done();
         }
     });
-
 }
-myScoreController.inject = ['$http', 'notification', 'progression'];
+MyScoreController.inject = ['$http', 'progression'];
 
 // 素质评定当前录入查看
-function ActivityController($http, notification, progression) {
+function ActivityController($http, progression) {
     var vm = this;
     progression.start();
 
@@ -80,15 +173,18 @@ function ActivityController($http, notification, progression) {
         progression.done();
     });
 }
-ActivityController.inject = ['$http', 'notification', 'progression'];
-
+ActivityController.inject = ['$http', 'progression'];
 
 // 素质评定分数录入
-function QualityEditController($http, notification, progression) {
+function QualityEditController($scope, $http, Notification, progression) {
     var vm = this;
     progression.start();
 
     vm.currentProjectId = 0;
+    vm.projects = [{
+        id: 0,
+        title: '==请选择=='
+    }];
     vm.currentItem = undefined;
     vm.myItems = [];
     var index = 1;
@@ -132,7 +228,7 @@ function QualityEditController($http, notification, progression) {
                 }
             });
         } else {
-            notification.log('先选择要添加的类目', {addnCls: 'humane-flatty-error'});
+            Notification('先选择要添加的类目');
         }
     };
 
@@ -165,10 +261,10 @@ function QualityEditController($http, notification, progression) {
         });
     };
 }
-QualityEditController.inject = ['$http', 'notification', 'progression'];
+QualityEditController.inject = ['$scope', '$http', 'Notification', 'progression'];
 
 // 素质评定汇总
-function QualityController($http, notification, progression) {
+function QualityController($http, Notification, progression) {
     var vm = this;
     progression.start();
 
@@ -195,10 +291,10 @@ function QualityController($http, notification, progression) {
         }
     });
 }
-QualityController.inject = ['$http', 'notification', 'progression'];
+QualityController.inject = ['$http', 'Notification', 'progression'];
 
 // 综测管理
-function QualityManageController($http, $uibModal, notification, progression) {
+function QualityManageController($http, $uibModal, progression) {
     var vm = this;
     vm.conf = {
         showScore: true,
@@ -333,6 +429,16 @@ function QualityManageController($http, $uibModal, notification, progression) {
         });
     };
 }
-QualityManageController.inject = ['$http', '$uibModal', 'notification', 'progression'];
+QualityManageController.inject = ['$http', '$uibModal', 'progression'];
 
-
+angular.module('myApp')
+    .controller('NavController', NavController)
+    .controller('MenuController', MenuController)
+    .controller('DashboardController', DashboardController)
+    .controller('MyScoreController', MyScoreController)
+    .controller('ActivityController', ActivityController)
+    .controller('QualityEditController', QualityEditController)
+    .controller('QualityController', QualityController)
+    .controller('StudentListController', StudentListController)
+    .controller('QualityManageController', QualityManageController)
+    .controller('ModalInstanceCtrl', ModalInstanceCtrl);

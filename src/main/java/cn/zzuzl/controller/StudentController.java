@@ -5,6 +5,7 @@ import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
 import cn.zzuzl.common.util.NetUtil;
 import cn.zzuzl.dao.RedisDao;
+import cn.zzuzl.dto.LoginRecordVO;
 import cn.zzuzl.dto.Result;
 import cn.zzuzl.model.LoginRecord;
 import cn.zzuzl.model.Student;
@@ -63,6 +64,30 @@ public class StudentController {
             }
         }
 
+        return result;
+    }
+
+    // 退出
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ResponseBody
+    public Result logout(HttpSession session) {
+        Result result = new Result(true);
+        session.removeAttribute(Constants.PASS);
+        session.removeAttribute(Constants.RESOURCES);
+        session.removeAttribute(Constants.STU);
+        return result;
+    }
+
+    // 获取指定最近n天的登录记录
+    @Authorization
+    @RequestMapping(value = "/loginRecords/{n}", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<LoginRecordVO> getLoginRecords(@PathVariable("n") int n) {
+        Result<LoginRecordVO> result = new Result<LoginRecordVO>(true);
+        // 最多查3个月的
+        if (n > 0 && n <= 90) {
+            result = studentService.searchLoginRecord(n);
+        }
         return result;
     }
 
