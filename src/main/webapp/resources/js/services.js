@@ -8,4 +8,25 @@ angular.module('myApp')
                 $window.NProgress.done();
             }
         }
+    }])
+    .factory('zlDlg', ['$window', function ($window) {
+        return {
+            confirm: function (text, callback) {
+                text = text ? text : '';
+                $window.bootbox.confirm(text, callback);
+            }
+        }
+    }])
+    .service('studentService', ['$http', function ($http) {
+        return {
+            list: function (params, callback) {
+                $http.get('/students', {
+                    params: params
+                }).then(function (response) {
+                    if (response && response.data) {
+                        callback(response.data);
+                    }
+                });
+            }
+        }
     }]);

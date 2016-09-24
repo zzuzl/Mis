@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="/resources/assets/css/ace-ie.min.css"/>
     <![endif]-->
 
+    <link rel="stylesheet" href="/resources/css/style.css">
+
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
     <!--[if lte IE 8]>
     <script src="/resources/assets/js/html5shiv.min.js"></script>
@@ -52,45 +54,6 @@
 
         <div class="navbar-buttons navbar-header pull-right" role="navigation">
             <ul class="nav ace-nav">
-                <li class="purple dropdown-modal">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <i class="ace-icon fa fa-bell icon-animated-bell"></i>
-                        <span class="badge badge-important">8</span>
-                    </a>
-                    <ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
-                        <li class="dropdown-header">
-                            <i class="ace-icon fa fa-exclamation-triangle"></i>
-                            8 Notifications
-                        </li>
-                        <li class="dropdown-content">
-                            <ul class="dropdown-menu dropdown-navbar navbar-pink">
-                                <li>
-                                    <a href="#">
-                                        <div class="clearfix">
-                                            <span class="pull-left">
-                                                <i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
-                                                New Comments
-                                            </span>
-                                            <span class="pull-right badge badge-info">+12</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="btn btn-xs btn-primary fa fa-user"></i>
-                                        Bob just signed up as an editor ...
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown-footer">
-                            <a href="#">
-                                See all notifications
-                                <i class="ace-icon fa fa-arrow-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
                 <li class="light-blue dropdown-modal">
                     <a data-toggle="dropdown" href="javascript:void(0)" class="dropdown-toggle">
                         <img class="nav-user-photo" src="/resources/assets/images/avatars/user.jpg"
@@ -105,7 +68,7 @@
                         <li>
                             <a href="javascript:void(0)" ng-click="vm.logout()">
                                 <i class="ace-icon fa fa-power-off"></i>
-                                Logout
+                                退出
                             </a>
                         </li>
                     </ul>
@@ -125,23 +88,37 @@
                 </a>
                 <b class="arrow"></b>
             </li>
-            <li ng-class="{active:vm.active('/students')}">
+            <!--<li ng-class="{active:vm.active('/students')}">
                 <a ui-sref="students.list">
-                    <i class="menu-icon fa fa-desktop"></i>
+                    <i class="menu-icon fa fa-users"></i>
                     <span class="menu-text"> 学生管理 </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li ng-class="{active:vm.active('/projects')}">
+                <a ui-sref="students.list">
+                    <i class="menu-icon fa fa-bookmark-o"></i>
+                    <span class="menu-text"> 项目管理 </span>
+                </a>
+                <b class="arrow"></b>
+            </li>-->
+            <li ng-class="{active:vm.active('/qualityManage')}">
+                <a ui-sref="qualityManage">
+                    <i class="menu-icon fa fa-object-group"></i>
+                    <span class="menu-text"> 综测管理 </span>
                 </a>
                 <b class="arrow"></b>
             </li>
             <li ng-class="{active:vm.active('/myScore')}">
                 <a ui-sref="myScore">
-                    <i class="menu-icon fa fa-desktop"></i>
+                    <i class="menu-icon fa fa-file-excel-o"></i>
                     <span class="menu-text"> 我的成绩单 </span>
                 </a>
                 <b class="arrow"></b>
             </li>
             <li class="">
                 <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-desktop"></i>
+                    <i class="menu-icon fa fa-folder-o"></i>
                     <span class="menu-text"> 我的综测 </span>
                     <b class="arrow fa fa-angle-down"></b>
                 </a>
@@ -149,21 +126,21 @@
                 <ul class="submenu">
                     <li ng-class="{active:vm.active('/myQuality/list')}">
                         <a ui-sref="myQuality.list">
-                            <i class="menu-icon fa fa-caret-right"></i>
+                            <i class="menu-icon fa fa-eye"></i>
                             查看
                         </a>
                         <b class="arrow"></b>
                     </li>
                     <li ng-class="{active:vm.active('/myQuality/edit')}">
                         <a ui-sref="myQuality.edit">
-                            <i class="menu-icon fa fa-caret-right"></i>
+                            <i class="menu-icon fa fa-pencil-square-o"></i>
                             修改
                         </a>
                         <b class="arrow"></b>
                     </li>
                     <li ng-class="{active:vm.active('/myQuality/hz')}">
                         <a ui-sref="myQuality.hz">
-                            <i class="menu-icon fa fa-caret-right"></i>
+                            <i class="menu-icon fa fa-braille"></i>
                             汇总
                         </a>
                         <b class="arrow"></b>
@@ -187,7 +164,7 @@
             <div class="footer-content">
                 <span class="bigger-120">
                     <span class="blue bolder">Mis</span>
-                     &copy; 2016-2020
+                    &copy; 2016-2020
                 </span>
             </div>
         </div>
@@ -216,12 +193,14 @@
 <script src="/resources/assets/js/ace-elements.min.js"></script>
 <script src="/resources/assets/js/ace.min.js"></script>
 
+<!-- alert confirm dialog -->
+<script src="/resources/assets/js/bootbox.js"></script>
+
 <!-- angular js -->
 <script src="/resources/assets/js/angular.min.js"></script>
-<script src="/resources/assets/js/angular-loader.min.js"></script>
-<script src="/resources/assets/js/angular-resource.min.js"></script>
 <script src="/resources/assets/js/angular-ui-router.min.js"></script>
 <script src="/resources/assets/js/angular-animate.min.js"></script>
+<script src="/resources/assets/js/ui-bootstrap-tpls-2.1.3.min.js"></script>
 <!-- angular notification -->
 <script src="/resources/assets/js/angular-ui-notification.min.js"></script>
 <!-- NProgress -->

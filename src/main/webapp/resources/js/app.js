@@ -136,7 +136,7 @@
 // 1、添加分数时防止分数超出范围
 // 2、编写数据表格指令，封装列表请求
 
-angular.module('myApp', ['ui.router', 'ui-notification'])
+angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap'])
     .config(function (NotificationProvider) {
         // notification config
         NotificationProvider.setOptions({
@@ -181,7 +181,19 @@ angular.module('myApp', ['ui.router', 'ui-notification'])
         }).state('students.list', {
             url: '/list',
             templateUrl: '/resources/pages/students/list.html',
+            controller: 'StudentListController as vm'
+        }).state('projects', {
+            url: '/projects',
+            template: '<ui-view/>',
+            abstract: true
+        }).state('projects.list', {
+            url: '/list',
+            templateUrl: '/resources/pages/projects/list.html',
             controller: 'StudentController as vm'
+        }).state('qualityManage', {
+            url: '/qualityManage',
+            templateUrl: '/resources/pages/qualityManage.html',
+            controller: 'QualityManageController as vm'
         });
 
         $urlRouterProvider.otherwise('/dashboard');
