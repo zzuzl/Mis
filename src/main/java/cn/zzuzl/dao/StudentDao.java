@@ -1,5 +1,6 @@
 package cn.zzuzl.dao;
 
+import cn.zzuzl.dto.LoginRecordVO;
 import cn.zzuzl.model.LoginRecord;
 import cn.zzuzl.model.Student;
 import cn.zzuzl.model.query.StudentQuery;
@@ -23,4 +24,6 @@ public interface StudentDao {
     int updateInvalid(@Param("schoolNum") String schoolNum);
 
     List<String> getResourcesBySchoolNum(@Param("schoolNum") String schoolNum);
+
+    List<LoginRecordVO> searchLoginRecord(@Param("loginDate") String loginDate);
 }

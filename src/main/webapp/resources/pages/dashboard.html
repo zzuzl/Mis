@@ -12,7 +12,11 @@
     <div class="page-content">
         <div class="row">
             <div class="col-xs-12">
-                欢迎使用!
+                <h4 align="center">登录记录</h4>
+                <canvas class="chart chart-line" chart-data="vm.loginData"
+                        chart-labels="vm.labels" chart-series="vm.series"
+                        chart-click="vm.onClick">
+                </canvas>
             </div>
         </div>
     </div>

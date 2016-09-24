@@ -136,7 +136,15 @@
 // 1、添加分数时防止分数超出范围
 // 2、编写数据表格指令，封装列表请求
 
-angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap'])
+angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.js'])
+// chart.js config
+    .config(['ChartJsProvider', function (ChartJsProvider) {
+        // Configure all charts
+        ChartJsProvider.setOptions({
+            colors: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
+            responsive: true
+        });
+    }])
     .config(function (NotificationProvider) {
         // notification config
         NotificationProvider.setOptions({
@@ -153,7 +161,8 @@ angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap'])
         // router config
         $stateProvider.state('dashboard', {
             url: '/dashboard',
-            templateUrl: '/resources/pages/dashboard.html'
+            templateUrl: '/resources/pages/dashboard.html',
+            controller: 'DashboardController as vm'
         }).state('myScore', {
             url: '/myScore',
             templateUrl: '/resources/pages/myScore.html',

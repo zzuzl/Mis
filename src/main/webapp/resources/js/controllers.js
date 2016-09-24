@@ -23,6 +23,44 @@ function MenuController($location) {
 }
 MenuController.$inject = ['$location'];
 
+// 主页controller
+function DashboardController($http, $timeout) {
+    var vm = this;
+    // 获取最近30天的登录记录
+    vm.series = ['人次', '人数'];
+    vm.labels = [];
+    vm.loginData = [[], []];
+
+    vm.load = function () {
+        $http.get('/students/loginRecords/30').then(function (response) {
+            if (response.data && response.data.data) {
+                vm.labels = [];
+                vm.loginData = [[], []];
+                for (key in response.data.data.map) {
+                    var obj = response.data.data.map[key];
+                    vm.labels.push(key);
+                    vm.loginData[0].push(obj.recordCount);
+                    vm.loginData[1].push(obj.personCount);
+                }
+            }
+        });
+    };
+
+    vm.load();
+
+    vm.onClick = function (points, evt) {
+        console.log(points, evt);
+    };
+
+    var gap = 10 * 60 * 1000;
+
+    // 每10秒更新一次数据
+    $timeout(function () {
+        vm.load();
+    }, gap);
+}
+DashboardController.$inject = ['$http', '$timeout'];
+
 // 学生管理
 function StudentListController(progression, studentService) {
     var vm = this;
@@ -396,6 +434,7 @@ QualityManageController.inject = ['$http', '$uibModal', 'progression'];
 angular.module('myApp')
     .controller('NavController', NavController)
     .controller('MenuController', MenuController)
+    .controller('DashboardController', DashboardController)
     .controller('MyScoreController', MyScoreController)
     .controller('ActivityController', ActivityController)
     .controller('QualityEditController', QualityEditController)

@@ -144,4 +144,13 @@
         and sa.schoolNum=#{schoolNum}
         and au.valid="1"
     </select>
+
+    <select id="searchLoginRecord" resultType="cn.zzuzl.dto.LoginRecordVO">
+        select
+        count(id) as `count`,
+        DATE(loginTime) as loginDate
+        from loginRecord
+        where loginTime &lt;= now() and loginTime >= #{loginDate}
+        group by date(loginTime),schoolNum
+    </select>
 </mapper>

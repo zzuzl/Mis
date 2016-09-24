@@ -1,5 +1,6 @@
 package cn.zzuzl.service;
 
+import cn.zzuzl.dto.LoginRecordVO;
 import cn.zzuzl.dto.Result;
 import cn.zzuzl.model.LoginRecord;
 import cn.zzuzl.model.Student;
@@ -22,4 +23,6 @@ public interface StudentService {
     Result updateStudent(Student student);
 
     Result updateInvalid(String schoolNum);
+
+    Result<LoginRecordVO> searchLoginRecord(int n);
 }
