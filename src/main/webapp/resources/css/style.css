@@ -4,3 +4,29 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.out-div {
+    overflow: auto;
+}
+
+.sm-width {
+    min-width: 80px;
+}
+
+.md-width {
+    min-width: 150px;
+}
+
+.lg-width {
+    min-width: 180px;
+}
+
+.activity-td:hover {
+    cursor: pointer;
+}
+
+.inline-div {
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
+}

@@ -38,7 +38,7 @@ angular.module('myApp')
             'PREVIOUS': '上一页',
             'NEXT': '下一页',
             'DETAIL': '详细',
-            'STATE_CHANGE_ERROR': '页面跳转错误: {{ message }}',
+            'STATE_CHANGE_ERROR': '页面跳转错误 {{ message }}',
             'NOT_FOUND': '页面未找到 404',
             'NOT_FOUND_DETAILS': '未找到请求的数据'
         });

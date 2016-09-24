@@ -1,29 +1,32 @@
 package cn.zzuzl.common.util;
 
 import cn.zzuzl.model.Activity;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/11.
  */
-public final class StringUtil {
+public class StringUtil {
 
-    // 把json解析成数组
-    public static List<Activity> parseActivities(String json) throws Exception {
+    // json转换为activity的数组
+    public static List<Activity> json2Activity(String json) throws IOException {
         List<Activity> activityList = new ArrayList<Activity>();
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(JsonParser.Feature.IGNORE_UNDEFINED, true);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Activity[] activities = objectMapper.readValue(json, Activity[].class);
-        if (activities != null) {
-            activityList = Arrays.asList(activities);
-        }
+        activityList = Arrays.asList(activities);
         return activityList;
+    }
+
+    // 获取当前年份
+    public static Integer getCurrentYear() {
+        return Calendar.getInstance().get(Calendar.YEAR);
     }
 }

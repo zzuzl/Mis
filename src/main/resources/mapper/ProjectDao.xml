@@ -102,16 +102,32 @@
         where id=#{id}
     </update>
 
-    <select id="getItems" resultType="cn.zzuzl.model.Item">
+    <select id="searchItems" resultType="cn.zzuzl.model.Item">
         select
-        id,
-        projectId as "project.id",
-        title,
-        minScore,
-        maxScore
-        from item
-        where projectId=#{projectId}
-        and valid='1'
+        i.id,
+        i.projectId as "project.id",
+        i.title,
+        i.minScore,
+        i.maxScore
+        from item i left join project p on i.projectId=p.id
+        <where>
+            and i.valid='1'
+            <if test="projectIds != null">
+                and i.projectId in
+                <foreach collection="projectIds" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="majorCode != null and majorCode != ''">
+                and p.majorCode=#{majorCode}
+            </if>
+            <if test="grade != null and grade != ''">
+                and p.grade=#{grade}
+            </if>
+            <if test="year != null">
+                and p.year=#{year}
+            </if>
+        </where>
     </select>
 
     <insert id="batchInsertItem">

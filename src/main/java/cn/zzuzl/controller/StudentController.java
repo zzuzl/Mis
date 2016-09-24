@@ -4,6 +4,7 @@ import cn.zzuzl.common.Constants;
 import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
 import cn.zzuzl.common.util.NetUtil;
+import cn.zzuzl.dao.RedisDao;
 import cn.zzuzl.dto.Result;
 import cn.zzuzl.model.LoginRecord;
 import cn.zzuzl.model.Student;
@@ -26,6 +27,8 @@ public class StudentController {
     private StudentService studentService;
     @Resource
     private NetUtil netUtil;
+    @Resource
+    private RedisDao redisDao;
     private Logger logger = LogManager.getLogger(getClass());
 
     // 学生登录
@@ -64,7 +67,7 @@ public class StudentController {
     }
 
     // 查询
-    @Authorization
+    @Authorization({Constants.AUTH_STU_MANAGE})
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public Result listStudent(StudentQuery query) {
@@ -80,7 +83,7 @@ public class StudentController {
     }
 
     // 查看详细
-    @Authorization
+    @Authorization({Constants.AUTH_STU_MANAGE})
     @RequestMapping(value = "/{schoolNum}", method = RequestMethod.GET)
     @ResponseBody
     public Student getById(@PathVariable("schoolNum") String schoolNum) {
@@ -88,6 +91,7 @@ public class StudentController {
     }
 
     // 修改
+    @Authorization({Constants.AUTH_STU_MANAGE})
     @RequestMapping(value = "/{schoolNum}", method = RequestMethod.PUT, consumes = "application/json")
     @ResponseBody
     public Result updateStudent(@PathVariable("schoolNum") String schoolNum, @RequestBody Student student) {
@@ -108,7 +112,7 @@ public class StudentController {
     }
 
     // 删除
-    @Authorization
+    @Authorization({Constants.AUTH_STU_MANAGE})
     @RequestMapping(value = "/{schoolNum}", method = RequestMethod.DELETE)
     @ResponseBody
     public Result deleteStudent(@PathVariable("schoolNum") String schoolNum) {
@@ -132,6 +136,10 @@ public class StudentController {
         try {
             result = netUtil.searchScore(LoginContext.getLoginContext().getStudent().getSchoolNum(),
                     LoginContext.getLoginContext().getPassword());
+            if (result.isSuccess()) {
+                // 刷新成绩单到redis
+                redisDao.updateScore(LoginContext.getCurrentSchoolNum(), result.getData().get("scores"));
+            }
         } catch (Exception e) {
             logger.error(e);
             result.setSuccess(false);

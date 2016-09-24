@@ -13,6 +13,12 @@
             <if test="name != null and name != ''">
                 and `name`=#{name}
             </if>
+            <if test="majorCode != null and majorCode != ''">
+                and classCode like #{majorCode}"%"
+            </if>
+            <if test="grade != null and grade != ''">
+                and grade=#{grade}
+            </if>
         </where>
     </sql>
 
@@ -115,7 +121,6 @@
         where schoolNum=#{schoolNum}
     </update>
 
-
     <insert id="insertLoginRecord">
         insert ignore into loginRecord(
         schoolNum,
@@ -129,4 +134,14 @@
         #{location}
         )
     </insert>
+
+    <select id="getResourcesBySchoolNum" resultType="string">
+        select
+        sa.authCode
+        from
+        stu_auth sa,authority au
+        where sa.authCode=au.authCode
+        and sa.schoolNum=#{schoolNum}
+        and au.valid="1"
+    </select>
 </mapper>

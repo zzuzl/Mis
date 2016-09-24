@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ng-admin']);
+var myApp = angular.module('myApp', ['ng-admin', 'ui.bootstrap']);
 
 myApp.config(['NgAdminConfigurationProvider', function (nga) {
 
@@ -178,11 +178,14 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     // todo list
     // 1、小项目超出5个报错，notifitation not found
     // 2、列表点击标题不能排序的问题
+    // 3、添加分数时防止分数超出范围
 
     /********************* 主页配置 **********************/
-    admin.dashboard(nga.dashboard()
-        .template('dashboard.html')
-    );
+    require(['text!/resources/pages/dashboard.html'], function (html) {
+        admin.dashboard(nga.dashboard()
+            .template(html)
+        );
+    });
 
     /********************* 菜单配置 **********************/
     admin.menu(nga.menu()
@@ -190,15 +193,30 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         .icon('<span class="glyphicon glyphicon-tags"></span>')
         .addChild(nga.menu(project).title('项目管理'))
         .icon('<span class="glyphicon glyphicon-tags"></span>')
+        .addChild(nga.menu().title('综测管理').link('/qualityManage')
+            .active(function (path) {
+                return path.indexOf('/qualityManage') === 0;
+            }))
+        .icon('<span class="glyphicon glyphicon-tags"></span>')
         .addChild(nga.menu().title('我的成绩单').link('/myScore')
             .active(function (path) {
                 return path.indexOf('/myScore') === 0;
             }))
         .icon('<span class="glyphicon glyphicon-tags"></span>')
-        .addChild(nga.menu().title('素质评定录入').link('/qualityEdit')
-            .active(function (path) {
-                return path.indexOf('/qualityEdit') === 0;
-            }))
+        .addChild(nga.menu().title('我的综测')
+            .addChild(nga.menu().title('查看').link('/listActivity')
+                .active(function (path) {
+                    return path.indexOf('/listActivity') === 0;
+                }))
+            .addChild(nga.menu().title('修改').link('/qualityEdit')
+                .active(function (path) {
+                    return path.indexOf('/qualityEdit') === 0;
+                }))
+            .addChild(nga.menu().title('汇总').link('/myQuality')
+                .active(function (path) {
+                    return path.indexOf('/myQuality') === 0;
+                }))
+        )
         .icon('<span class="glyphicon glyphicon-tags"></span>')
     );
 

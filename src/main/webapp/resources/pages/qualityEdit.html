@@ -17,29 +17,37 @@
         </select>
     </div>
     <div class="col-lg-5">
-        <select class="form-control" ng-model="vm.currentItemId">
-            <option value="{{item.id}}" ng-repeat="item in vm.currentItems">
+        <select class="form-control" ng-model="vm.currentItem">
+            <option value="{{item}}" ng-repeat="item in vm.currentItems">
                 {{item.title}} ({{item.minScore}}-{{item.maxScore}})
             </option>
         </select>
     </div>
     <div class="col-lg-3">
-        <button type="button" class="btn btn-default" ng-click="vm.addRow()">添加活动项目</button>
-        <button type="button" class="btn btn-default" ng-show="vm.myItems.length > 0" ng-click="vm.submitActivity()">提交</button>
+        <button type="button" class="btn btn-success" ng-click="vm.addRow()">添加活动项目</button>
+        <button type="button" class="btn btn-danger" ng-show="vm.myItems.length > 0" ng-click="vm.submitActivity()">提交</button>
     </div>
 </div>
 <div class="row item-row" ng-repeat="item in vm.myItems">
-    <input type="hidden" ng-model="item.item.id"/>
+    <input type="hidden" ng-model="item.id"/>
+    <input type="hidden" ng-model="item.item"/>
+    <div class="col-lg-2">
+        <select class="form-control" ng-model="item.item.title">
+            <option value="{{_item.title}}" ng-repeat="_item in vm.allItems" >
+                {{_item.title}} ({{_item.minScore}}-{{_item.maxScore}})
+            </option>
+        </select>
+    </div>
     <div class="col-lg-4">
         <input class="form-control" type="text" placeholder="名称" ng-model="item.title"/>
     </div>
     <div class="col-lg-2">
-        <input class="form-control" type="number" placeholder="得分" ng-model="item.score"/>
-    </div>
-    <div class="col-lg-4">
-        <input class="form-control" type="text" placeholder="备注" ng-model="item.desc"/>
+        <input class="form-control" type="number" placeholder="分" ng-model="item.score"/>
     </div>
     <div class="col-lg-2">
+        <input class="form-control" type="text" placeholder="备注" ng-model="item.desc"/>
+    </div>
+    <div class="col-lg-1">
         <button class="btn btn-default" type="button" ng-click="vm.removeRow(item.row)">移除</button>
     </div>
 </div>

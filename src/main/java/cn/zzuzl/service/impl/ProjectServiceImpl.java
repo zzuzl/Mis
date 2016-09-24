@@ -4,6 +4,7 @@ import cn.zzuzl.dao.ProjectDao;
 import cn.zzuzl.dto.Result;
 import cn.zzuzl.model.Item;
 import cn.zzuzl.model.Project;
+import cn.zzuzl.model.query.ItemQuery;
 import cn.zzuzl.model.query.ProjectQuery;
 import cn.zzuzl.service.ProjectService;
 import org.springframework.stereotype.Service;
@@ -35,9 +36,15 @@ public class ProjectServiceImpl implements ProjectService {
         Result<Project> result = new Result<Project>(0, 0);
         List<Project> list = projectDao.searchProject(query);
         result.setList(list);
+
+        List<Integer> projectIdList = new ArrayList<Integer>();
+        ItemQuery itemQuery = new ItemQuery();
+        itemQuery.setProjectIds(projectIdList);
         if (list != null) {
             for (Project project : list) {
-                project.setItemList(projectDao.getItems(project.getId()));
+                projectIdList.clear();
+                projectIdList.add(project.getId());
+                project.setItemList(projectDao.searchItems(itemQuery));
             }
             result.setTotalItem(list.size());
         }
@@ -47,7 +54,11 @@ public class ProjectServiceImpl implements ProjectService {
     public Project getById(Integer id) {
         Project project = projectDao.getById(id);
         if (project != null) {
-            project.setItemList(projectDao.getItems(project.getId()));
+            List<Integer> projectIdList = new ArrayList<Integer>();
+            projectIdList.add(id);
+            ItemQuery itemQuery = new ItemQuery();
+            itemQuery.setProjectIds(projectIdList);
+            project.setItemList(projectDao.searchItems(itemQuery));
         }
         return project;
     }

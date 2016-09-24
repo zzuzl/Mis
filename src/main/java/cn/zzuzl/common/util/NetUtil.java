@@ -4,6 +4,7 @@ import cn.zzuzl.common.Constants;
 import cn.zzuzl.dto.Result;
 import cn.zzuzl.model.ScoreVO;
 import cn.zzuzl.model.Student;
+import cn.zzuzl.model.TermScore;
 import com.auth0.jwt.internal.org.apache.commons.lang3.StringEscapeUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
@@ -114,27 +115,31 @@ public class NetUtil {
         if (document != null) {
             Elements elements = document.body().select("p font a");
             if (elements != null) {
-                Map<String, List<ScoreVO>> map = new HashMap<String, List<ScoreVO>>();
+                TermScore termScore = null;
+                // 只取最后两学期的成绩
+                List<TermScore> list = new ArrayList<TermScore>();
                 boolean flag = false;
                 for (int i = 0; i < elements.size(); i++) {
                     Element a = elements.get(i);
                     if (isTermHref(a.text())) {
                         Document doc = Jsoup.connect(a.attr("href")).timeout(10 * 1000).get();
-                        map.put(a.text(), getTermScoreList(doc));
+                        termScore = new TermScore();
+                        termScore.setTerm(a.text());
+                        termScore.setScores(getTermScoreList(doc));
+                        list.add(termScore);
                         if (!flag) {
                             flag = true;
-                            map.put(StringEscapeUtils.escapeHtml4(a.parent().ownText()).replaceAll("&nbsp;", ""),
-                                    getTermScoreList(document));
+                            termScore = new TermScore();
+                            termScore.setTerm(StringEscapeUtils.escapeHtml4(a.parent().ownText()).replaceAll("&nbsp;", ""));
+                            termScore.setScores(getTermScoreList(document));
+                            list.add(termScore);
                         }
                     }
                 }
 
-                // 只取最后两学期的成绩
-                List<Map.Entry<String, List<ScoreVO>>> list = new ArrayList<Map.Entry<String, List<ScoreVO>>>();
-                list.addAll(map.entrySet());
-                Collections.sort(list, new Comparator<Map.Entry<String, List<ScoreVO>>>() {
-                    public int compare(Map.Entry<String, List<ScoreVO>> o1, Map.Entry<String, List<ScoreVO>> o2) {
-                        return o1.getKey().compareTo(o2.getKey());
+                Collections.sort(list, new Comparator<TermScore>() {
+                    public int compare(TermScore o1, TermScore o2) {
+                        return o1.getTerm().compareTo(o2.getTerm());
                     }
                 });
 

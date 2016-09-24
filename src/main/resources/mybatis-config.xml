@@ -16,5 +16,8 @@
         <!-- 配置日志的具体实现输出sql：
         SLF4J、LOG4J、LOG4J2、JDK_LOGGING、COMMONS_LOGGING、STDOUT_LOGGING、NO_LOGGING -->
         <setting name="logImpl" value="LOG4J2"/>
+
+        <!-- 配置默认的执行器。SIMPLE 就是普通的执行器；REUSE 执行器会重用预处理语句（prepared statements）； BATCH 执行器将重用语句并执行批量更新。 -->
+        <setting name="defaultExecutorType" value="BATCH"/>
     </settings>
 </configuration>

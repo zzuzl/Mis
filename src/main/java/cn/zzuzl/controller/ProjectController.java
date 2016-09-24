@@ -1,7 +1,9 @@
 package cn.zzuzl.controller;
 
+import cn.zzuzl.common.Constants;
 import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
+import cn.zzuzl.common.util.StringUtil;
 import cn.zzuzl.dto.Result;
 import cn.zzuzl.model.Project;
 import cn.zzuzl.model.Student;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Calendar;
 
 @Controller
 @RequestMapping("projects")
@@ -23,16 +24,16 @@ public class ProjectController {
     private Logger logger = LogManager.getLogger(getClass());
 
     // 查询
-    @Authorization
+    @Authorization({Constants.AUTH_PRO_MANAGE})
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public Result listProject(ProjectQuery query) {
         Result result = new Result(true);
         try {
             Student student = LoginContext.getLoginContext().getStudent();
-            query.setMajorCode(student.getClassCode().substring(0, 4));
+            query.setMajorCode(student.majorCode());
             query.setGrade(student.getGrade());
-            query.setYear(Calendar.getInstance().get(Calendar.YEAR));
+            query.setYear(StringUtil.getCurrentYear());
             result = projectService.searchProject(query);
         } catch (Exception e) {
             logger.error(e);
@@ -43,17 +44,16 @@ public class ProjectController {
     }
 
     // 查询(带有子项目)
-    @Authorization
+    @Authorization({Constants.AUTH_PRO_MANAGE, Constants.AUTH_QUA_MANAGE})
     @RequestMapping(value = "/items", method = RequestMethod.GET)
     @ResponseBody
-    public Result listProjectWithItems() {
+    public Result listProjectWithItems(ProjectQuery query) {
         Result result = new Result(true);
         try {
-            ProjectQuery query = new ProjectQuery();
             Student student = LoginContext.getLoginContext().getStudent();
-            query.setMajorCode(student.getClassCode().substring(0, 4));
+            query.setMajorCode(student.majorCode());
             query.setGrade(student.getGrade());
-            query.setYear(Calendar.getInstance().get(Calendar.YEAR));
+            query.setYear(StringUtil.getCurrentYear());
             result = projectService.searchProjectWithItems(query);
         } catch (Exception e) {
             logger.error(e);
@@ -64,7 +64,7 @@ public class ProjectController {
     }
 
     // 查看详细
-    @Authorization
+    @Authorization({Constants.AUTH_PRO_MANAGE})
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Project getById(@PathVariable("id") Integer id) {
@@ -72,16 +72,16 @@ public class ProjectController {
     }
 
     // 新建
-    @Authorization
+    @Authorization({Constants.AUTH_PRO_MANAGE})
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
     public Result addProject(@RequestBody Project project) {
         Result result = new Result(true);
         try {
             Student student = LoginContext.getLoginContext().getStudent();
-            project.setMajorCode(student.getClassCode().substring(0, 4));
+            project.setMajorCode(student.majorCode());
             project.setGrade(student.getGrade());
-            project.setYear(Calendar.getInstance().get(Calendar.YEAR));
+            project.setYear(StringUtil.getCurrentYear());
             project.setOperator(student.getSchoolNum());
             result = projectService.insertProject(project);
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class ProjectController {
     }
 
     // 修改
-    @Authorization
+    @Authorization({Constants.AUTH_PRO_MANAGE})
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     @ResponseBody
     public Result updateProject(@PathVariable("id") Integer id, @RequestBody Project project) {
@@ -116,7 +116,7 @@ public class ProjectController {
     }
 
     // 删除
-    @Authorization
+    @Authorization({Constants.AUTH_PRO_MANAGE})
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public Result deleteProject(@PathVariable("id") Integer id) {
@@ -130,8 +130,5 @@ public class ProjectController {
         }
         return result;
     }
-
-    /************** 分数 ************/
-
 
 }

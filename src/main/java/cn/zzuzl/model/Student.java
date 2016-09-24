@@ -1,5 +1,7 @@
 package cn.zzuzl.model;
 
+import org.springframework.util.StringUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -204,5 +206,13 @@ public class Student implements Serializable {
 
     public void setValid(Integer valid) {
         this.valid = valid;
+    }
+
+    public String majorCode() {
+        String majorCode = "";
+        if (StringUtils.isEmpty(classCode)) {
+            majorCode = classCode.substring(0, 4);
+        }
+        return majorCode;
     }
 }
