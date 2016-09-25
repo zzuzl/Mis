@@ -12,36 +12,147 @@
     <div class="page-content">
         <div class="row">
             <div class="col-xs-12">
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" id="form" novalidate="novalidate">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 学号 </label>
+                        <label class="col-sm-3 control-label no-padding-right"> 出生日期 </label>
 
                         <div class="col-sm-9">
-                            <input type="text" id="form-field-1" placeholder="Username" class="col-xs-10 col-sm-5">
+                            <input class="date-picker col-xs-10 col-sm-5" ng-model="vm.student.birthday" name="birthday" type="text" data-date-format="yyyy-mm-dd" readonly/>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> 姓名 </label>
-
-                        <div class="col-sm-9">
-                            <input type="text" id="form-field-1-1" placeholder="Text Field" class="col-xs-10 col-sm-5">
-                        </div>
-                    </div>
-
                     <div class="space-4"></div>
 
                     <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 班级号 </label>
+                        <label class="col-sm-3 control-label no-padding-right"> 民族 </label>
 
                         <div class="col-sm-9">
-                            <input type="password" id="form-field-2" placeholder="Password" class="col-xs-10 col-sm-5">
-                            <span class="help-inline col-xs-12 col-sm-7">
-                                <span class="middle">Inline help text</span>
-                            </span>
+                            <input type="text" ng-model="vm.student.nation" name="nation" class="col-xs-10 col-sm-5">
                         </div>
                     </div>
+                    <div class="space-4"></div>
 
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"> 政治面貌 </label>
+
+                        <div class="col-sm-9">
+                            <select ng-model="vm.student.politicalStatus" name="politicalStatus" class="col-xs-10 col-sm-5">
+                                <option value="群众">群众</option>
+                                <option value="共青团员">共青团员</option>
+                                <option value="中共党员">中共党员</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"> 身份证号 </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" ng-model="vm.student.idNo" name="idNo" class="col-xs-10 col-sm-5">
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"> 光大卡号 </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" ng-model="vm.student.accountNo" name="accountNo" class="col-xs-10 col-sm-5">
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"> 生源地 </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" ng-model="vm.student.originAddress" name="originAddress" class="col-xs-10 col-sm-5">
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"> 家庭住址 </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" ng-model="vm.student.homeAddress" name="homeAddress" class="col-xs-10 col-sm-5">
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"> 入学日期 </label>
+
+                        <div class="col-sm-9">
+                            <input class="date-picker col-xs-10 col-sm-5" ng-model="vm.student.entranceDate" name="entranceDate" type="text" data-date-format="yyyy-mm-dd" readonly/>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"> 学制 </label>
+
+                        <div class="col-sm-9">
+                            <input type="number" ng-model="vm.student.schoolYear" name="schoolYear" class="col-xs-10 col-sm-5">
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"> 户口 </label>
+
+                        <div class="col-sm-9">
+                            <select ng-model="vm.student.residence" name="residence" class="col-xs-10 col-sm-5">
+                                <option value="农村户口">农村户口</option>
+                                <option value="城市户口">城市户口</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"> 手机号 </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" ng-model="vm.student.phone" name="phone" class="col-xs-10 col-sm-5 input-mask-phone">
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"> QQ </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" ng-model="vm.student.qq" name="qq" class="col-xs-10 col-sm-5">
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"> E-mail </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" ng-model="vm.student.email" name="email" class="col-xs-10 col-sm-5">
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"> 家庭电话 </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" ng-model="vm.student.parentPhone" name="parentPhone" class="col-xs-10 col-sm-5 input-mask-phone">
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right"> 宿舍号 </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" ng-model="vm.student.dormNo" name="dormNo" class="col-xs-10 col-sm-5">
+                        </div>
+                    </div>
                     <div class="space-4"></div>
 
                     <div class="clearfix form-actions">
@@ -62,3 +173,99 @@
         </div>
     </div>
 </div>
+
+<script>
+    // mask
+    $('.input-mask-phone').mask('999999999');
+    // date picker
+    $('.date-picker').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    }).next().on(ace.click_event, function () {
+        $(this).prev().focus();
+    });
+
+    /*$('#form').validate({
+        errorElement: 'div',
+        errorClass: 'help-block',
+        focusInvalid: false,
+        ignore: "",
+        rules: {
+            email: {
+                required: true,
+                email: true
+            },
+            password: {
+                required: true,
+                minlength: 5
+            },
+            name: {
+                required: true
+            },
+            phone: {
+                required: true,
+                phone: 'required'
+            },
+            comment: {
+                required: true
+            },
+            state: {
+                required: true
+            },
+            platform: {
+                required: true
+            },
+            subscription: {
+                required: true
+            },
+            gender: {
+                required: true
+            },
+            agree: {
+                required: true
+            }
+        },
+        messages: {
+            email: {
+                required: "邮箱不能为空",
+                email: "邮箱不合法"
+            },
+            password: {
+                required: "Please specify a password.",
+                minlength: "Please specify a secure password."
+            },
+            state: "Please choose state",
+            subscription: "Please choose at least one option",
+            gender: "Please choose gender",
+            agree: "Please accept our policy"
+        },
+        highlight: function (e) {
+            $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+        },
+
+        success: function (e) {
+            $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+            $(e).remove();
+        },
+
+        errorPlacement: function (error, element) {
+            if (element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+                var controls = element.closest('div[class*="col-"]');
+                if (controls.find(':checkbox,:radio').length > 1) controls.append(error);
+                else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+            }
+            else if (element.is('.select2')) {
+                error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+            }
+            else if (element.is('.chosen-select')) {
+                error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+            }
+            else error.insertAfter(element.parent());
+        },
+
+        submitHandler: function (form) {
+        },
+        invalidHandler: function (form) {
+        }
+    });*/
+</script>

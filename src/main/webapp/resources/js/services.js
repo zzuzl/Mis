@@ -39,4 +39,27 @@ angular.module('myApp')
                 }
             }
         }
+    }])
+    .service('projectService', ['$http', function ($http) {
+        return {
+            list: function (params, callback) {
+                $http.get('/projects', {
+                    params: params
+                }).then(function (response) {
+                    if (response && response.data) {
+                        callback(response.data);
+                    }
+                });
+            },
+            detail: function (id, callback) {
+                if (id) {
+                    $http.get('/projects/' + id)
+                        .then(function (response) {
+                            if (response && response.data) {
+                                callback(response.data);
+                            }
+                        });
+                }
+            }
+        }
     }]);

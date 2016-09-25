@@ -1,63 +1,4 @@
 /*var myApp = angular.module('myApp', ['ng-admin', 'ui.bootstrap']);
- student.editionView()
- .title('修改信息')
- .fields([
- nga.field('schoolNum').label('学号').editable(false),
- nga.field('name').label('姓名').editable(false),
- nga.field('grade').label('年级').editable(false),
- nga.field('sex', 'choice').label('性别').editable(false)
- .choices([
- {label: '男', value: '男'},
- {label: '女', value: '女'}
- ]),
- nga.field('classCode').label('班号').editable(false),
- nga.field('birthday', 'date').label('出生日期'),
- nga.field('nation').label('民族'),
- nga.field('politicalStatus').label('政治面貌'),
- nga.field('idNo').label('身份证号'),
- nga.field('accountNo').label('光大卡号'),
- nga.field('originAddress').label('生源地'),
- nga.field('homeAddress').label('家庭住址'),
- nga.field('entranceDate', 'date').label('入学日期'),
- nga.field('schoolYear', 'number').label('学制'),
- nga.field('residence', 'choice').label('户口')
- .choices([
- {label: '农村户口', value: '农村户口'},
- {label: '城市户口', value: '城市户口'}
- ])
- .attributes({placeholder: '选择户口类型'}),
- nga.field('phone', 'number').label('手机号')
- .validation({minlength: 6, maxlength: 11}),
- nga.field('qq', 'number').label('QQ号')
- .validation({minlength: 6, maxlength: 12}),
- nga.field('email', 'email').label('邮箱'),
- nga.field('parentPhone', 'number').label('家庭电话')
- .validation({minlength: 6, maxlength: 11}),
- nga.field('dormNo').label('宿舍号'),
- nga.field('direction', 'choice').label('专业方向')
- .choices([
- {label: '系统开发方向', value: '1'},
- {label: '企业管理方向', value: '0'}
- ])
- .attributes({placeholder: '选择专业方向'})
- ]);
-
- project.listView()
- .title('项目列表')
- .infinitePagination(true)
- .fields([
- nga.field('id').label('id'),
- nga.field('title').label('标题'),
- nga.field('majorCode').label('专业'),
- nga.field('grade').label('年级'),
- nga.field('year').label('年份'),
- nga.field('maxScore').label('最大分值'),
- nga.field('minScore').label('最小分值')
- ])
- .sortField('year')
- .sortDir('DESC')
- .listActions(['show', 'edit', 'delete']);
-
  project.creationView()
  .title('新建项目')
  .fields([
@@ -169,7 +110,7 @@ angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.
         }).state('projects.list', {
             url: '/list',
             templateUrl: '/resources/pages/projects/list.html',
-            controller: 'StudentController as vm'
+            controller: 'ProjectListController as vm'
         }).state('qualityManage', {
             url: '/qualityManage',
             templateUrl: '/resources/pages/qualityManage.html',

@@ -5,23 +5,14 @@
                 <i class="ace-icon fa fa-home home-icon"></i>
                 <a ui-sref="dashboard">主页</a>
             </li>
-            <li class="active">学生列表</li>
+            <li class="active">项目列表</li>
         </ul>
     </div>
 
     <div class="page-content">
         <div class="row">
-            <div class="col-lg-3">
-                <label>学号：</label>
-                <input type="text" ng-model="vm.params.schoolNum"/>
-            </div>
-            <div class="col-lg-3">
-                <label>姓名：</label>
-                <input type="text" ng-model="vm.params.name"/>
-            </div>
             <div class="col-lg-4">
-                <button type="button" class="btn btn-default" ng-click="vm.callback()">搜索</button>
-                <a type="button" href="javascript:void(0)" class="btn btn-default" ui-sref="students.create">创建</a>
+                <a type="button" href="javascript:void(0)" class="btn btn-default" ui-sref="projects.create">创建</a>
             </div>
         </div>
         <div class="space-4"></div>
@@ -36,34 +27,33 @@
                                 <span class="lbl"></span>
                             </label>
                         </th>
-                        <th>学号</th>
-                        <th>姓名</th>
+                        <th>标题</th>
+                        <th>专业</th>
                         <th>年级</th>
-                        <th>性别</th>
-                        <th>班号</th>
+                        <th>年份</th>
+                        <th>分值</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="student in vm.students">
+                    <tr ng-repeat="project in vm.projects">
                         <td class="center">
                             <label class="pos-rel">
                                 <input type="checkbox" class="ace"/>
                                 <span class="lbl"></span>
                             </label>
                         </td>
-                        <td>{{student.schoolNum}}</td>
-                        <td>{{student.name}}</td>
-                        <td>{{student.grade}}</td>
-                        <td>{{student.sex}}</td>
-                        <td>{{student.classCode}}</td>
+                        <td>{{project.title}}</td>
+                        <td>{{project.majorCode}}</td>
+                        <td>{{project.grade}}</td>
+                        <td>{{project.year}}</td>
+                        <td>{{project.minScore}} -- {{project.maxScore}}</td>
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
-                                <a class="blue" ng-href="#/students/show/{{student.schoolNum}}">
+                                <a class="blue" href="javascript:void(0)" ui-sref="projects.show({id:project.id})">
                                     <i class="ace-icon fa fa-eye bigger-130"></i>
                                 </a>
-                                <a class="green" href="javascript:void(0)"
-                                   ui-sref="students.edit({schoolNum:student.schoolNum})">
+                                <a class="green" href="javascript:void(0)" ui-sref="projects.edit({id:project.id})">
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a>
                                 <a class="red" href="javascript:void(0)">

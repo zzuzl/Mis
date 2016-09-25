@@ -103,7 +103,9 @@ function StudentDetailController(progression, studentService, $stateParams, Noti
         });
     };
 
-    vm.detail($stateParams.schoolNum);
+    if ($stateParams.schoolNum) {
+        vm.detail($stateParams.schoolNum);
+    }
 
     vm.save = function () {
 
@@ -114,6 +116,36 @@ function StudentDetailController(progression, studentService, $stateParams, Noti
     };
 }
 StudentDetailController.inject = ['progression', 'studentService', ' $stateParams', 'Notification'];
+
+// 项目列表
+function ProjectListController(progression, projectService) {
+    var vm = this;
+    vm.params = {
+        page: 1,
+        perPage: 10
+    };
+
+    // 为了在controller中调用指令的方法
+    vm.control = function (func) {
+        vm.callback = func;
+    };
+
+    vm.list = function (_params, callback) {
+        progression.start();
+        if (_params) {
+            vm.params.page = _params.page;
+            vm.params.perPage = _params.perPage;
+        }
+        projectService.list(vm.params, function (res) {
+            vm.projects = res.list;
+            progression.done();
+            if (callback) {
+                callback(res);
+            }
+        });
+    };
+}
+ProjectListController.inject = ['progression', 'projectService'];
 
 // 模态框
 function ModalInstanceCtrl($uibModalInstance, item, quality, items) {
@@ -463,5 +495,6 @@ angular.module('myApp')
     .controller('QualityController', QualityController)
     .controller('StudentListController', StudentListController)
     .controller('StudentDetailController', StudentDetailController)
+    .controller('ProjectListController', ProjectListController)
     .controller('QualityManageController', QualityManageController)
     .controller('ModalInstanceCtrl', ModalInstanceCtrl);
