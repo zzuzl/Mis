@@ -62,7 +62,7 @@ function DashboardController($http, $timeout) {
 DashboardController.$inject = ['$http', '$timeout'];
 
 // 学生列表
-function StudentListController(progression, studentService) {
+function StudentListController(progression, studentService, Notification, zlDlg) {
     var vm = this;
     vm.params = {
         page: 1,
@@ -88,8 +88,23 @@ function StudentListController(progression, studentService) {
             }
         });
     };
+
+    vm.delete = function (schoolNum) {
+        zlDlg.confirm('确定要删除吗?', function (result) {
+            if (result) {
+                studentService.remove(schoolNum, function (res) {
+                    if (res.success) {
+                        Notification.success("删除成功");
+                        vm.callback();
+                    } else {
+                        Notification.error(res.error);
+                    }
+                })
+            }
+        });
+    }
 }
-StudentListController.inject = ['progression', 'studentService'];
+StudentListController.inject = ['progression', 'studentService', 'Notification', 'zlDlg'];
 
 // 学生详细
 function StudentDetailController(progression, studentService, $stateParams, Notification) {

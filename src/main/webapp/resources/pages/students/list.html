@@ -21,7 +21,7 @@
             </div>
             <div class="col-lg-4">
                 <button type="button" class="btn btn-default" ng-click="vm.callback()">搜索</button>
-                <a type="button" href="javascript:void(0)" class="btn btn-default" ui-sref="students.create">创建</a>
+                <a type="button" href="javascript:void(0)" class="btn btn-default">导出为excel</a>
             </div>
         </div>
         <div class="space-4"></div>
@@ -30,12 +30,6 @@
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace"/>
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
                         <th>学号</th>
                         <th>姓名</th>
                         <th>年级</th>
@@ -46,12 +40,6 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="student in vm.students">
-                        <td class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace"/>
-                                <span class="lbl"></span>
-                            </label>
-                        </td>
                         <td>{{student.schoolNum}}</td>
                         <td>{{student.name}}</td>
                         <td>{{student.grade}}</td>
@@ -66,7 +54,7 @@
                                    ui-sref="students.edit({schoolNum:student.schoolNum})">
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a>
-                                <a class="red" href="javascript:void(0)">
+                                <a class="red" href="javascript:void(0)" ng-click="vm.delete(student.schoolNum)">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
                             </div>

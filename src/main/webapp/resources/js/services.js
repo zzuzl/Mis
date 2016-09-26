@@ -13,7 +13,20 @@ angular.module('myApp')
         return {
             confirm: function (text, callback) {
                 text = text ? text : '';
-                $window.bootbox.confirm(text, callback);
+                $window.bootbox.confirm({
+                    message: text,
+                    buttons: {
+                        confirm: {
+                            label: '是',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: '否',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: callback
+                });
             }
         }
     }])
@@ -31,6 +44,16 @@ angular.module('myApp')
             detail: function (schoolNum, callback) {
                 if (schoolNum) {
                     $http.get('/students/' + schoolNum)
+                        .then(function (response) {
+                            if (response && response.data) {
+                                callback(response.data);
+                            }
+                        });
+                }
+            },
+            remove: function (schoolNum, callback) {
+                if (schoolNum) {
+                    $http.delete('/students/' + schoolNum)
                         .then(function (response) {
                             if (response && response.data) {
                                 callback(response.data);

@@ -67,10 +67,7 @@ public class StudentServiceImpl implements StudentService {
 
     public Result updateInvalid(String schoolNum) {
         Result result = new Result(true);
-        if (studentDao.updateInvalid(schoolNum) < 1) {
-            result.setSuccess(false);
-            result.setError("删除失败");
-        }
+        studentDao.updateInvalid(schoolNum);
         return result;
     }
 
