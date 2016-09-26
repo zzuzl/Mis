@@ -58,10 +58,7 @@ public class StudentServiceImpl implements StudentService {
 
     public Result updateStudent(Student student) {
         Result result = new Result(true);
-        if (studentDao.updateStudent(student) < 1) {
-            result.setSuccess(false);
-            result.setError("修改失败");
-        }
+        studentDao.updateStudent(student);
         return result;
     }
 
@@ -99,5 +96,9 @@ public class StudentServiceImpl implements StudentService {
         result.getData().put("map", map);
 
         return result;
+    }
+
+    public List<Student> export(StudentQuery query) {
+        return studentDao.export(query);
     }
 }

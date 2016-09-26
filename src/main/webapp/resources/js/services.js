@@ -51,6 +51,16 @@ angular.module('myApp')
                         });
                 }
             },
+            update: function (student, callback) {
+                if (student) {
+                    $http.put('/students/' + student.schoolNum, student)
+                        .then(function (response) {
+                            if (response && response.data) {
+                                callback(response.data);
+                            }
+                        });
+                }
+            },
             remove: function (schoolNum, callback) {
                 if (schoolNum) {
                     $http.delete('/students/' + schoolNum)

@@ -47,7 +47,7 @@
 
     <!-- 加载excel模板 -->
     <util:map id="excelTemplates" value-type="org.springframework.core.io.Resource">
-        <entry key="scoreTpl" value="/WEB-INF/excelTpls/scoreTpl.xls"/>
+        <entry key="studentTpl" value="/WEB-INF/excelTpls/studentTpl.xls"/>
     </util:map>
 
     <!-- export excel -->

@@ -6,6 +6,8 @@ import cn.zzuzl.model.LoginRecord;
 import cn.zzuzl.model.Student;
 import cn.zzuzl.model.query.StudentQuery;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/9/10.
  */
@@ -25,4 +27,6 @@ public interface StudentService {
     Result updateInvalid(String schoolNum);
 
     Result<LoginRecordVO> searchLoginRecord(int n);
+
+    List<Student> export(StudentQuery query);
 }

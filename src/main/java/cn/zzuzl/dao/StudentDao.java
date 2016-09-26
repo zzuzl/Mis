@@ -26,4 +26,6 @@ public interface StudentDao {
     List<String> getResourcesBySchoolNum(@Param("schoolNum") String schoolNum);
 
     List<LoginRecordVO> searchLoginRecord(@Param("loginDate") String loginDate);
+
+    List<Student> export(StudentQuery query);
 }

@@ -107,13 +107,19 @@ function StudentListController(progression, studentService, Notification, zlDlg)
 StudentListController.inject = ['progression', 'studentService', 'Notification', 'zlDlg'];
 
 // 学生详细
-function StudentDetailController(progression, studentService, $stateParams, Notification) {
+function StudentDetailController(progression, studentService, $stateParams, Notification, $scope, $filter) {
     var vm = this;
 
     vm.detail = function (schoolNum) {
         progression.start();
         studentService.detail(schoolNum, function (res) {
             vm.student = res;
+            if (vm.student.birthday) {
+                vm.student.birthday = $filter('date')(vm.student.birthday, 'yyyy-MM-dd', 'zh_CN')
+            }
+            if (vm.student.entranceDate) {
+                vm.student.entranceDate = $filter('date')(vm.student.entranceDate, 'yyyy-MM-dd', 'zh_CN')
+            }
             progression.done();
         });
     };
@@ -122,15 +128,23 @@ function StudentDetailController(progression, studentService, $stateParams, Noti
         vm.detail($stateParams.schoolNum);
     }
 
-    vm.save = function () {
-
-    };
-
-    vm.delete = function () {
-
+    vm.onSubmit = function () {
+        if ($scope.form.$invalid) {
+            // Notification.error("存在不合法的数据");
+        } else {
+            progression.start();
+            studentService.update(vm.student, function (res) {
+                if (res.success) {
+                    Notification.success('修改成功');
+                } else {
+                    Notification.error(res.error);
+                }
+                progression.done();
+            });
+        }
     };
 }
-StudentDetailController.inject = ['progression', 'studentService', ' $stateParams', 'Notification'];
+StudentDetailController.inject = ['progression', 'studentService', ' $stateParams', 'Notification', '$scope', '$filter'];
 
 // 项目列表
 function ProjectListController(progression, projectService) {

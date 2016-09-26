@@ -16,6 +16,9 @@
             <if test="majorCode != null and majorCode != ''">
                 and classCode like #{majorCode}"%"
             </if>
+            <if test="classCode != null and classCode != ''">
+                and classCode=#{classCode}
+            </if>
             <if test="grade != null and grade != ''">
                 and grade=#{grade}
             </if>
@@ -152,5 +155,31 @@
         from loginRecord
         where loginTime &lt;= now() and loginTime >= #{loginDate}
         group by date(loginTime),schoolNum
+    </select>
+
+    <select id="export" resultType="cn.zzuzl.model.Student">
+        select
+        schoolNum,
+        grade,
+        `name`,
+        sex,
+        classCode,
+        birthday,
+        nation,
+        politicalStatus,
+        idNo,
+        accountNo,
+        originAddress,
+        homeAddress,
+        entranceDate,
+        schoolYear,
+        residence,
+        phone,
+        qq,
+        email,
+        parentPhone,
+        dormNo
+        from student
+        <include refid="_listWhere"/>
     </select>
 </mapper>

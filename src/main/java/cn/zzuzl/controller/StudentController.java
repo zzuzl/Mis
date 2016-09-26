@@ -3,23 +3,34 @@ package cn.zzuzl.controller;
 import cn.zzuzl.common.Constants;
 import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
+import cn.zzuzl.common.util.ExcelExportUtil;
 import cn.zzuzl.common.util.NetUtil;
+import cn.zzuzl.common.util.StringUtil;
 import cn.zzuzl.dao.RedisDao;
 import cn.zzuzl.dto.LoginRecordVO;
+import cn.zzuzl.dto.QualityJsonBean;
 import cn.zzuzl.dto.Result;
+import cn.zzuzl.model.Activity;
 import cn.zzuzl.model.LoginRecord;
+import cn.zzuzl.model.Project;
 import cn.zzuzl.model.Student;
+import cn.zzuzl.model.query.ProjectQuery;
 import cn.zzuzl.model.query.StudentQuery;
 import cn.zzuzl.service.StudentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("students")
@@ -30,6 +41,8 @@ public class StudentController {
     private NetUtil netUtil;
     @Resource
     private RedisDao redisDao;
+    @Resource
+    private ExcelExportUtil excelExportUtil;
     private Logger logger = LogManager.getLogger(getClass());
 
     // 学生登录
@@ -98,6 +111,8 @@ public class StudentController {
     public Result listStudent(StudentQuery query) {
         Result result = new Result(true);
         try {
+            query.setClassCode(LoginContext.getLoginContext().getStudent().getClassCode());
+            query.setGrade(LoginContext.getLoginContext().getStudent().getGrade());
             result = studentService.searchStudent(query);
         } catch (Exception e) {
             logger.error(e);
@@ -171,5 +186,18 @@ public class StudentController {
             result.setError(e.getMessage());
         }
         return result;
+    }
+
+    // 导出学生列表excel
+    @Authorization({Constants.AUTH_STU_MANAGE})
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    public ModelAndView export(HttpServletResponse response) {
+        StudentQuery query = new StudentQuery();
+        query.setClassCode(LoginContext.getLoginContext().getStudent().getClassCode());
+        query.setGrade(LoginContext.getLoginContext().getStudent().getGrade());
+
+        List<Student> list = studentService.export(query);
+        HSSFWorkbook workbook = excelExportUtil.genStudentXls(list, response);
+        return new ModelAndView("excelView", "workbook", workbook);
     }
 }

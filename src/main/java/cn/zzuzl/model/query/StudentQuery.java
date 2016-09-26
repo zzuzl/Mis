@@ -7,6 +7,7 @@ public class StudentQuery extends BaseQuery {
     private String schoolNum;
     private String name;
     private String majorCode;
+    private String classCode;
     private String grade;
 
     public String getSchoolNum() {
@@ -39,5 +40,13 @@ public class StudentQuery extends BaseQuery {
 
     public void setGrade(String grade) {
         this.grade = grade;
+    }
+
+    public String getClassCode() {
+        return classCode;
+    }
+
+    public void setClassCode(String classCode) {
+        this.classCode = classCode;
     }
 }

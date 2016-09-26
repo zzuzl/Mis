@@ -2,8 +2,9 @@ package cn.zzuzl.common.util;
 
 import cn.zzuzl.dto.QualityJsonBean;
 import cn.zzuzl.model.*;
+import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -135,6 +136,28 @@ public class ExcelExportUtil {
             sheet.setColumnWidth(i, 4000);
         }
 
+        return workbook;
+    }
+
+    public HSSFWorkbook genStudentXls(List<Student> list,
+                                      HttpServletResponse response) {
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("学生", "UTF-8") + ".xls");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        HSSFWorkbook workbook = null;
+        Map<String, Object> beans = new HashMap<String, Object>();
+        beans.put("list", list);
+
+        try {
+            XLSTransformer transformer = new XLSTransformer();
+            workbook = (HSSFWorkbook) transformer.transformXLS(excelTemplates.get("studentTpl").getInputStream(), beans);
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return workbook;
     }
 }

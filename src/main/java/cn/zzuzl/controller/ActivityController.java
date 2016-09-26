@@ -185,13 +185,11 @@ public class ActivityController {
     // 导出综测excel
     @Authorization({Constants.AUTH_QUA_MANAGE})
     @RequestMapping(value = "/export", method = RequestMethod.GET)
-    @ResponseBody
     public ModelAndView export(@RequestParam(value = "showScore", required = false, defaultValue = "true") boolean showScore,
                                @RequestParam(value = "showDetail", required = false, defaultValue = "true") boolean showDetail,
-                               HttpServletResponse response, Model model) {
+                               HttpServletResponse response) {
         Result<QualityJsonBean> result = listQuality();
         Result<Activity> activityResult = listMajorActivities();
-
 
         ProjectQuery query = new ProjectQuery();
         query.setYear(StringUtil.getCurrentYear());
@@ -209,7 +207,6 @@ public class ActivityController {
                     showScore,
                     showDetail
             );
-            model.addAttribute("workbook", workbook);
         }
 
         return new ModelAndView("excelView", "workbook", workbook);
