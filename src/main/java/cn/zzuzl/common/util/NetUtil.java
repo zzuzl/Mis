@@ -121,6 +121,11 @@ public class NetUtil {
                 boolean flag = false;
                 for (int i = 0; i < elements.size(); i++) {
                     Element a = elements.get(i);
+
+                    if ("http://jw.zzu.edu.cn/jpxx.htm".equals(a.attr("href"))) {
+                        throw new RuntimeException("成绩暂时无法查询，请稍微再试！");
+                    }
+
                     if (isTermHref(a.text())) {
                         Document doc = Jsoup.connect(a.attr("href")).timeout(10 * 1000).get();
                         termScore = new TermScore();

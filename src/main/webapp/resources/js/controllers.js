@@ -350,24 +350,29 @@ ModalInstanceCtrl.inject = ['$uibModalInstance', 'items'];
 
 
 // 我的成绩单
-function MyScoreController($http, progression) {
+function MyScoreController($http, progression, Notification) {
     var vm = this;
     progression.start();
     $http.get('/students/myScore').then(function (response) {
         if (response && response.data) {
-            vm.firstTermScore = {
-                title: response.data.data.scores[0].term,
-                scores: response.data.data.scores[0].scores
-            };
-            vm.secondTermScore = {
-                title: response.data.data.scores[1].term,
-                scores: response.data.data.scores[1].scores
-            };
+            if (response.data.success) {
+                vm.firstTermScore = {
+                    title: response.data.data.scores[0].term,
+                    scores: response.data.data.scores[0].scores
+                };
+                vm.secondTermScore = {
+                    title: response.data.data.scores[1].term,
+                    scores: response.data.data.scores[1].scores
+                };
+            } else {
+                Notification.error(response.data.error);
+            }
+
             progression.done();
         }
     });
 }
-MyScoreController.inject = ['$http', 'progression'];
+MyScoreController.inject = ['$http', 'progression', 'Notification'];
 
 // 素质评定当前录入查看
 function ActivityController($http, progression) {
