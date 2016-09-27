@@ -88,6 +88,13 @@
                 </a>
                 <b class="arrow"></b>
             </li>
+            <li ng-class="{active:vm.active('/myInfo')}">
+                <a ui-sref="myInfo">
+                    <i class="menu-icon fa fa-user"></i>
+                    <span class="menu-text"> 个人信息 </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
             <li ng-class="{active:vm.active('/students')}">
                 <a ui-sref="students.list">
                     <i class="menu-icon fa fa-users"></i>

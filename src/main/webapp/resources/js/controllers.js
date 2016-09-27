@@ -61,6 +61,43 @@ function DashboardController($http, $timeout) {
 }
 DashboardController.$inject = ['$http', '$timeout'];
 
+// 个人信息
+function MyInfoController(progression, $http, Notification, $scope, $filter) {
+    var vm = this;
+
+    progression.start();
+    $http.get('/students/myInfo').then(function (response) {
+        vm.student = response.data;
+        if (vm.student.birthday) {
+            vm.student.birthday = $filter('date')(vm.student.birthday, 'yyyy-MM-dd')
+        }
+        if (vm.student.entranceDate) {
+            vm.student.entranceDate = $filter('date')(vm.student.entranceDate, 'yyyy-MM-dd')
+        }
+        progression.done();
+    });
+
+    vm.onSubmit = function () {
+        if (!$scope.form.$dirty)
+            return;
+        if ($scope.form.$invalid) {
+            // Notification.error("存在不合法的数据");
+        } else {
+            progression.start();
+            $http.put('/students/modifyMyInfo', vm.student)
+                .then(function (response) {
+                    if (response.data.success) {
+                        Notification.success('修改成功');
+                    } else {
+                        Notification.error(response.data.error);
+                    }
+                    progression.done();
+                });
+        }
+    };
+}
+MyInfoController.inject = ['progression', '$http', 'Notification', '$scope', '$filter'];
+
 // 学生列表
 function StudentListController(progression, studentService, Notification, zlDlg) {
     var vm = this;
@@ -607,6 +644,7 @@ angular.module('myApp')
     .controller('NavController', NavController)
     .controller('MenuController', MenuController)
     .controller('DashboardController', DashboardController)
+    .controller('MyInfoController', MyInfoController)
     .controller('MyScoreController', MyScoreController)
     .controller('ActivityController', ActivityController)
     .controller('QualityEditController', QualityEditController)

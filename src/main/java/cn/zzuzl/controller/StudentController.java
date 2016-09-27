@@ -91,6 +91,35 @@ public class StudentController {
         return result;
     }
 
+    // 查看个人信息
+    @Authorization
+    @RequestMapping(value = "/myInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public Student myInfo() {
+        return studentService.searchBySchoolNum(LoginContext.getCurrentSchoolNum());
+    }
+
+    //修改个人信息
+    @Authorization
+    @RequestMapping(value = "/modifyMyInfo", method = RequestMethod.PUT, consumes = "application/json")
+    @ResponseBody
+    public Result modifyMyInfo(@RequestBody Student student) {
+        Result result = new Result(true);
+        try {
+            if (!LoginContext.getCurrentSchoolNum().equals(student.getSchoolNum())) {
+                result.setSuccess(false);
+                result.setError("信息错误");
+            } else {
+                result = studentService.updateStudent(student);
+            }
+        } catch (Exception e) {
+            logger.error(e);
+            result.setSuccess(false);
+            result.setError(e.getMessage());
+        }
+        return result;
+    }
+
     // 获取指定最近n天的登录记录
     @Authorization
     @RequestMapping(value = "/loginRecords/{n}", method = RequestMethod.GET)

@@ -5,10 +5,9 @@
                 <i class="ace-icon fa fa-home home-icon"></i>
                 <a ui-sref="dashboard">主页</a>
             </li>
-            <li class="active">学生管理</li>
+            <li class="active">我的信息</li>
         </ul>
     </div>
-
     <div class="page-content">
         <div class="row">
             <div class="col-xs-12">
@@ -159,9 +158,9 @@
                     <div class="space-4"></div>
                     <div class="clearfix form-actions">
                         <div class="col-md-offset-3 col-md-9">
-                            <button class="btn btn-info" ng-class="{disabled:form.$invalid}" type="submit">
+                            <button class="btn btn-info" ng-class="{disabled:form.$invalid || !form.$dirty}" type="submit">
                                 <i class="ace-icon fa fa-check bigger-110"></i>
-                                提交
+                                保存
                             </button>
                             &nbsp; &nbsp; &nbsp;
                             <button class="btn" type="reset">

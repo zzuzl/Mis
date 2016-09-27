@@ -40,6 +40,10 @@ angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.
             url: '/dashboard',
             templateUrl: '/resources/pages/dashboard.html',
             controller: 'DashboardController as vm'
+        }).state('myInfo', {
+            url: '/myInfo',
+            templateUrl: '/resources/pages/myInfo.html',
+            controller: 'MyInfoController as vm'
         }).state('myScore', {
             url: '/myScore',
             templateUrl: '/resources/pages/myScore.html',
