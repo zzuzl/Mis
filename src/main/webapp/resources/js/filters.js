@@ -32,6 +32,6 @@ angular.module('myApp')
                 out = out.substr(0, out.length - 4);
             }
 
-            return showDetail ? $sce.trustAsHtml(out) : out == 0 ? '' : out.toFixed(2);
+            return showDetail ? $sce.trustAsHtml(out) : (out == 0 ? '' : $sce.trustAsHtml(out.toFixed(2)));
         }
     }]);

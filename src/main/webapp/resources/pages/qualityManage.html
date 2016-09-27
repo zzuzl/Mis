@@ -35,8 +35,8 @@
                     <tr>
                         <th rowspan="2" class="sm-width">学号</th>
                         <th rowspan="2" class="sm-width">姓名</th>
-                        <th colspan="{{vm.firstSet.length}}" ng-show="vm.conf.showScore">上学期成绩</th>
-                        <th colspan="{{vm.secondSet.length}}" ng-show="vm.conf.showScore">下学期成绩</th>
+                        <th colspan="{{vm.firstSet.length}}" ng-show="vm.conf.showScore && vm.firstSet.length>0">上学期成绩</th>
+                        <th colspan="{{vm.secondSet.length}}" ng-show="vm.conf.showScore && vm.secondSet.length>0">下学期成绩</th>
                         <th colspan="{{project.itemList.length}}" ng-repeat="project in vm.projects">{{project.title}}
                         </th>
                     </tr>
