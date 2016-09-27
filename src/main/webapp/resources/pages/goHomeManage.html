@@ -17,10 +17,11 @@
                         <label class="col-sm-3 control-label no-padding-right"> 时间范围 </label>
 
                         <div class="col-sm-9">
-                            <input class="col-xs-10 col-sm-5 dp" ng-model="vm.project.title" name="startDate"
-                                   type="text" readonly required/>
-                            <span class="help-inline col-xs-12 col-sm-7" ng-show="form.title.$error.required">
-                                <span class="middle text-danger">请填写标题</span>
+                            <input class="col-xs-10 col-sm-5 dp" name="dateRange" type="text" readonly required/>
+                            <input type="hidden" ng-model="vm.goHome.startDate" id="startDate"/>
+                            <input type="hidden" ng-model="vm.goHome.endDate" id="endDate"/>
+                            <span class="help-inline col-xs-12 col-sm-7" ng-show="form.dateRange.$error.required">
+                                <span class="middle text-danger">请填写时间范围</span>
                             </span>
                         </div>
                     </div>
@@ -30,8 +31,11 @@
                         <label class="col-sm-3 control-label no-padding-right"> 地址 </label>
 
                         <div class="col-sm-9">
-                            <input type="text" ng-model="vm.project.minScore" placeholder="地址" name="address"
-                                   class="col-xs-10 col-sm-5" required>
+                            <input type="text" ng-model="vm.goHome.address" placeholder="地址" name="address"
+                                   class="col-xs-10 col-sm-5" required maxlength="80">
+                            <span class="help-inline col-xs-12 col-sm-7" ng-show="form.address.$error.required">
+                                <span class="middle text-danger">请填写地址</span>
+                            </span>
                         </div>
                     </div>
                     <div class="space-4"></div>
@@ -40,19 +44,26 @@
                         <label class="col-sm-3 control-label no-padding-right"> 紧急联系电话 </label>
 
                         <div class="col-sm-9">
-                            <input type="text" ng-model="vm.project.desc" name="phone"
+                            <input type="text" ng-model="vm.goHome.phone" name="phone"
                                    class="col-xs-10 col-sm-5 input-mask-phone" required>
+                            <span class="help-inline col-xs-12 col-sm-7" ng-show="form.phone.$error.required">
+                                <span class="middle text-danger">请填写手机号码</span>
+                            </span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label no-padding-right"> 去处 </label>
 
                         <div class="col-sm-9">
-                            <select class="col-xs-10 col-sm-5">
-                                <option value="回家">回家</option>
-                                <option value="打工">打工</option>
-                            </select>
+                            <input type="text" ng-model="vm.goHome.type" name="type" class="col-xs-10 col-sm-5"
+                                   required>
+                            <span class="help-inline col-xs-12 col-sm-7" ng-show="form.type.$error.required">
+                                <span class="middle text-danger">请填写去处</span>
+                            </span>
                         </div>
+                    </div>
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <span class="text-success" ng-show="vm.goHome.id">上次修改时间：{{vm.goHome.updateTime | date:'yyyy-mm-dd HH:mm:ss'}}</span>
                     </div>
                     <div class="space-4"></div>
                     <div class="clearfix form-actions">
@@ -79,9 +90,17 @@
     $('.input-mask-phone').mask('99999999999');
     // date picker
     $('.dp').daterangepicker({
+        autoUpdateInput: false,
         showDropdowns: true,
         locale: {
             format: 'YYYY-MM-DD'
         }
-    })
+    });
+    $('.dp').on('apply.daterangepicker', function (ev, picker) {
+        var start = picker.startDate.format('YYYY-MM-DD');
+        var end = picker.endDate.format('YYYY-MM-DD');
+        $(this).val(start + ' 至 ' + end);
+        $('#startDate').val(start);
+        $('#endDate').val(end);
+    });
 </script>

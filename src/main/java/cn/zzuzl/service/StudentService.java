@@ -2,6 +2,7 @@ package cn.zzuzl.service;
 
 import cn.zzuzl.dto.LoginRecordVO;
 import cn.zzuzl.dto.Result;
+import cn.zzuzl.model.GoHome;
 import cn.zzuzl.model.LoginRecord;
 import cn.zzuzl.model.Student;
 import cn.zzuzl.model.query.StudentQuery;
@@ -29,4 +30,8 @@ public interface StudentService {
     Result<LoginRecordVO> searchLoginRecord(int n);
 
     List<Student> export(StudentQuery query);
+
+    GoHome searchOneGoHome(String schoolNum, Integer year, String vacation);
+
+    Result addGoHome(GoHome goHome);
 }

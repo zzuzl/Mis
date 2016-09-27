@@ -102,29 +102,42 @@ MyInfoController.inject = ['progression', '$http', 'Notification', '$scope', '$f
 function GoHomeController(progression, $http, Notification, $scope, $filter) {
     var vm = this;
 
-    /*progression.start();
-     $http.get('/students/myInfo').then(function (response) {
-     vm.student = response.data;
-     if (vm.student.birthday) {
-     vm.student.birthday = $filter('date')(vm.student.birthday, 'yyyy-MM-dd')
-     }
-     if (vm.student.entranceDate) {
-     vm.student.entranceDate = $filter('date')(vm.student.entranceDate, 'yyyy-MM-dd')
-     }
-     progression.done();
-     });*/
+    progression.start();
+    $http.get('/students/goHome/me').then(function (response) {
+        if (response.data) {
+            vm.goHome = response.data;
+            if (vm.goHome.startDate) {
+                vm.goHome.startDate = $filter('date')(vm.goHome.startDate, 'yyyy-MM-dd');
+                angular.element('.dp').data('daterangepicker').setStartDate(vm.goHome.startDate);
+                angular.element('#startDate').val(vm.goHome.startDate);
+            }
+            if (vm.goHome.endDate) {
+                vm.goHome.endDate = $filter('date')(vm.goHome.endDate, 'yyyy-MM-dd');
+                angular.element('.dp').data('daterangepicker').setEndDate(vm.goHome.endDate);
+                angular.element('#endDate').val(vm.goHome.endDate);
+            }
+
+            angular.element("input[name='dateRange']").val(vm.goHome.startDate + ' 至 ' + vm.goHome.endDate);
+        } else {
+            vm.goHome = {
+                type: '回家'
+            };
+        }
+        progression.done();
+    });
 
     vm.onSubmit = function () {
-        if (!$scope.form.$dirty)
-            return;
+        vm.goHome.startDate = angular.element('#startDate').val();
+        vm.goHome.endDate = angular.element('#endDate').val();
+
         if ($scope.form.$invalid) {
             // Notification.error("存在不合法的数据");
         } else {
             progression.start();
-            $http.put('/students/modifyMyInfo', vm.student)
+            $http.post('/students/goHome', vm.goHome)
                 .then(function (response) {
                     if (response.data.success) {
-                        Notification.success('修改成功');
+                        Notification.success('保存成功');
                     } else {
                         Notification.error(response.data.error);
                     }

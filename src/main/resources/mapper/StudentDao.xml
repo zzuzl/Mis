@@ -182,4 +182,50 @@
         from student
         <include refid="_listWhere"/>
     </select>
+
+    <select id="searchOneGoHome" resultType="cn.zzuzl.model.GoHome">
+        select
+        id,
+        schoolNum as "student.schoolNum",
+        `year`,
+        vacation,
+        startDate,
+        endDate,
+        address,
+        phone,
+        `type`,
+        createTime,
+        updateTime
+        from goHome
+        where schoolNum=#{schoolNum}
+        and vacation=#{vacation}
+        and `year`=#{year}
+        order by createTime
+        limit 1
+    </select>
+
+    <insert id="insertGoHome">
+        insert into goHome(
+        id,
+        schoolNum,
+        `year`,
+        vacation,
+        startDate,
+        endDate,
+        address,
+        phone,
+        `type`,
+        createTime,
+        updateTime
+        )values(
+        #{id},#{student.schoolNum},#{year},#{vacation},#{startDate},#{endDate},
+        #{address},#{phone},#{type},now(),now()
+        ) on duplicate key update
+        startDate=values(startDate),
+        endDate=values(endDate),
+        address=values(address),
+        phone=values(phone),
+        `type`=values(type),
+        updateTime=now()
+    </insert>
 </mapper>

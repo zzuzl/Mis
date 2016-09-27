@@ -5,6 +5,7 @@ import cn.zzuzl.dao.StudentDao;
 import cn.zzuzl.dto.LoginRecordVO;
 import cn.zzuzl.dto.RecordCountVO;
 import cn.zzuzl.dto.Result;
+import cn.zzuzl.model.GoHome;
 import cn.zzuzl.model.LoginRecord;
 import cn.zzuzl.model.Student;
 import cn.zzuzl.model.query.StudentQuery;
@@ -100,5 +101,15 @@ public class StudentServiceImpl implements StudentService {
 
     public List<Student> export(StudentQuery query) {
         return studentDao.export(query);
+    }
+
+    public GoHome searchOneGoHome(String schoolNum, Integer year, String vacation) {
+        return studentDao.searchOneGoHome(schoolNum, year, vacation);
+    }
+
+    public Result addGoHome(GoHome goHome) {
+        Result result = new Result(true);
+        studentDao.insertGoHome(goHome);
+        return result;
     }
 }

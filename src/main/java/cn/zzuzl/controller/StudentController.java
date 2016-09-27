@@ -3,6 +3,7 @@ package cn.zzuzl.controller;
 import cn.zzuzl.common.Constants;
 import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
+import cn.zzuzl.common.enums.VacationEnum;
 import cn.zzuzl.common.util.ExcelExportUtil;
 import cn.zzuzl.common.util.NetUtil;
 import cn.zzuzl.common.util.StringUtil;
@@ -10,10 +11,7 @@ import cn.zzuzl.dao.RedisDao;
 import cn.zzuzl.dto.LoginRecordVO;
 import cn.zzuzl.dto.QualityJsonBean;
 import cn.zzuzl.dto.Result;
-import cn.zzuzl.model.Activity;
-import cn.zzuzl.model.LoginRecord;
-import cn.zzuzl.model.Project;
-import cn.zzuzl.model.Student;
+import cn.zzuzl.model.*;
 import cn.zzuzl.model.query.ProjectQuery;
 import cn.zzuzl.model.query.StudentQuery;
 import cn.zzuzl.service.StudentService;
@@ -30,6 +28,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -228,5 +227,36 @@ public class StudentController {
         List<Student> list = studentService.export(query);
         HSSFWorkbook workbook = excelExportUtil.genStudentXls(list, response);
         return new ModelAndView("excelView", "workbook", workbook);
+    }
+
+    // 根据学号，年份，假期查询回家信息
+    @Authorization
+    @RequestMapping(value = "/goHome/me", method = RequestMethod.GET)
+    @ResponseBody
+    public GoHome myGoHome() {
+        return studentService.searchOneGoHome(
+                LoginContext.getCurrentSchoolNum(),
+                StringUtil.getCurrentYear(),
+                VacationEnum.vacation(new Date()).getTitle()
+        );
+    }
+
+    // 创建或修改回家信息
+    @Authorization
+    @RequestMapping(value = "/goHome", method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    public Result addGoHome(@RequestBody GoHome goHome) {
+        Result result = new Result(true);
+        try {
+            goHome.setStudent(LoginContext.getLoginContext().getStudent());
+            goHome.setYear(StringUtil.getCurrentYear());
+            goHome.setVacation(VacationEnum.vacation(new Date()).getTitle());
+            result = studentService.addGoHome(goHome);
+        } catch (Exception e) {
+            logger.error(e);
+            result.setSuccess(false);
+            result.setError(e.getMessage());
+        }
+        return result;
     }
 }
