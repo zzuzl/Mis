@@ -1,5 +1,5 @@
 angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.js'])
-    // chart.js config
+// chart.js config
     .config(['ChartJsProvider', function (ChartJsProvider) {
         // Configure all charts
         ChartJsProvider.setOptions({
@@ -19,6 +19,21 @@ angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.
             positionY: 'top'
         });
     })
+    .config(['$httpProvider', function ($httpProvider) {
+        // http interceptor config
+        $httpProvider.interceptors.push(function ($q, $window) {
+            return {
+                'responseError': function (rejection) {
+                    // 403 error
+                    if (rejection.status == 403) {
+                        $window.NProgress.done();
+                        angular.element('#view').html(rejection.data);
+                    }
+                    return $q.reject(rejection);
+                }
+            };
+        });
+    }])
     .config(function ($stateProvider, $urlRouterProvider) {
         // router config
         $stateProvider.state('dashboard', {
