@@ -93,6 +93,36 @@ angular.module('myApp')
                             }
                         });
                 }
+            },
+            update: function (project, callback) {
+                if (project) {
+                    $http.put('/projects/' + project.id, project)
+                        .then(function (response) {
+                            if (response && response.data) {
+                                callback(response.data);
+                            }
+                        });
+                }
+            },
+            create: function (project, callback) {
+                if (project) {
+                    $http.post('/projects', project)
+                        .then(function (response) {
+                            if (response && response.data) {
+                                callback(response.data);
+                            }
+                        });
+                }
+            },
+            remove: function (id, callback) {
+                if (id) {
+                    $http.delete('/projects/' + id)
+                        .then(function (response) {
+                            if (response && response.data) {
+                                callback(response.data);
+                            }
+                        });
+                }
             }
         }
     }]);

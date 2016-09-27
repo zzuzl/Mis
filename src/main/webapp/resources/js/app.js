@@ -1,47 +1,5 @@
-/*var myApp = angular.module('myApp', ['ng-admin', 'ui.bootstrap']);
- project.creationView()
- .title('新建项目')
- .fields([
- nga.field('title').label('标题')
- .attributes({placeholder: '标题'})
- .validation({required: true, minlength: 3, maxlength: 20}),
- nga.field('minScore', 'float').label('最小分值')
- .format('0.00')
- .defaultValue(0)
- .attributes({placeholder: '最小分值'})
- .validation({required: true}),
- nga.field('maxScore', 'float').label('最大分值')
- .format('0.00')
- .defaultValue(0)
- .attributes({placeholder: '最大分值'})
- .validation({required: true}),
- nga.field('desc').label('描述')
- .attributes({placeholder: '描述'})
- .validation({maxlength: 100}),
- // 以下为item字段
- nga.field('itemList', 'embedded_list').label('子项目')
- .targetFields([
- nga.field('title').label('子项标题')
- .validation({required: true, minlength: 3, maxlength: 20}),
- nga.field('minScore', 'float')
- .format('0.00')
- .defaultValue(0)
- .label('最小分值')
- .validation({required: true}),
- nga.field('maxScore', 'float')
- .format('0.00')
- .defaultValue(0)
- .label('最大分值')
- .validation({required: true})
- ])
- ]);
-
- }]);*/
-// todo list
-// 1、添加分数时防止分数超出范围
-
 angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.js'])
-// chart.js config
+    // chart.js config
     .config(['ChartJsProvider', function (ChartJsProvider) {
         // Configure all charts
         ChartJsProvider.setOptions({
@@ -111,6 +69,14 @@ angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.
             url: '/list',
             templateUrl: '/resources/pages/projects/list.html',
             controller: 'ProjectListController as vm'
+        }).state('projects.edit', {
+            url: '/edit/:id',
+            templateUrl: '/resources/pages/projects/edit.html',
+            controller: 'ProjectDetailController as vm'
+        }).state('projects.create', {
+            url: '/create',
+            templateUrl: '/resources/pages/projects/create.html',
+            controller: 'ProjectDetailController as vm'
         }).state('qualityManage', {
             url: '/qualityManage',
             templateUrl: '/resources/pages/qualityManage.html',

@@ -70,10 +70,8 @@ public class ProjectServiceImpl implements ProjectService {
                 || project.getMinScore() > project.getMaxScore()) {
             result.setSuccess(false);
             result.setError("分值设置有误");
-        } else if (projectDao.insertProject(project) < 1) {
-            result.setSuccess(false);
-            result.setError("添加失败");
         } else {
+            projectDao.insertProject(project);
             // 准备数据，插入items
             List<Item> items = project.getItemList();
             if (items != null && items.size() > 0) {
@@ -85,9 +83,7 @@ public class ProjectServiceImpl implements ProjectService {
                     item.setProject(project);
                     item.setOperator(project.getOperator());
                 }
-                if (projectDao.batchInsertItem(items) < items.size()) {
-                    throw new RuntimeException("添加失败");
-                }
+                projectDao.batchInsertItem(items);
             }
         }
         return result;
@@ -101,10 +97,8 @@ public class ProjectServiceImpl implements ProjectService {
                 || project.getMinScore() > project.getMaxScore()) {
             result.setSuccess(false);
             result.setError("分值设置有误");
-        } else if (projectDao.updateProject(project) < 1) {
-            result.setSuccess(false);
-            result.setError("修改失败");
         } else {
+            projectDao.updateProject(project);
             // 准备数据，更新、插入、删除items
             List<Item> items = project.getItemList();
             List<Integer> ids = null;
@@ -120,14 +114,12 @@ public class ProjectServiceImpl implements ProjectService {
                     item.setOperator(project.getOperator());
                     if (item.getId() == null) {
                         insertList.add(item);
-                    } else if (projectDao.updateItem(item) != 1) {
-                        throw new RuntimeException("更新失败");
+                    } else {
+                        projectDao.updateItem(item);
                     }
                     ids.add(item.getId());
                 }
-                if (projectDao.batchInsertItem(insertList) < insertList.size()) {
-                    throw new RuntimeException("更新失败");
-                }
+                projectDao.batchInsertItem(insertList);
             }
 
             // 删除不存在的item
@@ -138,10 +130,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     public Result updateInvalid(Integer id) {
         Result result = new Result(true);
-        if (projectDao.updateInvalid(id) < 1) {
-            result.setSuccess(false);
-            result.setError("删除失败");
-        }
+        projectDao.updateInvalid(id);
         return result;
     }
 }

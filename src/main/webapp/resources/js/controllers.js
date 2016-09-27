@@ -115,10 +115,10 @@ function StudentDetailController(progression, studentService, $stateParams, Noti
         studentService.detail(schoolNum, function (res) {
             vm.student = res;
             if (vm.student.birthday) {
-                vm.student.birthday = $filter('date')(vm.student.birthday, 'yyyy-MM-dd', 'zh_CN')
+                vm.student.birthday = $filter('date')(vm.student.birthday, 'yyyy-MM-dd')
             }
             if (vm.student.entranceDate) {
-                vm.student.entranceDate = $filter('date')(vm.student.entranceDate, 'yyyy-MM-dd', 'zh_CN')
+                vm.student.entranceDate = $filter('date')(vm.student.entranceDate, 'yyyy-MM-dd')
             }
             progression.done();
         });
@@ -147,7 +147,7 @@ function StudentDetailController(progression, studentService, $stateParams, Noti
 StudentDetailController.inject = ['progression', 'studentService', ' $stateParams', 'Notification', '$scope', '$filter'];
 
 // 项目列表
-function ProjectListController(progression, projectService) {
+function ProjectListController(progression, projectService, zlDlg, Notification) {
     var vm = this;
     vm.params = {
         page: 1,
@@ -173,8 +173,97 @@ function ProjectListController(progression, projectService) {
             }
         });
     };
+
+    vm.delete = function (id) {
+        zlDlg.confirm('确定要删除吗?', function (result) {
+            if (result) {
+                projectService.remove(id, function (res) {
+                    if (res.success) {
+                        Notification.success("删除成功");
+                        vm.list();
+                    } else {
+                        Notification.error(res.error);
+                    }
+                })
+            }
+        });
+    };
 }
-ProjectListController.inject = ['progression', 'projectService'];
+ProjectListController.inject = ['progression', 'projectService', 'zlDlg', 'Notification'];
+
+// 项目详细
+function ProjectDetailController(progression, projectService, $stateParams, Notification, $scope, $filter) {
+    var vm = this;
+    var row = 0;
+
+    vm.detail = function (id) {
+        progression.start();
+        projectService.detail(id, function (res) {
+            vm.project = res;
+            if (vm.project.itemList) {
+                vm.project.itemList.forEach(function (e) {
+                    e.row = row++;
+                });
+            }
+
+            progression.done();
+        });
+    };
+
+    if ($stateParams.id) {
+        vm.detail($stateParams.id);
+    } else {
+        vm.project = {};
+    }
+
+    vm.onSubmit = function () {
+        if ($scope.form.$invalid) {
+            // Notification.error("存在不合法的数据");
+        } else {
+            progression.start();
+            if ($stateParams.id) {
+                projectService.update(vm.project, function (res) {
+                    if (res.success) {
+                        Notification.success('修改成功');
+                    } else {
+                        Notification.error(res.error);
+                    }
+                    progression.done();
+                });
+            } else {
+                projectService.create(vm.project, function (res) {
+                    if (res.success) {
+                        Notification.success('添加成功');
+                    } else {
+                        Notification.error(res.error);
+                    }
+                    progression.done();
+                });
+            }
+        }
+    };
+
+    vm.removeItem = function (rowIndex) {
+        if (vm.project.itemList) {
+            for (i = 0; i < vm.project.itemList.length; i++) {
+                if (vm.project.itemList[i].row === rowIndex) {
+                    vm.project.itemList.splice(i, 1);
+                    break;
+                }
+            }
+        }
+    };
+
+    vm.addItem = function () {
+        if (!vm.project.itemList) {
+            vm.project.itemList = [];
+        }
+        vm.project.itemList.push({
+            row: row++
+        });
+    }
+}
+ProjectDetailController.inject = ['progression', 'studentService', ' $stateParams', 'Notification', '$scope', '$filter'];
 
 // 模态框
 function ModalInstanceCtrl($uibModalInstance, item, quality, items) {
@@ -525,5 +614,6 @@ angular.module('myApp')
     .controller('StudentListController', StudentListController)
     .controller('StudentDetailController', StudentDetailController)
     .controller('ProjectListController', ProjectListController)
+    .controller('ProjectDetailController', ProjectDetailController)
     .controller('QualityManageController', QualityManageController)
     .controller('ModalInstanceCtrl', ModalInstanceCtrl);

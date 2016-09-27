@@ -12,7 +12,10 @@
     <div class="page-content">
         <div class="row">
             <div class="col-lg-4">
-                <a type="button" href="javascript:void(0)" class="btn btn-default" ui-sref="projects.create">创建</a>
+                <a type="button" href="javascript:void(0)" class="btn btn-default" ui-sref="projects.create">
+                    <i class="ace-icon fa fa-plus bigger-110"></i>
+                    创建
+                </a>
             </div>
         </div>
         <div class="space-4"></div>
@@ -21,12 +24,6 @@
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace"/>
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
                         <th>标题</th>
                         <th>专业</th>
                         <th>年级</th>
@@ -37,12 +34,6 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="project in vm.projects">
-                        <td class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace"/>
-                                <span class="lbl"></span>
-                            </label>
-                        </td>
                         <td>{{project.title}}</td>
                         <td>{{project.majorCode}}</td>
                         <td>{{project.grade}}</td>
@@ -50,13 +41,10 @@
                         <td>{{project.minScore}} -- {{project.maxScore}}</td>
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
-                                <a class="blue" href="javascript:void(0)" ui-sref="projects.show({id:project.id})">
-                                    <i class="ace-icon fa fa-eye bigger-130"></i>
-                                </a>
                                 <a class="green" href="javascript:void(0)" ui-sref="projects.edit({id:project.id})">
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a>
-                                <a class="red" href="javascript:void(0)">
+                                <a class="red" href="javascript:void(0)" ng-click="vm.delete(project.id)">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
                             </div>

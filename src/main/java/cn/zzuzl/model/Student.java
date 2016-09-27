@@ -210,7 +210,7 @@ public class Student implements Serializable {
 
     public String majorCode() {
         String majorCode = "";
-        if (StringUtils.isEmpty(classCode)) {
+        if (!StringUtils.isEmpty(classCode)) {
             majorCode = classCode.substring(0, 4);
         }
         return majorCode;
