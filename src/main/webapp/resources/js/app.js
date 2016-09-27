@@ -44,6 +44,10 @@ angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.
             url: '/myInfo',
             templateUrl: '/resources/pages/myInfo.html',
             controller: 'MyInfoController as vm'
+        }).state('goHomeManage', {
+            url: '/goHomeManage',
+            templateUrl: '/resources/pages/goHomeManage.html',
+            controller: 'GoHomeController as vm'
         }).state('myScore', {
             url: '/myScore',
             templateUrl: '/resources/pages/myScore.html',

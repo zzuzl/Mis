@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="/resources/assets/css/ace-ie.min.css"/>
     <![endif]-->
 
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
     <link rel="stylesheet" href="/resources/css/style.css">
 
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
@@ -92,6 +93,13 @@
                 <a ui-sref="myInfo">
                     <i class="menu-icon fa fa-user"></i>
                     <span class="menu-text"> 个人信息 </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li ng-class="{active:vm.active('/goHomeManage')}">
+                <a ui-sref="goHomeManage">
+                    <i class="menu-icon fa fa-home"></i>
+                    <span class="menu-text"> 寒暑假回家登记 </span>
                 </a>
                 <b class="arrow"></b>
             </li>
@@ -184,8 +192,8 @@
 <script src="/resources/assets/js/jquery-1.11.3.min.js"></script>
 <![endif]-->
 <script src="/resources/assets/js/bootstrap.min.js"></script>
-<script src="/resources/assets/js/jquery.validate.min.js"></script>
-<script src="/resources/assets/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 <script src="/resources/assets/js/jquery.maskedinput.min.js"></script>
 <!-- page specific plugin scripts -->
 <!--[if lte IE 8]>

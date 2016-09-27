@@ -1,5 +1,5 @@
 angular.module('myApp')
-    // 自定义分页指令
+// 自定义分页指令
     .directive('pagination', function () {
         return {
             restrict: 'AE',

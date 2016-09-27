@@ -17,7 +17,7 @@
                         <label class="col-sm-3 control-label no-padding-right"> 出生日期 </label>
 
                         <div class="col-sm-9">
-                            <input class="date-picker col-xs-10 col-sm-5" ng-model="vm.student.birthday" name="birthday" type="text" data-date-format="yyyy-mm-dd" readonly/>
+                            <input class="col-xs-10 col-sm-5 dp" ng-model="vm.student.birthday" name="birthday" type="text" readonly/>
                         </div>
                     </div>
                     <div class="space-4"></div>
@@ -84,7 +84,7 @@
                         <label class="col-sm-3 control-label no-padding-right"> 入学日期 </label>
 
                         <div class="col-sm-9">
-                            <input class="date-picker col-xs-10 col-sm-5" ng-model="vm.student.entranceDate" name="entranceDate" type="text" data-date-format="yyyy-mm-dd" readonly/>
+                            <input class="col-xs-10 col-sm-5 dp" ng-model="vm.student.entranceDate" name="entranceDate" type="text" readonly/>
                         </div>
                     </div>
                     <div class="space-4"></div>
@@ -180,10 +180,11 @@
     // mask
     $('.input-mask-phone').mask('99999999999');
     // date picker
-    $('.date-picker').datepicker({
-        autoclose: true,
-        todayHighlight: true
-    }).next().on(ace.click_event, function () {
-        $(this).prev().focus();
-    });
+    $('.dp').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'YYYY-MM-DD'
+        }
+    })
 </script>
