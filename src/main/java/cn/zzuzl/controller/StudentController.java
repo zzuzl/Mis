@@ -251,6 +251,7 @@ public class StudentController {
             goHome.setStudent(LoginContext.getLoginContext().getStudent());
             goHome.setYear(StringUtil.getCurrentYear());
             goHome.setVacation(VacationEnum.vacation(new Date()).getTitle());
+            goHome.setOperator(LoginContext.getLoginContext().getStudent());
             result = studentService.addGoHome(goHome);
         } catch (Exception e) {
             logger.error(e);

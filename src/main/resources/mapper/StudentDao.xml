@@ -194,6 +194,7 @@
         address,
         phone,
         `type`,
+        operator as "operator.schoolNum",
         createTime,
         updateTime
         from goHome
@@ -215,17 +216,19 @@
         address,
         phone,
         `type`,
+        operator,
         createTime,
         updateTime
         )values(
         #{id},#{student.schoolNum},#{year},#{vacation},#{startDate},#{endDate},
-        #{address},#{phone},#{type},now(),now()
+        #{address},#{phone},#{type},#{operator.schoolNum},now(),now()
         ) on duplicate key update
         startDate=values(startDate),
         endDate=values(endDate),
         address=values(address),
         phone=values(phone),
-        `type`=values(type),
+        `type`=values(`type`),
+        operator=values(operator)
         updateTime=now()
     </insert>
 </mapper>

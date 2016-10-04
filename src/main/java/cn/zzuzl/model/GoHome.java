@@ -1,7 +1,5 @@
 package cn.zzuzl.model;
 
-import cn.zzuzl.common.enums.VacationEnum;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,8 +16,17 @@ public class GoHome implements Serializable {
     private String address;
     private String phone;
     private String type;
+    private Student operator;
     private Date createTime;
     private Date updateTime;
+
+    public Student getOperator() {
+        return operator;
+    }
+
+    public void setOperator(Student operator) {
+        this.operator = operator;
+    }
 
     public Integer getId() {
         return id;

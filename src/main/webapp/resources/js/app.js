@@ -1,5 +1,4 @@
 angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.js'])
-// chart.js config
     .config(['ChartJsProvider', function (ChartJsProvider) {
         // Configure all charts
         ChartJsProvider.setOptions({
