@@ -28,6 +28,9 @@ angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.
                     if (rejection.status == 403) {
                         $window.NProgress.done();
                         angular.element('#view').html(rejection.data);
+                    } else if (rejection.status == 401) {
+                        // 401 error
+                        $window.location.href = '/login';
                     }
                     return $q.reject(rejection);
                 }

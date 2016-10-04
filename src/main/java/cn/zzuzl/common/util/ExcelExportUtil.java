@@ -3,6 +3,7 @@ package cn.zzuzl.common.util;
 import cn.zzuzl.dto.QualityJsonBean;
 import cn.zzuzl.model.*;
 import net.sf.jxls.transformer.XLSTransformer;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -149,6 +150,7 @@ public class ExcelExportUtil {
         HSSFWorkbook workbook = null;
         Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("list", list);
+        beans.put("dateUtil", new DateUtil());
 
         try {
             XLSTransformer transformer = new XLSTransformer();
