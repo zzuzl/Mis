@@ -61,10 +61,12 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
                         session.setAttribute(Constants.RESOURCES, resources);
                     }
                     boolean flag = false;
-                    for (String str : list) {
-                        if (resources.contains(str)) {
-                            flag = true;
-                            break;
+                    if(resources != null) {
+                        for (String str : list) {
+                            if (resources.contains(str)) {
+                                flag = true;
+                                break;
+                            }
                         }
                     }
 
