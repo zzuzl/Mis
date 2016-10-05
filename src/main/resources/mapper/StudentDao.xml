@@ -231,4 +231,26 @@
         operator=values(operator)
         updateTime=now()
     </insert>
+
+    <select id="searchGoHome" resultType="cn.zzuzl.model.GoHome">
+        select
+        g.id,
+        g.schoolNum as "student.schoolNum",
+        s.name as "student.name",
+        g.`year`,
+        g.vacation,
+        g.startDate,
+        g.endDate,
+        g.address,
+        g.phone,
+        g.`type`,
+        g.operator as "operator.schoolNum",
+        g.createTime,
+        g.updateTime
+        from goHome g left join student s on g.schoolNum=s.schoolNum
+        where s.classCode=#{classCode}
+        and g.vacation=#{vacation}
+        and g.`year`=#{year}
+        order by g.schoolNum
+    </select>
 </mapper>

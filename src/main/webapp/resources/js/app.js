@@ -46,10 +46,10 @@ angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.
             url: '/myInfo',
             templateUrl: '/resources/pages/myInfo.html',
             controller: 'MyInfoController as vm'
-        }).state('goHomeManage', {
-            url: '/goHomeManage',
-            templateUrl: '/resources/pages/goHomeManage.html',
-            controller: 'GoHomeController as vm'
+        }).state('myGoHome', {
+            url: '/myGoHome',
+            templateUrl: '/resources/pages/myGoHome.html',
+            controller: 'MyGoHomeController as vm'
         }).state('myScore', {
             url: '/myScore',
             templateUrl: '/resources/pages/myScore.html',
@@ -102,6 +102,10 @@ angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.
             url: '/create',
             templateUrl: '/resources/pages/projects/create.html',
             controller: 'ProjectDetailController as vm'
+        }).state('goHomeList', {
+            url: '/goHomeList',
+            templateUrl: '/resources/pages/goHomeList.html',
+            controller: 'GoHomeListController as vm'
         }).state('qualityManage', {
             url: '/qualityManage',
             templateUrl: '/resources/pages/qualityManage.html',

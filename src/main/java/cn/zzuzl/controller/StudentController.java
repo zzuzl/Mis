@@ -260,4 +260,28 @@ public class StudentController {
         }
         return result;
     }
+
+    // 寒暑假回家列表
+    @Authorization({Constants.AUTH_GH_MANAGE})
+    @RequestMapping(value = "goHomeList", method = RequestMethod.GET)
+    @ResponseBody
+    public List<GoHome> listGoHome() {
+        List<GoHome> list = null;
+        try {
+            Student student = LoginContext.getLoginContext().getStudent();
+            list = studentService.searchGoHome(student.getClassCode(), StringUtil.getCurrentYear(), VacationEnum.vacation(new Date()).getTitle());
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return list;
+    }
+
+    // 导出寒暑假回家列表excel
+    @Authorization({Constants.AUTH_GH_MANAGE})
+    @RequestMapping(value = "/goHome/export", method = RequestMethod.GET)
+    public ModelAndView goHomeExport(HttpServletResponse response) {
+        List<GoHome> list = listGoHome();
+        HSSFWorkbook workbook = excelExportUtil.genGoHomeXls(list, response);
+        return new ModelAndView("excelView", "workbook", workbook);
+    }
 }

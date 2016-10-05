@@ -112,4 +112,8 @@ public class StudentServiceImpl implements StudentService {
         studentDao.insertGoHome(goHome);
         return result;
     }
+
+    public List<GoHome> searchGoHome(String classCode, Integer year, String vacation) {
+        return studentDao.searchGoHome(classCode, year, vacation);
+    }
 }

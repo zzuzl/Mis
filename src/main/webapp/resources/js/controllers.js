@@ -99,7 +99,7 @@ function MyInfoController(progression, $http, Notification, $scope, $filter) {
 MyInfoController.inject = ['progression', '$http', 'Notification', '$scope', '$filter'];
 
 // 回家信息登记
-function GoHomeController(progression, $http, Notification, $scope, $filter) {
+function MyGoHomeController(progression, $http, Notification, $scope, $filter) {
     var vm = this;
 
     progression.start();
@@ -146,7 +146,7 @@ function GoHomeController(progression, $http, Notification, $scope, $filter) {
         }
     };
 }
-GoHomeController.inject = ['progression', '$http', 'Notification', '$scope', '$filter'];
+MyGoHomeController.inject = ['progression', '$http', 'Notification', '$scope', '$filter'];
 
 // 学生列表
 function StudentListController(progression, studentService, Notification, zlDlg) {
@@ -397,6 +397,24 @@ function ModalInstanceCtrl($uibModalInstance, item, quality, items) {
     };
 }
 ModalInstanceCtrl.inject = ['$uibModalInstance', 'items'];
+
+// 寒暑假回家列表
+function GoHomeListController(progression, Notification, $http) {
+    var vm = this;
+
+    vm.list = function () {
+        progression.start();
+        $http.get('/students/goHomeList').then(function (response) {
+            if (response.data) {
+                vm.goHomeList = response.data;
+            }
+            progression.done();
+        });
+    };
+
+    vm.list();
+}
+GoHomeListController.inject = ['progression', 'Notification', '$http'];
 
 // 我的成绩单
 function MyScoreController($http, progression, Notification) {
@@ -699,7 +717,7 @@ angular.module('myApp')
     .controller('MenuController', MenuController)
     .controller('DashboardController', DashboardController)
     .controller('MyInfoController', MyInfoController)
-    .controller('GoHomeController', GoHomeController)
+    .controller('MyGoHomeController', MyGoHomeController)
     .controller('MyScoreController', MyScoreController)
     .controller('ActivityController', ActivityController)
     .controller('QualityEditController', QualityEditController)
@@ -708,5 +726,6 @@ angular.module('myApp')
     .controller('StudentDetailController', StudentDetailController)
     .controller('ProjectListController', ProjectListController)
     .controller('ProjectDetailController', ProjectDetailController)
+    .controller('GoHomeListController', GoHomeListController)
     .controller('QualityManageController', QualityManageController)
     .controller('ModalInstanceCtrl', ModalInstanceCtrl);

@@ -57,8 +57,7 @@
             <ul class="nav ace-nav">
                 <li class="light-blue dropdown-modal">
                     <a data-toggle="dropdown" href="javascript:void(0)" class="dropdown-toggle">
-                        <img class="nav-user-photo" src="/resources/assets/images/avatars/user.jpg"
-                             alt="Jason's Photo"/>
+                        <img class="nav-user-photo" src="/resources/assets/images/avatars/user.jpg"/>
                         <span class="user-info">
                             <small>欢迎你,</small>
                             {{vm.student}}
@@ -96,8 +95,8 @@
                 </a>
                 <b class="arrow"></b>
             </li>
-            <li ng-class="{active:vm.active('/goHomeManage')}">
-                <a ui-sref="goHomeManage">
+            <li ng-class="{active:vm.active('/myGoHome')}">
+                <a ui-sref="myGoHome">
                     <i class="menu-icon fa fa-home"></i>
                     <span class="menu-text"> 寒暑假回家登记 </span>
                 </a>
@@ -114,6 +113,13 @@
                 <a ui-sref="projects.list">
                     <i class="menu-icon fa fa-bookmark-o"></i>
                     <span class="menu-text"> 项目管理 </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li ng-class="{active:vm.active('/goHomeList')}" th:if="${goHome_manage} == true">
+                <a ui-sref="goHomeList">
+                    <i class="menu-icon fa fa-bookmark-o"></i>
+                    <span class="menu-text"> 寒暑假回家管理 </span>
                 </a>
                 <b class="arrow"></b>
             </li>

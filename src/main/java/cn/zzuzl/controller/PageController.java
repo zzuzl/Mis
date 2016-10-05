@@ -36,6 +36,8 @@ public class PageController {
                     model.addAttribute(Constants.AUTH_PRO_MANAGE, true);
                 } else if (Constants.AUTH_QUA_MANAGE.equalsIgnoreCase(str)) {
                     model.addAttribute(Constants.AUTH_QUA_MANAGE, true);
+                } else if (Constants.AUTH_GH_MANAGE.equalsIgnoreCase(str)) {
+                    model.addAttribute(Constants.AUTH_GH_MANAGE, true);
                 }
             }
         }

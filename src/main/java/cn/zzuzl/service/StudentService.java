@@ -34,4 +34,6 @@ public interface StudentService {
     GoHome searchOneGoHome(String schoolNum, Integer year, String vacation);
 
     Result addGoHome(GoHome goHome);
+
+    List<GoHome> searchGoHome(String classCode, Integer year, String vacation);
 }

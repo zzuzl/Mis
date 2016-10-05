@@ -23,6 +23,7 @@ public class ExcelExportUtil {
     @javax.annotation.Resource
     Map<String, Resource> excelTemplates;
 
+    // 导出综测excel
     public HSSFWorkbook genQualityXls(List<QualityJsonBean> scoreList,
                                       List<Activity> activityList,
                                       List<Project> projectList,
@@ -140,6 +141,7 @@ public class ExcelExportUtil {
         return workbook;
     }
 
+    // 导出学生excel
     public HSSFWorkbook genStudentXls(List<Student> list,
                                       HttpServletResponse response) {
         try {
@@ -155,6 +157,30 @@ public class ExcelExportUtil {
         try {
             XLSTransformer transformer = new XLSTransformer();
             workbook = (HSSFWorkbook) transformer.transformXLS(excelTemplates.get("studentTpl").getInputStream(), beans);
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return workbook;
+    }
+
+    // 导出回家信息excel
+    public HSSFWorkbook genGoHomeXls(List<GoHome> list,
+                                     HttpServletResponse response) {
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("寒暑假回家列表", "UTF-8") + ".xls");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        HSSFWorkbook workbook = null;
+        Map<String, Object> beans = new HashMap<String, Object>();
+        beans.put("list", list);
+        beans.put("dateUtil", new DateUtil());
+
+        try {
+            XLSTransformer transformer = new XLSTransformer();
+            workbook = (HSSFWorkbook) transformer.transformXLS(excelTemplates.get("goHomeTpl").getInputStream(), beans);
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {

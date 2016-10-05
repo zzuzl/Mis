@@ -35,4 +35,8 @@ public interface StudentDao {
                            @Param("vacation") String vacation);
 
     int insertGoHome(GoHome goHome);
+
+    List<GoHome> searchGoHome(@Param("classCode") String classCode,
+                              @Param("year") Integer year,
+                              @Param("vacation") String vacation);
 }

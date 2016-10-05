@@ -12,4 +12,5 @@ public final class Constants {
     public static final String AUTH_STU_MANAGE = "student_manage";
     public static final String AUTH_PRO_MANAGE = "project_manage";
     public static final String AUTH_QUA_MANAGE = "quality_manage";
+    public static final String AUTH_GH_MANAGE = "goHome_manage";
 }
