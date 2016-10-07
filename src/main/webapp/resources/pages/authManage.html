@@ -1,0 +1,59 @@
+<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a ui-sref="dashboard">主页</a>
+            </li>
+            <li class="active">权限管理</li>
+        </ul>
+    </div>
+
+    <div class="page-content">
+        <div class="row">
+            <div class="col-lg-3">
+                <auto-complete></auto-complete>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <table class="table table-bordered table-hover table-condensed table-responsive width-table"
+                       ng-if="vm.hasedAuth.length > 0">
+                    <thead>
+                    <tr>
+                        <th>已有权限</th>
+                        <th>权限代码</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in vm.hasedAuth">
+                        <td>{{item.title}}</td>
+                        <td>{{item.authCode}}</td>
+                        <td>
+                            <div class="hidden-sm hidden-xs action-buttons">
+                                <a class="red" href="javascript:void(0)" ng-click="vm.delete(item.id)">
+                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <span class="text-danger" ng-if="vm.hasedAuth.length <= 0">暂无权限</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <select class="form-control" ng-model="vm.authCode">
+                    <option ng-repeat="item in vm.authList" value="{{item.authCode}}">
+                        {{item.title}} {{item.authCode}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-lg-3">
+                <button class="btn btn-danger" ng-click="vm.addAuth()">添加权限</button>
+            </div>
+        </div>
+    </div>
+</div>

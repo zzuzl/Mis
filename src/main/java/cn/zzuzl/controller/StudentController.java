@@ -8,18 +8,17 @@ import cn.zzuzl.common.util.ExcelExportUtil;
 import cn.zzuzl.common.util.NetUtil;
 import cn.zzuzl.common.util.StringUtil;
 import cn.zzuzl.dao.RedisDao;
+import cn.zzuzl.dao.StudentDao;
+import cn.zzuzl.dto.AuthVO;
 import cn.zzuzl.dto.LoginRecordVO;
-import cn.zzuzl.dto.QualityJsonBean;
 import cn.zzuzl.dto.Result;
 import cn.zzuzl.model.*;
-import cn.zzuzl.model.query.ProjectQuery;
 import cn.zzuzl.model.query.StudentQuery;
 import cn.zzuzl.service.StudentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,8 +27,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("students")
@@ -40,6 +38,8 @@ public class StudentController {
     private NetUtil netUtil;
     @Resource
     private RedisDao redisDao;
+    @Resource
+    private StudentDao studentDao;
     @Resource
     private ExcelExportUtil excelExportUtil;
     private Logger logger = LogManager.getLogger(getClass());
@@ -283,5 +283,67 @@ public class StudentController {
         List<GoHome> list = listGoHome();
         HSSFWorkbook workbook = excelExportUtil.genGoHomeXls(list, response);
         return new ModelAndView("excelView", "workbook", workbook);
+    }
+
+    // 模糊搜索
+    @Authorization({Constants.AUTH_AUTH_MANAGE})
+    @RequestMapping(value = "/blurSearch", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> blurSearch(@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<Student> list = new ArrayList<Student>();
+        try {
+            list = studentDao.blurSearchStudent(keyword);
+            map.put("suggestions", list);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return map;
+    }
+
+    // 根据学号查询权限
+    @Authorization({Constants.AUTH_AUTH_MANAGE})
+    @RequestMapping(value = "/resources/{schoolNum}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Authority> getResources(@PathVariable("schoolNum") String schoolNum) {
+        List<Authority> list = new ArrayList<Authority>();
+        try {
+            list = studentDao.getResources(schoolNum);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return list;
+    }
+
+    // 添加权限
+    @Authorization({Constants.AUTH_AUTH_MANAGE})
+    @RequestMapping(value = "/resources", method = RequestMethod.POST)
+    @ResponseBody
+    public Result addResource(@RequestBody AuthVO authVO) {
+        Result result = new Result(true);
+        try {
+            result = studentService.addAuth(authVO.getSchoolNum(), authVO.getAuthCode());
+        } catch (Exception e) {
+            logger.error(e);
+            result.setSuccess(false);
+            result.setError(e.getMessage());
+        }
+        return result;
+    }
+
+    // 删除某个学生的权限
+    @Authorization({Constants.AUTH_AUTH_MANAGE})
+    @RequestMapping(value = "/resources/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Result deleteResource(@PathVariable("id") Integer id) {
+        Result result = new Result(true);
+        try {
+            result = studentService.deleteAuth(id);
+        } catch (Exception e) {
+            logger.error(e);
+            result.setSuccess(false);
+            result.setError(e.getMessage());
+        }
+        return result;
     }
 }

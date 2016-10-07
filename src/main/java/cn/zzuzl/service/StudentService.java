@@ -36,4 +36,8 @@ public interface StudentService {
     Result addGoHome(GoHome goHome);
 
     List<GoHome> searchGoHome(String classCode, Integer year, String vacation);
+
+    Result deleteAuth(Integer id);
+
+    Result addAuth(String schoolNum, String authCode);
 }

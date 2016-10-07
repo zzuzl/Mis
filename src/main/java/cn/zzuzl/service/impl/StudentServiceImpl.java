@@ -116,4 +116,21 @@ public class StudentServiceImpl implements StudentService {
     public List<GoHome> searchGoHome(String classCode, Integer year, String vacation) {
         return studentDao.searchGoHome(classCode, year, vacation);
     }
+
+    public Result deleteAuth(Integer id) {
+        Result result = new Result(true);
+        studentDao.deleteAuth(id);
+        return result;
+    }
+
+    public Result addAuth(String schoolNum, String authCode) {
+        Result result = new Result(true);
+        if (studentDao.searchAuth(schoolNum, authCode) != null) {
+            result.setSuccess(false);
+            result.setError("已存在该权限，无须添加");
+        } else {
+            studentDao.addAuth(schoolNum, authCode);
+        }
+        return result;
+    }
 }

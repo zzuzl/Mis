@@ -114,6 +114,10 @@ angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.
             url: '/qualityManage',
             templateUrl: '/resources/pages/qualityManage.html',
             controller: 'QualityManageController as vm'
+        }).state('authManage', {
+            url: '/authManage',
+            templateUrl: '/resources/pages/authManage.html',
+            controller: 'AuthManageController as vm'
         });
 
         $urlRouterProvider.otherwise('/dashboard');

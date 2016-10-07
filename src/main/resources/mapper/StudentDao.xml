@@ -138,16 +138,6 @@
         )
     </insert>
 
-    <select id="getResourcesBySchoolNum" resultType="string">
-        select
-        sa.authCode
-        from
-        stu_auth sa,authority au
-        where sa.authCode=au.authCode
-        and sa.schoolNum=#{schoolNum}
-        and au.valid="1"
-    </select>
-
     <select id="searchLoginRecord" resultType="cn.zzuzl.dto.LoginRecordVO">
         select
         count(id) as `count`,
@@ -253,4 +243,52 @@
         and g.`year`=#{year}
         order by g.schoolNum
     </select>
+
+    <select id="allAuthority" resultType="cn.zzuzl.model.Authority">
+        select title,authCode from authority where valid="1"
+    </select>
+
+    <select id="blurSearchStudent" resultType="cn.zzuzl.model.Student">
+        select
+        schoolNum,
+        `name`
+        from student
+        where schoolNum like #{keyword}"%"
+        order by schoolNum
+        limit 20
+    </select>
+
+    <select id="getResources" resultType="cn.zzuzl.model.Authority">
+        select
+        sa.id,
+        au.title,
+        au.authCode
+        from
+        stu_auth sa,authority au
+        where sa.authCode=au.authCode
+        and sa.schoolNum=#{schoolNum}
+        and au.valid="1"
+    </select>
+
+    <delete id="deleteAuth">
+        delete from stu_auth where id=#{id}
+    </delete>
+
+    <select id="searchAuth" resultType="cn.zzuzl.model.Authority">
+        select
+        sa.id,
+        au.title,
+        au.authCode
+        from
+        stu_auth sa,authority au
+        where sa.authCode=au.authCode
+        and sa.schoolNum=#{schoolNum}
+        and sa.authCode=#{authCode}
+        and au.valid="1"
+        limit 1
+    </select>
+
+    <!--<insert id="addAuth">
+        insert into
+    </insert>-->
 </mapper>

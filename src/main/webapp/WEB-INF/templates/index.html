@@ -168,6 +168,13 @@
                     </li>
                 </ul>
             </li>
+            <li ng-class="{active:vm.active('/authManage')}" th:if="${auth_manage} == true">
+                <a ui-sref="authManage">
+                    <i class="menu-icon fa fa-lock"></i>
+                    <span class="menu-text"> 权限管理 </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
         </ul><!-- /.nav-list -->
 
         <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
@@ -222,7 +229,8 @@
 <script src="/resources/assets/js/angular-ui-notification.min.js"></script>
 <!-- NProgress -->
 <script src="/resources/assets/js/nprogress.js"></script>
-
+<!-- auto complete -->
+<script src="/resources/assets/js/jquery.autocomplete.min.js"></script>
 <!-- app js -->
 <script src="/resources/js/app.js"></script>
 <script src="/resources/js/services.js"></script>

@@ -4,12 +4,14 @@ import cn.zzuzl.common.Constants;
 import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
 import cn.zzuzl.dao.StudentDao;
+import cn.zzuzl.model.Authority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,7 +25,13 @@ public class PageController {
     public String index(HttpSession session, Model model) {
         List<String> resources = (List<String>) session.getAttribute(Constants.RESOURCES);
         if (resources == null) {
-            resources = studentDao.getResourcesBySchoolNum(LoginContext.getCurrentSchoolNum());
+            List<Authority> authorities = studentDao.getResources(LoginContext.getCurrentSchoolNum());
+            if (authorities != null) {
+                resources = new ArrayList<String>();
+                for (Authority authority : authorities) {
+                    resources.add(authority.getAuthCode());
+                }
+            }
             session.setAttribute(Constants.RESOURCES, resources);
         }
 
@@ -38,10 +46,11 @@ public class PageController {
                     model.addAttribute(Constants.AUTH_QUA_MANAGE, true);
                 } else if (Constants.AUTH_GH_MANAGE.equalsIgnoreCase(str)) {
                     model.addAttribute(Constants.AUTH_GH_MANAGE, true);
+                } else if (Constants.AUTH_AUTH_MANAGE.equalsIgnoreCase(str)) {
+                    model.addAttribute(Constants.AUTH_AUTH_MANAGE, true);
                 }
             }
         }
-
 
         return "index";
     }

@@ -712,6 +712,72 @@ function QualityManageController($http, $uibModal, progression) {
 }
 QualityManageController.inject = ['$http', '$uibModal', 'progression'];
 
+// 权限管理
+function AuthManageController(progression, Notification, $http, zlDlg) {
+    var vm = this;
+
+    vm.list = function () {
+        progression.start();
+    };
+
+    vm.listAuth = function () {
+        $http.get('/data/authorities').then(function (response) {
+            if (response.data) {
+                vm.authList = response.data;
+            }
+        });
+    };
+
+    vm.getResource = function (schoolNum) {
+        if (schoolNum && schoolNum.length == 11) {
+            vm.schoolNum = schoolNum;
+            $http.get('/students/resources/' + schoolNum).then(function (response) {
+                vm.hasedAuth = response.data;
+            });
+        }
+    };
+
+    vm.delete = function (id) {
+        if (id) {
+            zlDlg.confirm('确定要删除吗？', function (result) {
+                if (result) {
+                    $http.delete('/students/resources/' + id).then(function (response) {
+                        if (response.data.success) {
+                            Notification.success('删除成功');
+                            for (var i = 0; i < vm.hasedAuth.length; i++) {
+                                if (vm.hasedAuth[i].id == id) {
+                                    vm.hasedAuth.splice(i, 1);
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    };
+
+    vm.addAuth = function () {
+        if (vm.schoolNum && vm.schoolNum.length == 11 && vm.authCode && vm.authCode.length > 1) {
+            $http.post('/students/resources', {
+                schoolNum: vm.schoolNum,
+                authCode: vm.authCode
+            }).then(function (response) {
+                if (response.data.success) {
+                    Notification.success('添加成功');
+                } else {
+                    Notification.error('添加失败：' + response.data.error);
+                }
+            });
+        } else {
+            Notification.error('学号或权限错误！');
+        }
+    };
+
+    vm.listAuth();
+}
+AuthManageController.inject = ['progression', 'Notification', '$http', 'zlDlg'];
+
 angular.module('myApp')
     .controller('NavController', NavController)
     .controller('MenuController', MenuController)
@@ -728,4 +794,5 @@ angular.module('myApp')
     .controller('ProjectDetailController', ProjectDetailController)
     .controller('GoHomeListController', GoHomeListController)
     .controller('QualityManageController', QualityManageController)
+    .controller('AuthManageController', AuthManageController)
     .controller('ModalInstanceCtrl', ModalInstanceCtrl);

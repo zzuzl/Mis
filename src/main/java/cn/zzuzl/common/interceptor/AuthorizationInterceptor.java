@@ -5,6 +5,7 @@ import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
 import cn.zzuzl.dao.StudentDao;
 import cn.zzuzl.dto.Result;
+import cn.zzuzl.model.Authority;
 import cn.zzuzl.model.Student;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,7 +58,13 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
                     // 获取登录人的权限
                     List<String> resources = (List<String>) session.getAttribute(Constants.RESOURCES);
                     if (resources == null) {
-                        resources = studentDao.getResourcesBySchoolNum(student.getSchoolNum());
+                        List<Authority> authorities = studentDao.getResources(student.getSchoolNum());
+                        if(authorities != null) {
+                            resources = new ArrayList<String>();
+                            for(Authority authority : authorities) {
+                                resources.add(authority.getAuthCode());
+                            }
+                        }
                         session.setAttribute(Constants.RESOURCES, resources);
                     }
                     boolean flag = false;

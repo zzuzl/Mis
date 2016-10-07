@@ -1,6 +1,7 @@
 package cn.zzuzl.dao;
 
 import cn.zzuzl.dto.LoginRecordVO;
+import cn.zzuzl.model.Authority;
 import cn.zzuzl.model.GoHome;
 import cn.zzuzl.model.LoginRecord;
 import cn.zzuzl.model.Student;
@@ -24,8 +25,6 @@ public interface StudentDao {
 
     int updateInvalid(@Param("schoolNum") String schoolNum);
 
-    List<String> getResourcesBySchoolNum(@Param("schoolNum") String schoolNum);
-
     List<LoginRecordVO> searchLoginRecord(@Param("loginDate") String loginDate);
 
     List<Student> export(StudentQuery query);
@@ -39,4 +38,18 @@ public interface StudentDao {
     List<GoHome> searchGoHome(@Param("classCode") String classCode,
                               @Param("year") Integer year,
                               @Param("vacation") String vacation);
+
+    List<Authority> allAuthority();
+
+    List<Student> blurSearchStudent(String keyword);
+
+    List<Authority> getResources(@Param("schoolNum") String schoolNum);
+
+    int deleteAuth(@Param("id") Integer id);
+
+    int addAuth(@Param("schoolNum") String schoolNum,
+                @Param("authCode") String authCode);
+
+    Authority searchAuth(@Param("schoolNum") String schoolNum,
+                         @Param("authCode") String authCode);
 }

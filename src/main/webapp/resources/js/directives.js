@@ -61,4 +61,38 @@ angular.module('myApp')
                 $scope.loadData();
             }]
         }
+    })
+    .directive('autoComplete', function () {
+        return {
+            restrict: 'E',
+            template: "<input type='text' class='form-control' name='keyword' id='autocomplete' placeholder='输入学号查找'/>",
+            transclude: true,
+            link: function (scope, element) {
+                $('#autocomplete').autocomplete({
+                    serviceUrl: '/students/blurSearch',
+                    paramName: 'keyword',
+                    dataType: 'JSON',
+                    maxHeight: 300,
+                    onSelect: function (suggestion) {
+                        // 获取已有权限
+                        scope.vm.getResource(suggestion.data);
+                    },
+                    transformResult: function (response, originalQuery) {
+                        var result = {
+                            suggestions: []
+                        };
+
+                        if (response.suggestions) {
+                            for (var i = 0; i < response.suggestions.length; i++) {
+                                result.suggestions.push({
+                                    value: response.suggestions[i].name + ' (' + response.suggestions[i].schoolNum + ')',
+                                    data: response.suggestions[i].schoolNum
+                                });
+                            }
+                        }
+                        return result;
+                    }
+                });
+            }
+        }
     });
