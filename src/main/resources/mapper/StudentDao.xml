@@ -254,6 +254,7 @@
         `name`
         from student
         where schoolNum like #{keyword}"%"
+        or name like "%"#{keyword}"%"
         order by schoolNum
         limit 20
     </select>
@@ -288,7 +289,17 @@
         limit 1
     </select>
 
-    <!--<insert id="addAuth">
-        insert into
-    </insert>-->
+    <insert id="addAuth">
+        insert into stu_auth(
+        schoolNum,
+        authCode,
+        createTime,
+        updateTime
+        ) values (
+        #{schoolNum},
+        #{authCode},
+        now(),
+        now()
+        )
+    </insert>
 </mapper>

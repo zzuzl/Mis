@@ -32,6 +32,7 @@
                 advice: advice
             }, function (data) {
                 if (data.success) {
+                    $('#advice').val('');
                     alert('提交成功，感谢您的支持！');
                 } else {
                     alert(data.error);

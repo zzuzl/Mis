@@ -65,7 +65,7 @@ angular.module('myApp')
     .directive('autoComplete', function () {
         return {
             restrict: 'E',
-            template: "<input type='text' class='form-control' name='keyword' id='autocomplete' placeholder='输入学号查找'/>",
+            template: "<input type='text' class='form-control' name='keyword' id='autocomplete' placeholder='输入学号或姓名查找'/>",
             transclude: true,
             link: function (scope, element) {
                 $('#autocomplete').autocomplete({
