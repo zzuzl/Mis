@@ -1,0 +1,44 @@
+<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a ui-sref="dashboard">主页</a>
+            </li>
+            <li class="active">意见反馈</li>
+        </ul>
+    </div>
+
+    <div class="page-content">
+        <span class="text-success">Tip:意见反馈是匿名的哦~</span>
+        <div class="row">
+            <div class="col-lg-12">
+                <textarea cols="100" rows="10" id="advice"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <button type="button" class="btn btn-danger" onclick="submit()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function submit() {
+        var advice = $('#advice').val();
+        if (advice && advice.length > 0) {
+            $.post('/data/advice', {
+                advice: advice
+            }, function (data) {
+                if (data.success) {
+                    alert('提交成功，感谢您的支持！');
+                } else {
+                    alert(data.error);
+                }
+            }, 'JSON')
+        } else {
+            alert('内容不能为空');
+        }
+    }
+</script>

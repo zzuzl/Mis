@@ -118,6 +118,9 @@ angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.
             url: '/authManage',
             templateUrl: '/resources/pages/authManage.html',
             controller: 'AuthManageController as vm'
+        }).state('advice', {
+            url: '/advice',
+            templateUrl: '/resources/pages/advice.html'
         });
 
         $urlRouterProvider.otherwise('/dashboard');

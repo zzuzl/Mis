@@ -21,9 +21,8 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
-    <!-- thymeleaf template config -->
-    <bean id="templateResolver"
-          class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+    <!-- view resolver -->
+    <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
         <constructor-arg ref="servletContext"/>
         <property name="prefix" value="/WEB-INF/templates/"/>
         <property name="suffix" value=".html"/>
@@ -32,11 +31,11 @@
         <property name="order" value="1"/>
     </bean>
 
-    <bean id="templateEngine"
-          class="org.thymeleaf.spring4.SpringTemplateEngine">
+    <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver"/>
     </bean>
 
+    <!-- view resolver -->
     <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine"/>
         <property name="characterEncoding" value="UTF-8"/>
@@ -52,7 +51,7 @@
     </util:map>
 
     <!-- export excel -->
-    <bean id="excelView" class="cn.zzuzl.controller.ExcelBuilder" />
+    <bean id="excelView" class="cn.zzuzl.controller.ExcelBuilder"/>
     <bean id="excelResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
         <property name="order" value="0"/>
     </bean>

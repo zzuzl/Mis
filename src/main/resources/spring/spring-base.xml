@@ -36,4 +36,18 @@
             <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer "/>
         </property>
     </bean>
+
+    <!-- 邮件发送方配置bean -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${mail.smtp.host}"/>
+        <!-- mail account -->
+        <property name="username" value="${mail.username}"/>
+        <!--使用的是授权码登录-->
+        <property name="password" value="${mail.password}"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+            </props>
+        </property>
+    </bean>
 </beans>
