@@ -31,7 +31,7 @@ function DashboardController($http, $timeout) {
     vm.labels = [];
     vm.loginData = [[], []];
 
-    vm.load = function () {
+    vm.loadLoginData = function () {
         $http.get('/students/loginRecords/30').then(function (response) {
             if (response.data && response.data.data) {
                 vm.labels = [];
@@ -46,18 +46,7 @@ function DashboardController($http, $timeout) {
         });
     };
 
-    vm.load();
-
-    vm.onClick = function (points, evt) {
-        console.log(points, evt);
-    };
-
-    var gap = 10 * 60 * 1000;
-
-    // 每10秒更新一次数据
-    $timeout(function () {
-        vm.load();
-    }, gap);
+    vm.loadLoginData();
 }
 DashboardController.$inject = ['$http', '$timeout'];
 
@@ -764,6 +753,7 @@ function AuthManageController(progression, Notification, $http, zlDlg) {
                 authCode: vm.authCode
             }).then(function (response) {
                 if (response.data.success) {
+                    vm.getResource(vm.schoolNum);
                     Notification.success('添加成功');
                 } else {
                     Notification.error('添加失败：' + response.data.error);
