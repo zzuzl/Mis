@@ -218,8 +218,8 @@
         address=values(address),
         phone=values(phone),
         `type`=values(`type`),
-        operator=values(operator)
-        updateTime=now()
+        operator=values(operator),
+        updateTime=values(updateTime)
     </insert>
 
     <select id="searchGoHome" resultType="cn.zzuzl.model.GoHome">

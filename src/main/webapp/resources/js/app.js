@@ -1,11 +1,4 @@
-angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap', 'chart.js'])
-    .config(['ChartJsProvider', function (ChartJsProvider) {
-        // Configure all charts
-        ChartJsProvider.setOptions({
-            colors: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
-            responsive: true
-        });
-    }])
+angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap'])
     .config(function (NotificationProvider) {
         // notification config
         NotificationProvider.setOptions({

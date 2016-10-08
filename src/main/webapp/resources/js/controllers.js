@@ -24,31 +24,94 @@ function MenuController($location) {
 MenuController.$inject = ['$location'];
 
 // 主页controller
-function DashboardController($http, $timeout) {
+function DashboardController($http, $window) {
     var vm = this;
-    // 获取最近30天的登录记录
-    vm.series = ['人次', '人数'];
-    vm.labels = [];
-    vm.loginData = [[], []];
 
+    // 获取最近30天的登录记录
     vm.loadLoginData = function () {
         $http.get('/students/loginRecords/30').then(function (response) {
+            var recordCountArr = [], personCountArr = [];
+            var data = {
+                labels: [],
+                datasets: [{
+                    label: '人次',
+                    data: recordCountArr,
+                    fill: false,
+                    borderColor: 'grey',
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 0,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "grey",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointRadius: 1,
+                    pointHitRadius: 10
+                }, {
+                    label: '人数',
+                    data: personCountArr,
+                    fill: false,
+                    borderColor: "blue",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 0,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "blue",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10
+                }]
+            };
             if (response.data && response.data.data) {
-                vm.labels = [];
-                vm.loginData = [[], []];
                 for (key in response.data.data.map) {
                     var obj = response.data.data.map[key];
-                    vm.labels.push(key);
-                    vm.loginData[0].push(obj.recordCount);
-                    vm.loginData[1].push(obj.personCount);
+                    data.labels.push(key);
+                    recordCountArr.push(obj.recordCount);
+                    personCountArr.push(obj.personCount);
                 }
+            }
+            new Chart(angular.element('#loginLineChart'), {
+                type: 'line',
+                label: '登录记录',
+                data: data,
+                options: {
+                    responsive: true,
+                    responsiveAnimationDuration: 1000
+                }
+            });
+        });
+    };
+
+    // 加载院系学生分布图 todo
+    vm.loadSchoolData = function () {
+        var data = {
+            labels: [
+                "Red",
+                "Blue",
+                "Yellow"
+            ],
+            datasets: [
+                {
+                    data: [300, 50, 100],
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56"
+                    ]
+                }]
+        };
+        new Chart(angular.element('#schoolPieChart'), {
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: true,
+                responsiveAnimationDuration: 1000
             }
         });
     };
 
     vm.loadLoginData();
+    vm.loadSchoolData();
 }
-DashboardController.$inject = ['$http', '$timeout'];
+DashboardController.$inject = ['$http', '$window'];
 
 // 个人信息
 function MyInfoController(progression, $http, Notification, $scope, $filter) {
