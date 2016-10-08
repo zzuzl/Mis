@@ -123,7 +123,7 @@ public class StudentServiceImpl implements StudentService {
         return result;
     }
 
-    public Result addAuth(String schoolNum, String authCode) {
+    public synchronized Result addAuth(String schoolNum, String authCode) {
         Result result = new Result(true);
         if (studentDao.searchAuth(schoolNum, authCode) != null) {
             result.setSuccess(false);
