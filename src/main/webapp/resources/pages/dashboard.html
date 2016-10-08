@@ -1,21 +1,18 @@
-<div class="main-content-inner">
-    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-        <ul class="breadcrumb">
-            <li>
-                <i class="ace-icon fa fa-home home-icon"></i>
-                <a ui-sref="dashboard">主页</a>
-            </li>
-            <li class="active">当前页</li>
-        </ul>
-    </div>
-
-    <div class="page-content">
-        <div class="row">
-            <div class="col-xs-12">
-                <h4 align="center">登录记录</h4>
-                <canvas id="loginLineChart"></canvas>
-                <!--<canvas id="schoolPieChart"></canvas>-->
-            </div>
-        </div>
+<section class="content-header">
+    <h1>登录记录</h1>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="dashboard">
+                <i class="fa fa-dashboard"></i>
+                主页
+            </a>
+        </li>
+        <li class="active">当前页</li>
+    </ol>
+</section>
+<div class="row">
+    <div class="col-xs-12">
+        <canvas id="loginLineChart"></canvas>
+        <!--<canvas id="schoolPieChart"></canvas>-->
     </div>
 </div>

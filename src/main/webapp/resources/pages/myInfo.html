@@ -1,186 +1,171 @@
-<div class="main-content-inner">
-    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-        <ul class="breadcrumb">
-            <li>
-                <i class="ace-icon fa fa-home home-icon"></i>
-                <a ui-sref="dashboard">主页</a>
-            </li>
-            <li class="active">我的信息</li>
-        </ul>
-    </div>
-    <div class="page-content">
-        <div class="row">
-            <div class="col-xs-12">
-                <form class="form-horizontal" name="form" ng-submit="vm.onSubmit()" novalidate>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> 出生日期 </label>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="dashboard">
+                <i class="fa fa-dashboard"></i>
+                主页
+            </a>
+        </li>
+        <li class="active">个人信息</li>
+    </ol>
+</section>
+<div class="row">
+    <div class="col-xs-12">
+        <form class="form-horizontal" name="form" ng-submit="vm.onSubmit()" novalidate>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"> 出生日期 </label>
 
-                        <div class="col-sm-9">
-                            <input class="col-xs-10 col-sm-5 dp" ng-model="vm.student.birthday" name="birthday" type="text" readonly/>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> 民族 </label>
-
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="vm.student.nation" name="nation" class="col-xs-10 col-sm-5">
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> 政治面貌 </label>
-
-                        <div class="col-sm-9">
-                            <select ng-model="vm.student.politicalStatus" name="politicalStatus"
-                                    class="col-xs-10 col-sm-5">
-                                <option value="群众">群众</option>
-                                <option value="共青团员">共青团员</option>
-                                <option value="中共党员">中共党员</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> 身份证号 </label>
-
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="vm.student.idNo" name="idNo" class="col-xs-10 col-sm-5">
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> 光大卡号 </label>
-
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="vm.student.accountNo" name="accountNo"
-                                   class="col-xs-10 col-sm-5">
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> 生源地 </label>
-
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="vm.student.originAddress" name="originAddress"
-                                   class="col-xs-10 col-sm-5">
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> 家庭住址 </label>
-
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="vm.student.homeAddress" name="homeAddress"
-                                   class="col-xs-10 col-sm-5">
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> 入学日期 </label>
-
-                        <div class="col-sm-9">
-                            <input class="col-xs-10 col-sm-5 dp" ng-model="vm.student.entranceDate"
-                                   name="entranceDate" type="text" readonly/>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> 学制 </label>
-
-                        <div class="col-sm-9">
-                            <input type="number" ng-model="vm.student.schoolYear" name="schoolYear"
-                                   class="col-xs-10 col-sm-5">
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> 户口 </label>
-
-                        <div class="col-sm-9">
-                            <select ng-model="vm.student.residence" name="residence" class="col-xs-10 col-sm-5">
-                                <option value="农村户口">农村户口</option>
-                                <option value="城市户口">城市户口</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> 手机号 </label>
-
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="vm.student.phone" name="phone"
-                                   class="col-xs-10 col-sm-5 input-mask-phone">
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> QQ </label>
-
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="vm.student.qq" name="qq" class="col-xs-10 col-sm-5">
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> E-mail </label>
-
-                        <div class="col-sm-9">
-                            <input type="email" ng-model="vm.student.email" name="email" class="col-xs-10 col-sm-5">
-                            <span class="help-inline col-xs-12 col-sm-7" ng-show="form.email.$error.email">
-                                <span class="middle text-danger">Email不合法</span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> 家庭电话 </label>
-
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="vm.student.parentPhone" name="parentPhone"
-                                   class="col-xs-10 col-sm-5 input-mask-phone">
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right"> 宿舍号 </label>
-
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="vm.student.dormNo" name="dormNo" class="col-xs-10 col-sm-5">
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="clearfix form-actions">
-                        <div class="col-md-offset-3 col-md-9">
-                            <button class="btn btn-info" ng-class="{disabled:form.$invalid || !form.$dirty}"
-                                    type="submit">
-                                <i class="ace-icon fa fa-check bigger-110"></i>
-                                保存
-                            </button>
-                            &nbsp; &nbsp; &nbsp;
-                            <button class="btn" type="reset">
-                                <i class="ace-icon fa fa-undo bigger-110"></i>
-                                重置
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                <div class="col-sm-5">
+                    <input class="form-control dp" ng-model="vm.student.birthday" name="birthday" type="text" readonly/>
+                </div>
             </div>
-        </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 民族 </label>
+
+                <div class="col-sm-5">
+                    <input type="text" ng-model="vm.student.nation" name="nation" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 政治面貌 </label>
+
+                <div class="col-sm-5">
+                    <select ng-model="vm.student.politicalStatus" name="politicalStatus" class="form-control">
+                        <option value="群众">群众</option>
+                        <option value="共青团员">共青团员</option>
+                        <option value="中共党员">中共党员</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 身份证号 </label>
+
+                <div class="col-sm-5">
+                    <input type="text" ng-model="vm.student.idNo" name="idNo" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 光大卡号 </label>
+
+                <div class="col-sm-5">
+                    <input type="text" ng-model="vm.student.accountNo" name="accountNo"
+                           class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 生源地 </label>
+
+                <div class="col-sm-5">
+                    <input type="text" ng-model="vm.student.originAddress" name="originAddress"
+                           class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 家庭住址 </label>
+
+                <div class="col-sm-5">
+                    <input type="text" ng-model="vm.student.homeAddress" name="homeAddress"
+                           class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 入学日期 </label>
+
+                <div class="col-sm-5">
+                    <input class="form-control dp" ng-model="vm.student.entranceDate"
+                           name="entranceDate" type="text" readonly/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 学制 </label>
+
+                <div class="col-sm-5">
+                    <input type="number" ng-model="vm.student.schoolYear" name="schoolYear"
+                           class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 户口 </label>
+
+                <div class="col-sm-5">
+                    <select ng-model="vm.student.residence" name="residence" class="form-control">
+                        <option value="农村户口">农村户口</option>
+                        <option value="城市户口">城市户口</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 手机号 </label>
+
+                <div class="col-sm-5">
+                    <input type="text" ng-model="vm.student.phone" name="phone"
+                           class="form-control input-mask-phone">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> QQ </label>
+
+                <div class="col-sm-5">
+                    <input type="text" ng-model="vm.student.qq" name="qq" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> E-mail </label>
+
+                <div class="col-sm-5">
+                    <input type="email" ng-model="vm.student.email" name="email" class="form-control">
+                </div>
+                <div class="col-sm-4">
+                    <span class="help-inline col-xs-12 col-sm-7" ng-show="form.email.$error.email">
+                        <span class="middle text-danger">Email不合法</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 家庭电话 </label>
+
+                <div class="col-sm-5">
+                    <input type="text" ng-model="vm.student.parentPhone" name="parentPhone"
+                           class="form-control input-mask-phone">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 宿舍号 </label>
+
+                <div class="col-sm-5">
+                    <input type="text" ng-model="vm.student.dormNo" name="dormNo" class="form-control">
+                </div>
+            </div>
+
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn btn-info" ng-class="{disabled:form.$invalid || !form.$dirty}"
+                            type="submit">
+                        <i class="ace-icon fa fa-check bigger-110"></i>
+                        保存
+                    </button>
+                    &nbsp; &nbsp; &nbsp;
+                    <button class="btn" type="reset">
+                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                        重置
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 

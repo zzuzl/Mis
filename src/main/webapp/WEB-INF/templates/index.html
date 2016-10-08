@@ -1,234 +1,235 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <meta charset="utf-8"/>
-    <title>主页 - Mis</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-    <!-- bootstrap & fontawesome -->
-    <link rel="stylesheet" href="/resources/assets/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/resources/assets/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>主页 | Mis</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- text fonts -->
     <link rel="stylesheet" href="/resources/assets/css/fonts.googleapis.com.css"/>
-    <!-- ace styles -->
-    <link rel="stylesheet" href="/resources/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style"/>
+    <!-- Bootstrap 3.3.6 -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link href="//cdn.bootcss.com/admin-lte/2.3.6/css/AdminLTE.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/admin-lte/2.3.6/css/skins/skin-blue.min.css" rel="stylesheet">
     <!-- angular notification -->
     <link rel="stylesheet" href="/resources/assets/css/angular-ui-notification.min.css"/>
     <!-- NProgress -->
     <link rel="stylesheet" href="/resources/assets/css/nprogress.css"/>
-    <!--[if lte IE 9]>
-    <link rel="stylesheet" href="/resources/assets/css/ace-part2.min.css" class="ace-main-stylesheet"/>
-    <![endif]-->
-    <link rel="stylesheet" href="/resources/assets/css/ace-skins.min.css"/>
-    <link rel="stylesheet" href="/resources/assets/css/ace-rtl.min.css"/>
-    <!--[if lte IE 9]>
-    <link rel="stylesheet" href="/resources/assets/css/ace-ie.min.css"/>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css"/>
     <link rel="stylesheet" href="/resources/css/style.css">
-
-    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
-    <!--[if lte IE 8]>
-    <script src="/resources/assets/js/html5shiv.min.js"></script>
-    <script src="/resources/assets/js/respond.min.js"></script>
-    <![endif]-->
 </head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper" ng-app="myApp">
+    <!-- Main Header -->
+    <header class="main-header">
 
-<body class="no-skin" ng-app="myApp">
-<div id="navbar" class="navbar navbar-default ace-save-state" ng-controller="NavController as vm">
-    <div class="navbar-container ace-save-state" id="navbar-container">
-        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
-            <span class="sr-only">Toggle sidebar</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <div class="navbar-header pull-left">
-            <a href="/" class="navbar-brand">
-                <small>
-                    <i class="fa fa-leaf"></i>
-                    Mis Admin
-                </small>
+        <!-- Logo -->
+        <a href="/" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>M</b>is</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Mis</b> Admin</span>
+        </a>
+
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top" role="navigation" ng-controller="NavController as vm">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
             </a>
-        </div>
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- User Account Menu -->
+                    <li class="dropdown user user-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <!-- The user image in the navbar-->
+                            <img src="/resources/assets/images/avatars/user.jpg" class="user-image" alt="User Image">
+                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                            <span class="hidden-xs">Alexander Pierce</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- The user image in the menu -->
+                            <li class="user-header">
+                                <img src="/resources/assets/images/avatars/user.jpg" class="img-circle"
+                                     alt="User Image">
 
-        <div class="navbar-buttons navbar-header pull-right" role="navigation">
-            <ul class="nav ace-nav">
-                <li class="light-blue dropdown-modal">
-                    <a data-toggle="dropdown" href="javascript:void(0)" class="dropdown-toggle">
-                        <img class="nav-user-photo" src="/resources/assets/images/avatars/user.jpg"/>
-                        <span class="user-info">
-                            <small>欢迎你,</small>
-                            {{vm.student}}
-                        </span>
-                        <i class="ace-icon fa fa-caret-down"></i>
+                                <p>
+                                    Alexander Pierce - Web Developer
+                                    <small>Member since Nov. 2012</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body">
+                                <div class="row">
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Followers</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Sales</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Friends</a>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar" ng-controller="MenuController as vm">
+        <section class="sidebar">
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu">
+                <li ng-class="{active:vm.active('/dashboard')}">
+                    <a ui-sref="dashboard">
+                        <i class="menu-icon fa fa-tachometer"></i>
+                        <span class="menu-text"> 主页 </span>
                     </a>
-                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                        <li>
-                            <a href="javascript:void(0)" ng-click="vm.logout()">
-                                <i class="ace-icon fa fa-power-off"></i>
-                                退出
+                    <b class="arrow"></b>
+                </li>
+                <li ng-class="{active:vm.active('/myInfo')}">
+                    <a ui-sref="myInfo">
+                        <i class="menu-icon fa fa-user"></i>
+                        <span class="menu-text"> 个人信息 </span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li ng-class="{active:vm.active('/myGoHome')}">
+                    <a ui-sref="myGoHome">
+                        <i class="menu-icon fa fa-home"></i>
+                        <span class="menu-text"> 寒暑假回家登记 </span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li ng-class="{active:vm.active('/students')}" th:if="${student_manage} == true">
+                    <a ui-sref="students.list">
+                        <i class="menu-icon fa fa-users"></i>
+                        <span class="menu-text"> 学生管理 </span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li ng-class="{active:vm.active('/projects')}" th:if="${project_manage} == true">
+                    <a ui-sref="projects.list">
+                        <i class="menu-icon fa fa-bookmark-o"></i>
+                        <span class="menu-text"> 项目管理 </span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li ng-class="{active:vm.active('/goHomeList')}" th:if="${goHome_manage} == true">
+                    <a ui-sref="goHomeList">
+                        <i class="menu-icon fa fa-bars"></i>
+                        <span class="menu-text"> 寒暑假回家管理 </span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li ng-class="{active:vm.active('/qualityManage')}" th:if="${quality_manage} == true">
+                    <a ui-sref="qualityManage">
+                        <i class="menu-icon fa fa-object-group"></i>
+                        <span class="menu-text"> 综测管理 </span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li ng-class="{active:vm.active('/myScore')}">
+                    <a ui-sref="myScore">
+                        <i class="menu-icon fa fa-file-excel-o"></i>
+                        <span class="menu-text"> 我的成绩单 </span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="menu-icon fa fa-folder-o"></i>
+                        <span class="menu-text"> 我的综测 </span>
+                        <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li ng-class="{active:vm.active('/myQuality/list')}">
+                            <a ui-sref="myQuality.list">
+                                <i class="menu-icon fa fa-eye"></i>
+                                查看
                             </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li ng-class="{active:vm.active('/myQuality/edit')}">
+                            <a ui-sref="myQuality.edit">
+                                <i class="menu-icon fa fa-pencil-square-o"></i>
+                                修改
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li ng-class="{active:vm.active('/myQuality/hz')}">
+                            <a ui-sref="myQuality.hz">
+                                <i class="menu-icon fa fa-braille"></i>
+                                汇总
+                            </a>
+                            <b class="arrow"></b>
                         </li>
                     </ul>
                 </li>
             </ul>
-        </div>
-    </div><!-- /.navbar-container -->
+            <!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content" ui-view id="view"></section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2016 <a href="#">ZZUZL Mis</a>.</strong> All rights reserved.
+    </footer>
 </div>
-
-<div class="main-container ace-save-state" id="main-container">
-    <div id="sidebar" class="sidebar responsive ace-save-state" ng-controller="MenuController as vm">
-        <ul class="nav nav-list">
-            <li ng-class="{active:vm.active('/dashboard')}">
-                <a ui-sref="dashboard">
-                    <i class="menu-icon fa fa-tachometer"></i>
-                    <span class="menu-text"> 主页 </span>
-                </a>
-                <b class="arrow"></b>
-            </li>
-            <li ng-class="{active:vm.active('/myInfo')}">
-                <a ui-sref="myInfo">
-                    <i class="menu-icon fa fa-user"></i>
-                    <span class="menu-text"> 个人信息 </span>
-                </a>
-                <b class="arrow"></b>
-            </li>
-            <li ng-class="{active:vm.active('/myGoHome')}">
-                <a ui-sref="myGoHome">
-                    <i class="menu-icon fa fa-home"></i>
-                    <span class="menu-text"> 寒暑假回家登记 </span>
-                </a>
-                <b class="arrow"></b>
-            </li>
-            <li ng-class="{active:vm.active('/students')}" th:if="${student_manage} == true">
-                <a ui-sref="students.list">
-                    <i class="menu-icon fa fa-users"></i>
-                    <span class="menu-text"> 学生管理 </span>
-                </a>
-                <b class="arrow"></b>
-            </li>
-            <li ng-class="{active:vm.active('/projects')}" th:if="${project_manage} == true">
-                <a ui-sref="projects.list">
-                    <i class="menu-icon fa fa-bookmark-o"></i>
-                    <span class="menu-text"> 项目管理 </span>
-                </a>
-                <b class="arrow"></b>
-            </li>
-            <li ng-class="{active:vm.active('/goHomeList')}" th:if="${goHome_manage} == true">
-                <a ui-sref="goHomeList">
-                    <i class="menu-icon fa fa-bars"></i>
-                    <span class="menu-text"> 寒暑假回家管理 </span>
-                </a>
-                <b class="arrow"></b>
-            </li>
-            <li ng-class="{active:vm.active('/qualityManage')}" th:if="${quality_manage} == true">
-                <a ui-sref="qualityManage">
-                    <i class="menu-icon fa fa-object-group"></i>
-                    <span class="menu-text"> 综测管理 </span>
-                </a>
-                <b class="arrow"></b>
-            </li>
-            <li ng-class="{active:vm.active('/myScore')}">
-                <a ui-sref="myScore">
-                    <i class="menu-icon fa fa-file-excel-o"></i>
-                    <span class="menu-text"> 我的成绩单 </span>
-                </a>
-                <b class="arrow"></b>
-            </li>
-            <li class="">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-folder-o"></i>
-                    <span class="menu-text"> 我的综测 </span>
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
-                <b class="arrow"></b>
-                <ul class="submenu">
-                    <li ng-class="{active:vm.active('/myQuality/list')}">
-                        <a ui-sref="myQuality.list">
-                            <i class="menu-icon fa fa-eye"></i>
-                            查看
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-                    <li ng-class="{active:vm.active('/myQuality/edit')}">
-                        <a ui-sref="myQuality.edit">
-                            <i class="menu-icon fa fa-pencil-square-o"></i>
-                            修改
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-                    <li ng-class="{active:vm.active('/myQuality/hz')}">
-                        <a ui-sref="myQuality.hz">
-                            <i class="menu-icon fa fa-braille"></i>
-                            汇总
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-                </ul>
-            </li>
-            <li ng-class="{active:vm.active('/authManage')}" th:if="${auth_manage} == true">
-                <a ui-sref="authManage">
-                    <i class="menu-icon fa fa-lock"></i>
-                    <span class="menu-text"> 权限管理 </span>
-                </a>
-                <b class="arrow"></b>
-            </li>
-            <li ng-class="{active:vm.active('/advice')}">
-                <a ui-sref="advice">
-                    <i class="menu-icon fa fa-commenting"></i>
-                    <span class="menu-text"> 意见反馈 </span>
-                </a>
-                <b class="arrow"></b>
-            </li>
-        </ul><!-- /.nav-list -->
-
-        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-            <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
-               data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-        </div>
-    </div>
-
-    <div class="main-content">
-        <div class="main-content-inner" ui-view id="view"></div>
-    </div><!-- /.main-content -->
-
-    <div class="footer">
-        <div class="footer-inner">
-            <div class="footer-content">
-                <span class="bigger-120">
-                    <span class="blue bolder">Mis</span>
-                    &copy; 2016-2020
-                </span>
-            </div>
-        </div>
-    </div>
-</div><!-- /.main-container -->
-<!--[if !IE]> -->
-<script src="/resources/assets/js/jquery-2.1.4.min.js"></script>
-<!-- <![endif]-->
-<!--[if IE]>
-<script src="/resources/assets/js/jquery-1.11.3.min.js"></script>
-<![endif]-->
-<script src="/resources/assets/js/bootstrap.min.js"></script>
+<!-- ./wrapper -->
+<!-- jQuery 2.2.3 -->
+<script src="//cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/resources/js/lte.config.min.js" type="application/javascript"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 <script src="/resources/assets/js/jquery.maskedinput.min.js"></script>
-<!-- page specific plugin scripts -->
-<!--[if lte IE 8]>
-<script src="/resources/assets/js/excanvas.min.js"></script>
-<![endif]-->
-<!-- ace scripts -->
-<script src="/resources/assets/js/ace-elements.min.js"></script>
-<script src="/resources/assets/js/ace.min.js"></script>
 <!-- alert confirm dialog -->
 <script src="/resources/assets/js/bootbox.js"></script>
 <!-- angular js -->
 <script src="/resources/assets/js/angular.min.js"></script>
 <script src="/resources/assets/js/angular-ui-router.min.js"></script>
 <script src="/resources/assets/js/angular-animate.min.js"></script>
-<script src="/resources/assets/js/ui-bootstrap-tpls-2.1.3.min.js"></script>
 <!-- chart -->
 <script src="/resources/assets/js/Chart.min.js"></script>
 <!-- angular notification -->

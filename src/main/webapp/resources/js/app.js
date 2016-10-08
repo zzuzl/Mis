@@ -1,4 +1,4 @@
-angular.module('myApp', ['ui.router', 'ui-notification', 'ui.bootstrap'])
+angular.module('myApp', ['ui.router', 'ui-notification'])
     .config(function (NotificationProvider) {
         // notification config
         NotificationProvider.setOptions({
