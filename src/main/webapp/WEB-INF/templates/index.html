@@ -57,42 +57,28 @@
                         <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
                             <img src="/resources/assets/images/avatars/user.jpg" class="user-image" alt="User Image">
-                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs">Alexander Pierce</span>
+                            <span class="hidden-xs">
+                                欢迎你，
+                                <span class="text-teal" th:text="${session.student.name}"></span>
+                            </span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="/resources/assets/images/avatars/user.jpg" class="img-circle"
-                                     alt="User Image">
-
+                                <img src="/resources/assets/images/avatars/user.jpg" class="img-circle">
                                 <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2012</small>
+                                    <span th:text="${session.student.schoolNum}"></span>
+                                    <small th:text="${session.student.sex}"></small>
                                 </p>
-                            </li>
-                            <!-- Menu Body -->
-                            <li class="user-body">
-                                <div class="row">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </div>
-                                <!-- /.row -->
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    <a ui-sref="myInfo" class="btn btn-default btn-flat">个人信息</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="javascript:void(0)" ng-click="vm.logout()"
+                                       class="btn btn-default btn-flat">安全退出</a>
                                 </div>
                             </li>
                         </ul>
@@ -187,12 +173,26 @@
                         </li>
                         <li ng-class="{active:vm.active('/myQuality/hz')}">
                             <a ui-sref="myQuality.hz">
-                                <i class="menu-icon fa fa-braille"></i>
+                                <i class="menu-icon fa fa-clone"></i>
                                 汇总
                             </a>
                             <b class="arrow"></b>
                         </li>
                     </ul>
+                </li>
+                <li ng-class="{active:vm.active('/authManage')}" th:if="${auth_manage} == true">
+                    <a ui-sref="authManage">
+                        <i class="menu-icon fa fa-lock"></i>
+                        <span class="menu-text"> 权限管理 </span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li ng-class="{active:vm.active('/advice')}">
+                    <a ui-sref="advice">
+                        <i class="menu-icon fa fa-commenting"></i>
+                        <span class="menu-text"> 意见反馈 </span>
+                    </a>
+                    <b class="arrow"></b>
                 </li>
             </ul>
             <!-- /.sidebar-menu -->
@@ -230,6 +230,8 @@
 <script src="/resources/assets/js/angular.min.js"></script>
 <script src="/resources/assets/js/angular-ui-router.min.js"></script>
 <script src="/resources/assets/js/angular-animate.min.js"></script>
+<!-- ui-bootstrap -->
+<script src="/resources/assets/js/ui-bootstrap-tpls-2.1.3.min.js"></script>
 <!-- chart -->
 <script src="/resources/assets/js/Chart.min.js"></script>
 <!-- angular notification -->

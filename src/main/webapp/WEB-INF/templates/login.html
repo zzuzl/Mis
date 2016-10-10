@@ -63,7 +63,6 @@
                 password: $('#password').val()
             }, function (data) {
                 if (data.success) {
-                    window.localStorage.setItem('student', $('#schoolNum').val());
                     window.location = '/';
                 } else {
                     $('#loginBtn').removeAttr('disabled');

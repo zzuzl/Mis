@@ -50,7 +50,6 @@ public class NetUtil {
 
                 String name = document.body().select("tr").eq(1).select("td").eq(0).text();
                 String sex = document.body().select("tr").eq(3).select("td").eq(0).text();
-                String classCode = document.body().select("tr").eq(8).select("td").eq(0).text();
                 student.setName(name.substring(name.indexOf('：') + 1));
                 student.setSex(sex.substring(sex.indexOf('：') + 1));
                 student.setClassCode(schoolNum.substring(4, 9));

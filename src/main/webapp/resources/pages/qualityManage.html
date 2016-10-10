@@ -1,70 +1,66 @@
-<div class="main-content-inner">
-    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-        <ul class="breadcrumb">
-            <li>
-                <i class="ace-icon fa fa-home home-icon"></i>
-                <a ui-sref="dashboard">主页</a>
-            </li>
-            <li class="active">综测管理</li>
-        </ul>
-    </div>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="dashboard">
+                <i class="fa fa-dashboard"></i>
+                主页
+            </a>
+        </li>
+        <li class="active">综测管理</li>
+    </ol>
+</section>
 
-    <div class="page-content">
-        <div class="row">
-            <div class="col-lg-12">
-                <a type="button" class="btn btn-success"
-                   href="/activities/export?showScore={{vm.conf.showScore}}&showDetail={{vm.conf.showDetail}}">导出为Excel</a>
-                <div class="checkbox inline-div">
-                    <label class="pos-rel">
-                        <input type="checkbox" ng-model="vm.conf.showScore" class="ace"/>
-                        <span class="lbl"> 显示成绩 </span>
-                    </label>
-                </div>
-                <div class="checkbox inline-div">
-                    <label class="pos-rel">
-                        <input type="checkbox" ng-model="vm.conf.showDetail" class="ace"/>
-                        <span class="lbl"> 显示活动明细 </span>
-                    </label>
-                </div>
-            </div>
+<div class="box box-primary">
+    <div class="box-header">
+        <a type="button" class="btn btn-success"
+           href="/activities/export?showScore={{vm.conf.showScore}}&showDetail={{vm.conf.showDetail}}">导出为Excel</a>
+        <div class="checkbox inline-div">
+            <label class="pos-rel">
+                <input type="checkbox" ng-model="vm.conf.showScore" class="ace"/>
+                <span class="lbl"> 显示成绩 </span>
+            </label>
         </div>
-        <div class="row">
-            <div class="col-lg-12 out-div">
-                <table class="table table-bordered table-hover table-condensed table-responsive width-table">
-                    <thead>
-                    <tr>
-                        <th rowspan="2" class="sm-width">学号</th>
-                        <th rowspan="2" class="sm-width">姓名</th>
-                        <th colspan="{{vm.firstSet.length}}" ng-show="vm.conf.showScore && vm.firstSet.length>0">上学期成绩</th>
-                        <th colspan="{{vm.secondSet.length}}" ng-show="vm.conf.showScore && vm.secondSet.length>0">下学期成绩</th>
-                        <th colspan="{{project.itemList.length}}" ng-repeat="project in vm.projects">{{project.title}}
-                        </th>
-                    </tr>
-                    <tr>
-                        <th ng-repeat="item in vm.firstSet" class="sm-width" ng-show="vm.conf.showScore">{{item}}</th>
-                        <th ng-repeat="item in vm.secondSet" class="sm-width" ng-show="vm.conf.showScore">{{item}}</th>
-                        <th ng-repeat="item in vm.allItems" class="md-width">{{item.title}}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="item in vm.qualities">
-                        <td>{{item.schoolNum}}</td>
-                        <td>{{item.name}}</td>
-                        <td ng-repeat="title in vm.firstSet" ng-show="vm.conf.showScore">
-                            {{item.firstTerm.scores | scoreVoFilter:title }}
-                        </td>
-                        <td ng-repeat="title in vm.secondSet" ng-show="vm.conf.showScore">
-                            {{item.secondTerm.scores | scoreVoFilter:title }}
-                        </td>
-                        <td ng-repeat="i in vm.allItems" class="activity-td" title="点击修改/查看"
-                            ng-click="vm.showModifyDlg(i, item)"
-                            ng-bind-html="i.scores | activityScoreFilter:item.schoolNum:vm.conf.showDetail">
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="checkbox inline-div">
+            <label class="pos-rel">
+                <input type="checkbox" ng-model="vm.conf.showDetail" class="ace"/>
+                <span class="lbl"> 显示活动明细 </span>
+            </label>
         </div>
+    </div>
+    <div class="box-body out-div">
+        <table class="table table-bordered table-hover table-condensed table-responsive width-table">
+            <thead>
+            <tr>
+                <th rowspan="2" class="sm-width">学号</th>
+                <th rowspan="2" class="sm-width">姓名</th>
+                <th colspan="{{vm.firstSet.length}}" ng-show="vm.conf.showScore && vm.firstSet.length>0">上学期成绩</th>
+                <th colspan="{{vm.secondSet.length}}" ng-show="vm.conf.showScore && vm.secondSet.length>0">下学期成绩</th>
+                <th colspan="{{project.itemList.length}}" ng-repeat="project in vm.projects">{{project.title}}
+                </th>
+            </tr>
+            <tr>
+                <th ng-repeat="item in vm.firstSet" class="sm-width" ng-show="vm.conf.showScore">{{item}}</th>
+                <th ng-repeat="item in vm.secondSet" class="sm-width" ng-show="vm.conf.showScore">{{item}}</th>
+                <th ng-repeat="item in vm.allItems" class="md-width">{{item.title}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in vm.qualities">
+                <td>{{item.schoolNum}}</td>
+                <td>{{item.name}}</td>
+                <td ng-repeat="title in vm.firstSet" ng-show="vm.conf.showScore">
+                    {{item.firstTerm.scores | scoreVoFilter:title }}
+                </td>
+                <td ng-repeat="title in vm.secondSet" ng-show="vm.conf.showScore">
+                    {{item.secondTerm.scores | scoreVoFilter:title }}
+                </td>
+                <td ng-repeat="i in vm.allItems" class="activity-td" title="点击修改/查看"
+                    ng-click="vm.showModifyDlg(i, item)"
+                    ng-bind-html="i.scores | activityScoreFilter:item.schoolNum:vm.conf.showDetail">
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
