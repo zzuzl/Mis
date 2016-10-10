@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="/resources/css/style.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper" ng-app="myApp">
+<div class="wrapper fixed" ng-app="myApp">
     <!-- Main Header -->
     <header class="main-header">
 
@@ -45,7 +45,7 @@
         <!-- Header Navbar -->
         <nav class="navbar navbar-static-top" role="navigation" ng-controller="NavController as vm">
             <!-- Sidebar toggle button-->
-            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <a href="javascript:void(0)" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
             <!-- Navbar Right Menu -->
@@ -54,7 +54,7 @@
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
                             <img src="/resources/assets/images/avatars/user.jpg" class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
@@ -163,7 +163,7 @@
                     <b class="arrow"></b>
                 </li>
                 <li class="treeview">
-                    <a href="#">
+                    <a href="javascript:void(0)">
                         <i class="menu-icon fa fa-folder-o"></i>
                         <span class="menu-text"> 我的综测 </span>
                         <span class="pull-right-container">
@@ -203,7 +203,7 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Main content -->
-        <section class="content" ui-view id="view"></section>
+        <section class="content" ui-view id="view" style="min-height: 100%"></section>
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
@@ -220,7 +220,7 @@
 <!-- Bootstrap 3.3.6 -->
 <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="/resources/js/lte.config.min.js" type="application/javascript"></script>
+<script src="/resources/js/lte.config.js" type="application/javascript"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 <script src="/resources/assets/js/jquery.maskedinput.min.js"></script>

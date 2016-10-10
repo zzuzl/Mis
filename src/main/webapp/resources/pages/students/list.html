@@ -12,7 +12,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <div class="box">
+        <div class="box box-primary">
             <div class="box-header">
                 <div class="row">
                     <div class="col-lg-3">
@@ -48,9 +48,6 @@
                         <td>{{student.classCode}}</td>
                         <td>
                             <div class="action-buttons">
-                                <a class="text-Primary" ng-href="#/students/show/{{student.schoolNum}}">
-                                    <i class="ace-icon fa fa-eye bigger-130"></i>
-                                </a>
                                 <a class="text-warning" href="javascript:void(0)"
                                    ui-sref="students.edit({schoolNum:student.schoolNum})">
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
