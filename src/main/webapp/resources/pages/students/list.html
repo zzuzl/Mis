@@ -1,32 +1,33 @@
-<div class="main-content-inner">
-    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-        <ul class="breadcrumb">
-            <li>
-                <i class="ace-icon fa fa-home home-icon"></i>
-                <a ui-sref="dashboard">主页</a>
-            </li>
-            <li class="active">学生列表</li>
-        </ul>
-    </div>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="dashboard">
+                <i class="fa fa-dashboard"></i>
+                主页
+            </a>
+        </li>
+        <li class="active">学生列表</li>
+    </ol>
+</section>
 
-    <div class="page-content">
-        <div class="row">
-            <div class="col-lg-3">
-                <label>学号：</label>
-                <input type="text" ng-model="vm.params.schoolNum"/>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-primary">
+            <div class="box-header">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" ng-model="vm.params.schoolNum" placeholder="学号"/>
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" ng-model="vm.params.name" placeholder="姓名"/>
+                    </div>
+                    <div class="col-lg-4">
+                        <button type="button" class="btn btn-default" ng-click="vm.callback()">搜索</button>
+                        <a type="button" href="/students/export" class="btn btn-default">导出为excel</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-3">
-                <label>姓名：</label>
-                <input type="text" ng-model="vm.params.name"/>
-            </div>
-            <div class="col-lg-4">
-                <button type="button" class="btn btn-default" ng-click="vm.callback()">搜索</button>
-                <a type="button" href="/students/export" class="btn btn-default">导出为excel</a>
-            </div>
-        </div>
-        <div class="space-4"></div>
-        <div class="row">
-            <div class="col-xs-12 table-responsive">
+            <div class="box-body table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr>
@@ -47,14 +48,11 @@
                         <td>{{student.classCode}}</td>
                         <td>
                             <div class="action-buttons">
-                                <a class="blue" ng-href="#/students/show/{{student.schoolNum}}">
-                                    <i class="ace-icon fa fa-eye bigger-130"></i>
-                                </a>
-                                <a class="green" href="javascript:void(0)"
+                                <a class="text-warning" href="javascript:void(0)"
                                    ui-sref="students.edit({schoolNum:student.schoolNum})">
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a>
-                                <a class="red" href="javascript:void(0)" ng-click="vm.delete(student.schoolNum)">
+                                <a class="text-danger" href="javascript:void(0)" ng-click="vm.delete(student.schoolNum)">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
                             </div>
@@ -62,8 +60,8 @@
                     </tr>
                     </tbody>
                 </table>
+                <pagination params="vm.params" load="vm.list" control="vm.control" ng-transclude></pagination>
             </div>
         </div>
-        <pagination params="vm.params" load="vm.list" control="vm.control" ng-transclude></pagination>
     </div>
 </div>

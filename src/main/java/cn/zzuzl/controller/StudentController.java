@@ -57,6 +57,7 @@ public class StudentController {
                 result = studentService.login(schoolNum, password);
                 if (result.isSuccess()) {
                     Student student = (Student) result.getData().get(Constants.STU);
+                    result.getData().put(Constants.STU, null);
                     session.setAttribute(Constants.STU, student);
                     session.setAttribute(Constants.PASS, password);
                     // 如果第一次登陆，则添加到数据库

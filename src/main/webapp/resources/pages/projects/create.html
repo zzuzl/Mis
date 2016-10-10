@@ -1,69 +1,74 @@
-<div class="main-content-inner">
-    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-        <ul class="breadcrumb">
-            <li>
-                <i class="ace-icon fa fa-home home-icon"></i>
-                <a ui-sref="dashboard">主页</a>
-            </li>
-            <li class="active">新建项目</li>
-        </ul>
-    </div>
-
-    <div class="page-content">
-        <div class="row">
-            <div class="col-xs-12">
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="dashboard">
+                <i class="fa fa-dashboard"></i>
+                主页
+            </a>
+        </li>
+        <li class="active">新建项目</li>
+    </ol>
+</section>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-primary">
+            <div class="box-body">
                 <form class="form-horizontal" name="form" ng-submit="vm.onSubmit()" novalidate>
                     <div class="form-group">
                         <label class="col-sm-3 control-label no-padding-right"> 标题 </label>
 
-                        <div class="col-sm-9">
-                            <input class="col-xs-10 col-sm-5" ng-model="vm.project.title" name="title" type="text"
+                        <div class="col-sm-5">
+                            <input class="form-control" ng-model="vm.project.title" name="title" type="text"
                                    maxlength="20" required/>
+                        </div>
+                        <div class="col-sm-4">
                             <span class="help-inline col-xs-12 col-sm-7" ng-show="form.title.$error.required">
                                 <span class="middle text-danger">请填写标题</span>
                             </span>
                         </div>
                     </div>
-                    <div class="space-4"></div>
 
                     <div class="form-group">
                         <label class="col-sm-3 control-label no-padding-right"> 分值范围 </label>
 
                         <div class="col-sm-2">
                             <input type="number" ng-model="vm.project.minScore" placeholder="最小分值" name="minScore"
-                                   min="0" class="col-xs-10 col-sm-5" required>
+                                   min="0" class="form-control" required>
+                        </div>
+                        <div class="col-sm-2">
                             <span class="help-inline col-xs-12 col-sm-7" ng-show="form.minScore.$error.required">
                                 <span class="middle text-danger">请填写分值</span>
                             </span>
                         </div>
                         <div class="col-sm-2">
                             <input type="number" ng-model="vm.project.maxScore" placeholder="最大分值" name="maxScore"
-                                   min="0" class="col-xs-10 col-sm-5" required>
+                                   min="0" class="form-control" required>
+                        </div>
+                        <div class="col-sm-2">
                             <span class="help-inline col-xs-12 col-sm-7" ng-show="form.maxScore.$error.required">
                                 <span class="middle text-danger">请填写分值</span>
                             </span>
                         </div>
                     </div>
-                    <div class="space-4"></div>
 
                     <div class="form-group">
                         <label class="col-sm-3 control-label no-padding-right"> 描述 </label>
 
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="vm.project.desc" name="desc" class="col-xs-10 col-sm-5">
+                        <div class="col-sm-5">
+                            <input type="text" ng-model="vm.project.desc" name="desc" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label no-padding-right"> 子项目 </label>
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <table class="table table-bordered table-responsive"
                                    ng-show="vm.project.itemList.length > 0">
                                 <thead>
                                 <tr>
                                     <th width="200">标题</th>
-                                    <th width="60">最小分值</th>
-                                    <th width="60">最大分值</th>
+                                    <th width="100">最小分值</th>
+                                    <th width="100">最大分值</th>
                                     <th>描述</th>
                                     <th></th>
                                 </tr>
@@ -71,19 +76,23 @@
                                 <tbody>
                                 <tr ng-repeat="item in vm.project.itemList">
                                     <td>
-                                        <input type="text" ng-model="item.title" maxlength="15" required/>
+                                        <input type="text" ng-model="item.title" class="form-control" maxlength="15"
+                                               required/>
                                     </td>
                                     <td>
-                                        <input type="number" ng-model="item.minScore" min="0" required/>
+                                        <input type="number" ng-model="item.minScore" class="form-control" min="0"
+                                               required/>
                                     </td>
                                     <td>
-                                        <input type="number" ng-model="item.maxScore" min="0" required/>
+                                        <input type="number" ng-model="item.maxScore" class="form-control" min="0"
+                                               required/>
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="item.desc" maxlength="30"/>
+                                        <input type="text" ng-model="item.desc" class="form-control" maxlength="30"/>
                                     </td>
                                     <td>
-                                        <a class="red" href="javascript:void(0)" ng-click="vm.removeItem(item.row)">
+                                        <a class="text-danger" href="javascript:void(0)"
+                                           ng-click="vm.removeItem(item.row)">
                                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                         </a>
                                     </td>
@@ -92,7 +101,6 @@
                             </table>
                         </div>
                     </div>
-                    <div class="space-4"></div>
                     <div class="clearfix form-actions">
                         <div class="col-md-offset-3 col-md-9">
                             <button class="btn btn-info" ng-class="{disabled:form.$invalid}" type="submit">

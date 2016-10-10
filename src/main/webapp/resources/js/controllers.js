@@ -2,11 +2,9 @@
 function NavController($http, $window) {
     var vm = this;
 
-    vm.student = $window.localStorage.getItem('student');
     vm.logout = function () {
         $http.post('/students/logout')
             .then(function (response) {
-                $window.localStorage.removeItem('student');
                 $window.location.href = "/login";
             });
     };
@@ -601,15 +599,19 @@ function QualityController($http, Notification, progression) {
     var vm = this;
     progression.start();
 
+    var flag = 0;
+
     // 获取当前登录人已填写的信息
     $http.get('/activities/myActivities').then(function (response) {
         if (response && response.data) {
             vm.activities = response.data.list;
         }
-        progression.done();
+        flag++;
+        if (flag >= 2) {
+            progression.done();
+        }
     });
 
-    progression.start();
     $http.get('/students/myScore').then(function (response) {
         if (response && response.data) {
             vm.firstTermScore = {
@@ -620,6 +622,9 @@ function QualityController($http, Notification, progression) {
                 title: response.data.data.scores[1].term,
                 scores: response.data.data.scores[1].scores
             };
+        }
+        flag++;
+        if (flag >= 2) {
             progression.done();
         }
     });

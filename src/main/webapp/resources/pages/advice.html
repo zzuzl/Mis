@@ -1,24 +1,18 @@
-<div class="main-content-inner">
-    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-        <ul class="breadcrumb">
-            <li>
-                <i class="ace-icon fa fa-home home-icon"></i>
-                <a ui-sref="dashboard">主页</a>
-            </li>
-            <li class="active">意见反馈</li>
-        </ul>
-    </div>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="dashboard">
+                <i class="fa fa-dashboard"></i>
+                主页
+            </a>
+        </li>
+        <li class="active">意见反馈</li>
+    </ol>
+</section>
 
-    <div class="page-content">
-        <span class="text-success">Tip:意见反馈是匿名的哦~</span>
-        <textarea rows="10" id="advice" style="width: 100%"></textarea>
-        <div class="row">
-            <div class="col-lg-12">
-                <button type="button" class="btn btn-danger" onclick="submit()">提交</button>
-            </div>
-        </div>
-    </div>
-</div>
+<span class="text-success">Tip:意见反馈是匿名的哦~</span>
+<textarea rows="10" id="advice" style="width: 100%"></textarea>
+<button type="button" class="btn btn-danger" onclick="submit()">提交</button>
 
 <script>
     function submit() {
