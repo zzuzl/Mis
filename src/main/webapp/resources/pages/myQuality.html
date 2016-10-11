@@ -1,5 +1,5 @@
 <div class="box box-primary">
-    <div class="box-body">
+    <div class="box-body table-responsive">
         <table class="table table-bordered table-hover">
             <thead>
             <tr>
@@ -9,6 +9,7 @@
                 <th>二级分类</th>
                 <th>创建时间</th>
                 <th>更新时间</th>
+                <th>操作人</th>
             </tr>
             </thead>
             <tbody>
@@ -19,6 +20,7 @@
                 <td>{{item.item.title}}</td>
                 <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                 <td>{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{item.operator.name}}</td>
             </tr>
             </tbody>
         </table>

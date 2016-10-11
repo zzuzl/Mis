@@ -30,6 +30,7 @@ public class ActivityServiceImpl implements ActivityService {
         List<Long> ids = new ArrayList<Long>();
         for (Activity activity : activityList) {
             activity.setStudent(LoginContext.getLoginContext().getStudent());
+            activity.setOperator(LoginContext.getLoginContext().getStudent());
             if (activity.getItem() == null || activity.getItem().getId() == null) {
                 activityList.remove(activity);
             } else {
@@ -75,6 +76,7 @@ public class ActivityServiceImpl implements ActivityService {
 
         List<Long> ids = new ArrayList<Long>();
         for (Activity activity : activityList) {
+            activity.setOperator(LoginContext.getLoginContext().getStudent());
             if (activity.getItem() == null || activity.getItem().getId() == null) {
                 activityList.remove(activity);
             } else {

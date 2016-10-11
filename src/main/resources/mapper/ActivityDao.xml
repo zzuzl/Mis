@@ -30,6 +30,8 @@
         a.score,
         a.`desc`,
         a.schoolNum as "student.schoolNum",
+        a.operator as "operator.schoolNum",
+        s.name as "operator.name",
         a.createTime,
         a.updateTime,
         i.title as "item.title",
@@ -39,6 +41,7 @@
         activity a
         left join item i on a.itemId=i.id
         left join project p on i.projectId=p.id
+        left join student s on s.schoolNum=a.operator
         <include refid="_listWhere"/>
         order by a.updateTime
     </select>
@@ -50,6 +53,7 @@
         score,
         `desc`,
         schoolNum,
+        operator,
         createTime,
         updateTime
         ) values(
@@ -58,6 +62,7 @@
         #{score},
         #{desc},
         #{student.schoolNum},
+        #{operator.schoolNum},
         now(),
         now()
         )
@@ -71,6 +76,7 @@
         score,
         `desc`,
         schoolNum,
+        operator,
         createTime,
         updateTime
         ) values
@@ -82,6 +88,7 @@
             #{item.score},
             #{item.desc},
             #{item.student.schoolNum},
+            #{operator.schoolNum},
             now(),
             now()
             )
@@ -90,6 +97,7 @@
         itemId=VALUES (itemId),
         title=VALUES (title),
         score=VALUES (score),
+        operator=VALUES (operator),
         `desc`=VALUES (`desc`),
         updateTime=now()
     </insert>
