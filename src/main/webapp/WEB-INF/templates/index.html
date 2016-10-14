@@ -56,7 +56,7 @@
                         <!-- Menu Toggle Button -->
                         <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="/resources/assets/images/avatars/user.jpg" class="user-image" alt="User Image">
+                            <img src="/resources/assets/images/avatars/user.jpg" class="user-image">
                             <span class="hidden-xs">
                                 欢迎你，
                                 <span class="text-teal" th:text="${session.student.name}"></span>
@@ -65,9 +65,10 @@
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="/resources/assets/images/avatars/user.jpg" class="img-circle">
+                                <img src="/resources/assets/images/avatars/user.jpg" style="cursor: pointer" class="img-circle">
                                 <p>
                                     <span th:text="${session.student.schoolNum}"></span>
+                                    <small th:text="${session.student.name}"></small>
                                     <small th:text="${session.student.sex}"></small>
                                 </p>
                             </li>

@@ -5,6 +5,7 @@ import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
 import cn.zzuzl.common.enums.VacationEnum;
 import cn.zzuzl.common.util.ExcelExportUtil;
+import cn.zzuzl.common.util.FileUtil;
 import cn.zzuzl.common.util.NetUtil;
 import cn.zzuzl.common.util.StringUtil;
 import cn.zzuzl.dao.RedisDao;
@@ -21,6 +22,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -340,6 +342,28 @@ public class StudentController {
         Result result = new Result(true);
         try {
             result = studentService.deleteAuth(id);
+        } catch (Exception e) {
+            logger.error(e);
+            result.setSuccess(false);
+            result.setError(e.getMessage());
+        }
+        return result;
+    }
+
+    // 上传图片
+    @Authorization
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ResponseBody
+    public Result upload(MultipartFile file) {
+        Result result = new Result(true);
+        try {
+            if (file == null || file.isEmpty() || file.getSize() > 2 * 1024 * 1024 ||
+                    !"jpg".equalsIgnoreCase(file.getName().substring(file.getName().lastIndexOf('.') + 1))) {
+                result.setSuccess(false);
+                result.setError("文件不合法，图片大小应小于2Mb，格式为jpg");
+            } else {
+                result = FileUtil.upload(file.getOriginalFilename(), LoginContext.getCurrentSchoolNum());
+            }
         } catch (Exception e) {
             logger.error(e);
             result.setSuccess(false);

@@ -268,6 +268,13 @@
             <artifactId>jxls-core</artifactId>
             <version>1.0.6</version>
         </dependency>
+
+        <!-- 七牛云存储 -->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>[7.0.0, 7.1.99]</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>Mis</finalName>
