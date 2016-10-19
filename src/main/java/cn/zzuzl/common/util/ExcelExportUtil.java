@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +139,38 @@ public class ExcelExportUtil {
             sheet.setColumnWidth(i, 4000);
         }
 
+        return workbook;
+    }
+
+    // 导出综测excel
+    public HSSFWorkbook _genQualityXls(List<QualityJsonBean> scoreList,
+                                      List<Activity> activityList,
+                                      List<Project> projectList,
+                                      HttpServletResponse response,
+                                      boolean showScore,
+                                      boolean showDetail) {
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("综测", "UTF-8") + ".xls");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        HSSFWorkbook workbook = null;
+        Map<String, Object> beans = new HashMap<String, Object>();
+        List<String> list = new ArrayList<String>();
+        list.add("aaa");
+        list.add("bbb");
+        list.add("ccc");
+        beans.put("list", list);
+        beans.put("dateUtil", new DateUtil());
+
+        try {
+            XLSTransformer transformer = new XLSTransformer();
+            workbook = (HSSFWorkbook) transformer.transformXLS(excelTemplates.get("qualityTpl").getInputStream(), beans);
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return workbook;
     }
 
