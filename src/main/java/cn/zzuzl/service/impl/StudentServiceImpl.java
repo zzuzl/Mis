@@ -38,10 +38,7 @@ public class StudentServiceImpl implements StudentService {
 
     public Result insert(Student student) {
         Result result = new Result(true);
-        if (studentDao.insertStudent(student) < 1) {
-            result.setSuccess(false);
-            result.setError("添加失败");
-        }
+        studentDao.insertStudent(student);
         return result;
     }
 

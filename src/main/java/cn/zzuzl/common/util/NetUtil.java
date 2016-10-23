@@ -6,7 +6,9 @@ import cn.zzuzl.model.ScoreVO;
 import cn.zzuzl.model.Student;
 import cn.zzuzl.model.TermScore;
 import com.auth0.jwt.internal.org.apache.commons.lang3.StringEscapeUtils;
+import com.auth0.jwt.internal.org.apache.commons.lang3.time.DateFormatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -18,6 +20,7 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,11 +51,44 @@ public class NetUtil {
                 student.setGrade(nianji);
                 student.setSchoolNum(schoolNum);
 
-                String name = document.body().select("tr").eq(1).select("td").eq(0).text();
-                String sex = document.body().select("tr").eq(3).select("td").eq(0).text();
-                student.setName(name.substring(name.indexOf('：') + 1));
-                student.setSex(sex.substring(sex.indexOf('：') + 1));
-                student.setClassCode(schoolNum.substring(4, 9));
+                try {
+                    // 姓名
+                    String name = document.body().select("tr").eq(1).select("td").eq(0).text();
+                    student.setName(name.substring(name.indexOf('：') + 1));
+
+                    // 性别
+                    String sex = document.body().select("tr").eq(3).select("td").eq(0).text();
+                    student.setSex(sex.substring(sex.indexOf('：') + 1));
+
+                    // 班级号
+                    student.setClassCode(schoolNum.substring(4, 9));
+
+                    // 生源地
+                    String originAddress = document.body().select("tr").eq(3).select("td").eq(1).text();
+                    student.setOriginAddress(originAddress.substring(originAddress.indexOf('：') + 1));
+
+                    // 出生日期
+                    String birthday = document.body().select("tr").eq(4).select("td").eq(0).text();
+                    Date date = DateUtils.parseDate(birthday.substring(birthday.indexOf('：') + 1), new String[]{"yyyy-MM-dd"});
+                    student.setBirthday(date);
+
+                    // 身份证号
+                    String idNo = document.body().select("tr").eq(6).select("td").eq(1).text();
+                    student.setIdNo(idNo.substring(idNo.indexOf('：') + 1));
+
+                    //民族
+                    String nation = document.body().select("tr").eq(5).select("td").eq(0).text();
+                    student.setNation(nation.substring(nation.indexOf('：') + 1));
+
+                    // 入学时间
+                    String entranceDate = document.body().select("tr").eq(8).select("td").eq(1).text();
+                    entranceDate = entranceDate.substring(entranceDate.indexOf('：') + 1);
+                    date = DateUtils.parseDate(entranceDate, new String[]{"yyyy-MM-dd HH:mm:ss"});
+                    student.setEntranceDate(date);
+                } catch (Exception e) {
+                    logger.error(e);
+                    e.printStackTrace();
+                }
 
                 result.getData().put(Constants.STU, student);
             } else {
@@ -217,7 +253,7 @@ public class NetUtil {
         // System.out.println("20133410139".substring(4, 9));
         // System.out.println(StringEscapeUtils.unescapeJava("\\u4e2d\\u56fd"));
         // System.out.println(netUtil.isTermHref("第1学期"));
-        try {
+        /*try {
             Result result = netUtil.searchScore("20133410139", "672399171");
             if (result.isSuccess()) {
                 System.out.println(result.getData().get("scores"));
@@ -226,10 +262,17 @@ public class NetUtil {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
         // System.out.println("     第6学期   ".replaceAll(" ",""));
         // System.out.println(netUtil.isDouble("良好"));
         // System.out.println(netUtil.isNumber("3"));
+
+        try {
+            Date date = DateUtils.parseDate("2013-8-29 10:34:23", new String[]{"yyyy-MM-dd HH:mm:ss"});
+            System.out.println(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

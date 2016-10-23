@@ -59,6 +59,11 @@
         `name`,
         sex,
         classCode,
+        birthday,
+        nation,
+        idNo,
+        originAddress,
+        entranceDate,
         createTime,
         updateTime
         ) values(
@@ -67,6 +72,11 @@
         #{name},
         #{sex},
         #{classCode},
+        #{birthday},
+        #{nation},
+        #{idNo},
+        #{originAddress},
+        #{entranceDate},
         now(),
         now()
         )
