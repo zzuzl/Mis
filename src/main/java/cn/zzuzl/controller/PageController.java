@@ -3,8 +3,11 @@ package cn.zzuzl.controller;
 import cn.zzuzl.common.Constants;
 import cn.zzuzl.common.LoginContext;
 import cn.zzuzl.common.annotation.Authorization;
+import cn.zzuzl.common.util.DateUtil;
 import cn.zzuzl.dao.StudentDao;
 import cn.zzuzl.model.Authority;
+import cn.zzuzl.model.Student;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -52,11 +56,28 @@ public class PageController {
             }
         }
 
+        Student student = LoginContext.getLoginContext().getStudent();
+
+        if (DateUtil.isBirthday(student.getBirthday())) {
+            model.addAttribute(Constants.BIRTHDAY, true);
+        }
+
         return "index";
     }
 
     @RequestMapping("/login")
     public String login() {
         return "login";
+    }
+
+    // 生日
+    @RequestMapping("/sr")
+    public String sr() {
+        Student student = LoginContext.getLoginContext().getStudent();
+        if (DateUtil.isBirthday(student.getBirthday())) {
+            return "sr";
+        } else {
+            return "redirect:/";
+        }
     }
 }

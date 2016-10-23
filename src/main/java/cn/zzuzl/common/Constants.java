@@ -8,6 +8,8 @@ public final class Constants {
 
     public static final String RESOURCES = "resources";
 
+    public static final String BIRTHDAY = "birthday";
+
     // auth code
     public static final String AUTH_STU_MANAGE = "student_manage";
     public static final String AUTH_PRO_MANAGE = "project_manage";

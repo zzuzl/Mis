@@ -30,7 +30,7 @@
     var mzstr = location.search.split("=")[1];
     if (!mzstr) {
         mz = "张磊";
-        mz2 = "刘令慧";
+        mz2 = '[[${session.student.name}]]';
     } else {
         var mz = mzstr.substring(0, mzstr.length - 2);
         var mz2 = location.search.split("=")[2];

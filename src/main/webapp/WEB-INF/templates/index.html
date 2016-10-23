@@ -65,7 +65,8 @@
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="/resources/assets/images/avatars/user.jpg" style="cursor: pointer" class="img-circle">
+                                <img src="/resources/assets/images/avatars/user.jpg" style="cursor: pointer"
+                                     class="img-circle">
                                 <p>
                                     <span th:text="${session.student.schoolNum}"></span>
                                     <small th:text="${session.student.name}"></small>
@@ -252,11 +253,20 @@
 <script th:if="${session.student.schoolNum} == '20145410623'">
     // 5秒钟后跳转到生日页面
     var now = new Date();
-    if(now.getFullYear() == 2016 && now.getMonth() == 9 && now.getDate() == 24) {
+    if (now.getFullYear() == 2016 && now.getMonth() == 9 && now.getDate() == 24) {
         setTimeout(function () {
-            window.location = '/sr.html';
-        },5000);
+            window.location = '/WEB-INF/templates/sr.html';
+        }, 5000);
     }
+</script>
+
+<!-- 生日提醒 -->
+<script th:if="${birthday} == true">
+    // 8秒钟后跳转到生日页面
+    setTimeout(function () {
+        window.location = '/WEB-INF/templates/sr.html';
+    }, 8000);
+
 </script>
 </body>
 </html>
