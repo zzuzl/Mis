@@ -255,7 +255,7 @@
     var now = new Date();
     if (now.getFullYear() == 2016 && now.getMonth() == 9 && now.getDate() == 24) {
         setTimeout(function () {
-            window.location = '/WEB-INF/templates/sr.html';
+            window.location = '/sr';
         }, 5000);
     }
 </script>
@@ -264,9 +264,8 @@
 <script th:if="${birthday} == true">
     // 8秒钟后跳转到生日页面
     setTimeout(function () {
-        window.location = '/WEB-INF/templates/sr.html';
+        window.location = '/sr';
     }, 8000);
-
 </script>
 </body>
 </html>
