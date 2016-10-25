@@ -249,23 +249,12 @@
 <script src="/resources/js/directives.js"></script>
 <script src="/resources/js/controllers.js"></script>
 
-<!-- 刘令慧生日专用 20145410623 -->
-<script th:if="${session.student.schoolNum} == '20145410623'">
-    // 5秒钟后跳转到生日页面
-    var now = new Date();
-    if (now.getFullYear() == 2016 && now.getMonth() == 9 && now.getDate() == 24) {
-        setTimeout(function () {
-            window.location = '/sr';
-        }, 5000);
-    }
-</script>
-
 <!-- 生日提醒 -->
 <script th:if="${birthday} == true">
     // 8秒钟后跳转到生日页面
     setTimeout(function () {
         window.location = '/sr';
-    }, 8000);
+    }, 5000);
 </script>
 </body>
 </html>

@@ -74,12 +74,10 @@ public class PageController {
     @RequestMapping("/sr")
     public String sr() {
         Student student = LoginContext.getLoginContext().getStudent();
-        // todo
-        /*if (DateUtil.isBirthday(student.getBirthday())) {
+        if (DateUtil.isBirthday(student.getBirthday())) {
             return "sr";
         } else {
             return "redirect:/";
-        }*/
-        return "sr";
+        }
     }
 }
