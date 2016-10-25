@@ -1,5 +1,6 @@
 package cn.zzuzl.model;
 
+import cn.zzuzl.common.util.StringUtil;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
@@ -214,5 +215,21 @@ public class Student implements Serializable {
             majorCode = classCode.substring(0, 4);
         }
         return majorCode;
+    }
+
+    // 加密手机号，家庭住址，身份证号，银行卡号等敏感信息
+    public void encrypt() {
+        // 身份证号
+        idNo = StringUtil.encrypt(idNo);
+        // 手机号
+        phone = StringUtil.encrypt(phone);
+    }
+
+    // 解密手机号，家庭住址，身份证号，银行卡号等敏感信息
+    public void decrypt() {
+        // 身份证号
+        idNo = StringUtil.decrypt(idNo);
+        // 手机号
+        phone = StringUtil.decrypt(phone);
     }
 }

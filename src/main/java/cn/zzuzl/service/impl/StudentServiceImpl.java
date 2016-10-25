@@ -1,6 +1,7 @@
 package cn.zzuzl.service.impl;
 
 import cn.zzuzl.common.util.NetUtil;
+import cn.zzuzl.common.util.StringUtil;
 import cn.zzuzl.dao.StudentDao;
 import cn.zzuzl.dto.LoginRecordVO;
 import cn.zzuzl.dto.RecordCountVO;
@@ -28,7 +29,11 @@ public class StudentServiceImpl implements StudentService {
     private NetUtil netUtil;
 
     public Student searchBySchoolNum(String schoolNum) {
-        return studentDao.searchBySchoolNum(schoolNum);
+        Student student = studentDao.searchBySchoolNum(schoolNum);
+        if(student != null) {
+            student.decrypt();
+        }
+        return student;
     }
 
     public Result login(String schoolNum, String password) throws Exception {
@@ -38,6 +43,9 @@ public class StudentServiceImpl implements StudentService {
 
     public Result insert(Student student) {
         Result result = new Result(true);
+        if(student != null) {
+            student.encrypt();
+        }
         studentDao.insertStudent(student);
         return result;
     }
@@ -45,7 +53,7 @@ public class StudentServiceImpl implements StudentService {
     public Result<Student> searchStudent(StudentQuery query) {
         Result<Student> result = new Result<Student>(query.getPage(), query.getPerPage());
         query.adjust();
-        result.setList(studentDao.searchStudent(query));
+        result.setList(StringUtil.decryptStudentList(studentDao.searchStudent(query)));
         result.setTotalItem(studentDao.getStudentCount(query));
         return result;
     }
@@ -56,6 +64,9 @@ public class StudentServiceImpl implements StudentService {
 
     public Result updateStudent(Student student) {
         Result result = new Result(true);
+        if(student != null) {
+            student.encrypt();
+        }
         studentDao.updateStudent(student);
         return result;
     }
@@ -97,7 +108,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     public List<Student> export(StudentQuery query) {
-        return studentDao.export(query);
+        return StringUtil.decryptStudentList(studentDao.export(query));
     }
 
     public GoHome searchOneGoHome(String schoolNum, Integer year, String vacation) {

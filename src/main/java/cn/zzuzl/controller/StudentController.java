@@ -296,7 +296,7 @@ public class StudentController {
         Map<String, Object> map = new HashMap<String, Object>();
         List<Student> list = new ArrayList<Student>();
         try {
-            list = studentDao.blurSearchStudent(keyword);
+            list = StringUtil.decryptStudentList(studentDao.blurSearchStudent(keyword));
             map.put("suggestions", list);
         } catch (Exception e) {
             logger.error(e);
