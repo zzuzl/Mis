@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>回忆</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.bootcss.com/timelinejs/2.35.6/js/storyjs-embed.js"></script>
+    <script type="text/javascript" src="//cdn.bootcss.com/timelinejs/2.36.0/js/locale/zh-cn.js"></script>
+    <script>
+        $(document).ready(function () {
+            createStoryJS({
+                type: 'timeline',
+                height: '500',
+                source: '/love/timeline',
+                embed_id: 'my-timeline',
+                lang:'zh-cn'
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="my-timeline"></div>
+</body>
+</html>
