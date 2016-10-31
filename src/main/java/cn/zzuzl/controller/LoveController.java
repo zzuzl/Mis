@@ -25,7 +25,7 @@ public class LoveController {
     private LoveDao loveDao;
 
     // page
-    @RequestMapping("/")
+    @RequestMapping("")
     public String lovePage() {
         return "love";
     }
