@@ -15,8 +15,5 @@
     </bean>
 
     <!-- 引入其他模块配置文件 -->
-    <import resource="classpath:spring/spring-base.xml"/>
-    <import resource="classpath:spring/spring-datasource.xml"/>
-    <import resource="classpath:spring/spring-mvc.xml"/>
-    <import resource="classpath:spring/spring-worker.xml"/>
+    <import resource="classpath:spring/spring-*.xml"/>
 </beans>
