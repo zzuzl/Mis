@@ -128,7 +128,7 @@ public class NetUtil {
             String region = StringEscapeUtils.unescapeJava((String) map.get("region"));
             String city = StringEscapeUtils.unescapeJava((String) map.get("city"));
             return country + region + city;
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
         return null;

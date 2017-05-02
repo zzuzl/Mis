@@ -59,16 +59,16 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
                     List<String> resources = (List<String>) session.getAttribute(Constants.RESOURCES);
                     if (resources == null) {
                         List<Authority> authorities = studentDao.getResources(student.getSchoolNum());
-                        if(authorities != null) {
+                        if (authorities != null) {
                             resources = new ArrayList<String>();
-                            for(Authority authority : authorities) {
+                            for (Authority authority : authorities) {
                                 resources.add(authority.getAuthCode());
                             }
                         }
                         session.setAttribute(Constants.RESOURCES, resources);
                     }
                     boolean flag = false;
-                    if(resources != null) {
+                    if (resources != null) {
                         for (String str : list) {
                             if (resources.contains(str)) {
                                 flag = true;

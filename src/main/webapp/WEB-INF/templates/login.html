@@ -63,7 +63,7 @@
                 password: $('#password').val()
             }, function (data) {
                 if (data.success) {
-                    window.location = '/';
+                    window.location.reload();
                 } else {
                     $('#loginBtn').removeAttr('disabled');
                     $('#loginBtn').text(" 登 录 ");
